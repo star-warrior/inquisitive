@@ -1,0 +1,25 @@
+{
+  "name": "inquisitive",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspaces --if-present"
+  },
+  "dependencies": {
+    "@tavily/core": "^0.7.3",
+    "axios": "^1.16.1",
+    "drizzle-orm": "^0.45.2",
+    "uuid": "^14.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.3"
+  }
+}

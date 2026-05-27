@@ -61,7 +61,7 @@ graph TD
 ```mermaid
 sequenceDiagram
     participant User as Web Browser
-    participant API as Hono API Engine
+    participant API as express API Engine
     participant Groq as Groq (Llama 3.3)
     participant Tavily as Tavily Search
     participant DB as Neon Database
@@ -87,7 +87,7 @@ sequenceDiagram
 2. `@dnd-kit/core` triggers the local component transition.
 3. Zustand / React Query applies an **optimistic update**, moving the card immediately in the UI.
 4. An async call fires `PATCH /api/resources/:id/status` with the new status.
-5. Hono.js runs: `UPDATE resources SET status = ?, updated_at = NOW() WHERE id = ? AND notebook_id IN (SELECT id FROM notebooks WHERE device_id = ?)`.
+5. express.js runs: `UPDATE resources SET status = ?, updated_at = NOW() WHERE id = ? AND notebook_id IN (SELECT id FROM notebooks WHERE device_id = ?)`.
 6. On API success, the local UI state is finalized. On error, the card is rolled back to `Todo` and a toast alert is rendered.
 
 ---
@@ -112,7 +112,7 @@ sequenceDiagram
 
 **Backend HTTP API:**
 
-- `apps/api/src/index.ts` - Node.js server bootstrapper using Hono's HTTP routing listener to load global middlewares and route prefixes.
+- `apps/api/src/index.ts` - Node.js server bootstrapper using express's HTTP routing listener to load global middlewares and route prefixes.
 
 ---
 

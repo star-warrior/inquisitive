@@ -3,111 +3,95 @@
 **Analysis Date:** 2026-05-26
 
 > [!NOTE]
-> This is a **Greenfield Project** under active bootstrapping. The directories and physical files listed below reflect the monorepo layout detailed in `dev_docs/prd.md` to be initialized during development.
+> This is a **Greenfield Project** under active bootstrapping. The directories and physical files listed below reflect the newly restructured monorepo layout.
+>
+> In accordance with user specifications, this structure contains purely architectural bootstrapping setups (Neon, Drizzle, Dotenv, Tailwind CSS, and Morgan logging) without containing any application domain schema or core business logic.
 
 ## Directory Layout
 
 ```
 inquisitive/
-├── apps/
-│   ├── web/                    # React Web Application (Vite)
+├── backend/                  # express.js API service
+│   ├── logs/                # Local log storage directory
+│   │   ├── error.log        # Persistent error-only logs stream
+│   │   └── logs.log         # General unified execution logs stream
+│   ├── src/
+│   │   ├── config/          # Configurations (Neon DB client, env loaders)
+│   │   ├── constants/       # App-wide status codes & constants
+│   │   ├── controllers/     # Route handlers
+│   │   ├── middlewares/     # Morgan logger and Custom Express middlewares
+│   │   ├── models/          # Drizzle Schemas & ORM tables
+│   │   ├── routes/          # Express route definitions
+│   │   ├── services/        # Core business operations
+│   │   ├── utils/           # Helper utility modules (e.g. colorized logger)
+│   │   ├── app.ts           # App setup, CORS configuration, & Morgan linkage
+│   │   └── server.ts        # Server entry listener using colorized logs
+│   ├── .env                 # Local API configurations
+│   ├── .gitignore           # Git exclusions
+│   ├── package.json         # Backend dependencies & script maps
+│   └── README.md            # Backend instructions
+├── frontend/                 # React Web SPA (Vite)
+│   ├── public/              # Static public assets
+│   ├── src/
+│   │   ├── assets/          # Static elements (fonts, icons, SVG/images)
+│   │   ├── components/      # Reusable atomic UI elements (Buttons, Inputs)
+│   │   ├── config/          # Client environment keys & clients
+│   │   ├── context/         # React state context providers
+│   │   ├── features/        # THE CORE: Domain-driven modules
+│   │   │   ├── auth/        # Feature auth placeholder
+│   │   │   └── dashboard/   # Feature dashboard placeholder
+│   │   ├── hooks/           # Global custom hooks
+│   │   ├── layouts/         # Frame wrappers (RootLayout, AuthLayout)
+│   │   ├── routes/          # Navigation rules & routing endpoints
+│   │   ├── services/        # Analytics, logs, and telemetry connectors
+│   │   ├── store/           # Zustand global state definitions
+│   │   ├── styles/          # Tailwind styling (global.css)
+│   │   ├── types/           # Global type mappings
+│   │   ├── utils/           # Shared client formatters and checkers
+│   │   ├── app.tsx          # Client app wrapper with Welcome view
+│   │   └── main.tsx         # Virtual DOM renderer mount point
+│   ├── .env                 # Client key storage
+│   ├── .gitignore           # Git exclusions
+│   ├── package.json         # Client package dependencies
+│   ├── postcss.config.js    # PostCSS rules
+│   ├── tailwind.config.js   # Tailwind Content mappings
+│   └── README.md            # Client handbook
+├── shared/                   # Shared workspaces (Libraries)
+│   ├── config-eslint/       # ESLint ruleset package
+│   │   ├── index.js         # Unified ESLint settings
+│   │   └── package.json
+│   ├── config-typescript/   # TS compiler configs
+│   │   ├── tsconfig.base.json # Global compiler configs
+│   │   └── package.json
+│   ├── types/               # Type declarations library
 │   │   ├── src/
-│   │   │   ├── components/     # Reusable UI elements (cards, loaders, boards)
-│   │   │   ├── pages/          # Full route layouts (Workspace, Dashboard, Home)
-│   │   │   ├── hooks/          # Custom hooks (Query, Mutations, optimistic actions)
-│   │   │   ├── stores/         # Zustand global state (Kanban board UI states)
-│   │   │   ├── lib/            # API client configurations (axios/fetch setups)
-│   │   │   ├── types/          # Frontend-specific type overrides
-│   │   │   ├── App.tsx         # Central application routing component
-│   │   │   ├── index.css       # Style sheets (Tailwind imports and tokens)
-│   │   │   └── main.tsx        # React client-side DOM compiler entry
-│   │   ├── package.json        # Frontend manifest & dependencies
-│   │   └── vite.config.ts      # Vite compilation configurations
-│   └── api/                    # Hono.js Backend Application
-│       ├── src/
-│       │   ├── db/             # Drizzle schemas, migration files, and DB clients
-│       │   ├── middleware/     # Header interceptors and error handlers
-│       │   ├── routes/         # Hono request endpoints (notebooks, resources)
-│       │   ├── services/       # Core external system managers (Groq, Tavily)
-│       │   ├── types/          # Zod schema declarations and API types
-│       │   └── index.ts        # Hono server bootstrapper and core listener
-│       └── package.json        # Backend manifest & dependencies
-├── dev_docs/
-│   └── prd.md                  # Phase 1 Product Requirements Document
-├── .planning/                  # Get-Shit-Done (GSD) local state & maps
-│   └── codebase/               # Codebase analysis documents
-├── package.json                # Monorepo root package configuration
-└── README.md                   # Primary system startup documentation
+│   │   │   ├── api-responses.ts # Shared API contract types
+│   │   │   └── models.ts    # Common database models
+│   │   └── package.json
+│   └── ui/                  # Atomic components design system
+│       ├── src/             # Component blueprints
+│       └── package.json
+├── package.json              # Monorepo workspaces coordinator
+├── tsconfig.base.json        # Base tsconfig base
+└── README.md                 # Primary workspace guidelines
 ```
 
 ---
 
 ## Directory Purposes
 
-**apps/web/**
-- **Purpose:** Browser interface client workspace, constructed using React 18, Vite, TypeScript, Zustand, and Tailwind CSS.
-- **Contains:** Component libraries, styles, and custom hooks designed to connect to the backend.
-- **Key files:** 
-  - `src/main.tsx` - App client bootstrapper.
-  - `src/index.css` - Custom styling tokens and Tailwind mappings.
+**backend/**
+- **Purpose:** Rest API server using Node.js and Express. It organizes operations in a model-controller-service pattern.
+- **Key files:**
+  - `src/app.ts` - Creates Express instance and binds Morgan logging, body parsing, and CORS.
+  - `src/server.ts` - Starts the port listener.
+  - `src/config/db.ts` - Initialized for Neon PostgreSQL serverless using Drizzle ORM.
 
-**apps/api/**
-- **Purpose:** Server API built using Hono.js, Drizzle ORM, Zod, and Neon Postgres, handling AI planning and resources.
-- **Contains:** Routes, middleware validators, and external connector services.
-- **Key files:** 
-  - `src/index.ts` - Hono route mapper and listener.
-  - `src/db/schema.ts` - Drizzle Database Schema definition.
+**frontend/**
+- **Purpose:** User interface single page app built using React 18, Vite, React Router, Zustand, and Tailwind CSS.
+- **Key files:**
+  - `tailwind.config.js` & `postcss.config.js` - Dynamic class styling parameters.
+  - `src/app.tsx` - Initialized to render a beautiful, clean Welcome page using Tailwind.
 
-**dev_docs/**
-- **Purpose:** Hold product specifications, designs, and architectural templates.
-- **Key files:** 
-  - `prd.md` - Phase 1 detailed functional requirements document.
-
----
-
-## Key File Locations
-
-**Entry Points:**
-- `apps/web/src/main.tsx` - Client DOM bootstrap entry.
-- `apps/api/src/index.ts` - Hono API web listener entry.
-
-**Configuration:**
-- `package.json` - Monorepo root definition.
-- `apps/web/vite.config.ts` - Frontend bundle configuration.
-- `apps/web/tailwind.config.js` - Styling engine setup.
-
-**Core Logic:**
-- `apps/api/src/services/planner.ts` - Topic builder using Groq.
-- `apps/api/src/services/enricher.ts` - Web lookup using Tavily.
-- `apps/api/src/db/schema.ts` - Postgres table setups.
-
----
-
-## Naming Conventions
-
-**Files:**
-- `PascalCase.tsx` - Used for React UI components (e.g., `KanbanBoard.tsx`).
-- `kebab-case.ts` - Used for services, hooks, utilities, and routes (e.g., `device-id.ts`, `use-notebook.ts`).
-- `*.test.ts` - Test suites placed directly alongside their corresponding source files.
-
-**Directories:**
-- `kebab-case` - Feature and layout directories (e.g., `src/components/ui/`, `apps/api/src/`).
-- Plural names for group directories (`routes`, `services`, `hooks`, `stores`).
-
----
-
-## Where to Add New Code
-
-**New Feature (Kanban interaction update):**
-- UI View: `apps/web/src/components/`
-- Client State Hooks: `apps/web/src/hooks/`
-- API Sync Router: `apps/api/src/routes/`
-
-**New Model Element (Database updates):**
-- Table Schema: `apps/api/src/db/schema.ts`
-- Zod Request Check: `apps/api/src/types/`
-
----
-
-*Structure analysis: 2026-05-26*
-*Update when directory structure changes*
+**shared/**
+- **Purpose:** Shared workspaces for unified configurations and types to be shared between client and API without code duplication.
