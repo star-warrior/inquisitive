@@ -97,7 +97,7 @@ export default function KanbanColumn({
           {/* Badge styled title (e.g. Todo, In Progress, Done) */}
           <span
             className={cn(
-              "text-xs px-3 py-1 rounded-[var(--radius-progress)] font-bold tracking-wide border font-neoris shadow-sm",
+              "text-xs px-3 py-1 rounded-[var(--radius-progress)] font-bold tracking-wide border font-sora shadow-sm",
               config.badgeColor,
             )}
           >
@@ -105,7 +105,7 @@ export default function KanbanColumn({
           </span>
           <span
             className={cn(
-              "text-sm font-extrabold font-neoris",
+              "text-sm font-extrabold font-sora",
               config.countColor,
             )}
           >
@@ -146,7 +146,7 @@ export default function KanbanColumn({
                     : "border-[var(--notebook-border)] text-[var(--notebook-text-muted)]",
                 )}
               >
-                <p className="text-xs font-semibold font-neoris">
+                <p className="text-xs font-semibold font-sora">
                   No resources here
                 </p>
                 <p className="text-[10px] opacity-75 mt-1 font-light">

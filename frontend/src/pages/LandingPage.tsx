@@ -53,7 +53,7 @@ export default function LandingPage() {
         {/* Left Column: Hero Content with Staggered Framer Motion Animations */}
         <div className="max-w-[540px] pt-4">
           <motion.h1
-            className="font-serif text-3xl md:text-[48px] font-semibold text-white leading-[1.1] mb-5 tracking-tight"
+            className="font-sora text-3xl md:text-[48px] font-semibold text-white leading-[1.1] mb-5 tracking-tight"
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{

@@ -35,35 +35,37 @@ export default function SearchSection({
   };
 
   return (
-    <div className="space-y-4 pt-1 max-w-2xl mx-auto w-full font-neoris">
-      {/* Compact Mascot & Heading */}
-      <div className="text-center space-y-1.5">
-        <h1 className="text-3xl md:text-4xl text-[var(--notebook-text-primary)] font-serif tracking-tight leading-tight max-w-xl mx-auto">
+    <div className="space-y-6 pt-1 max-w-3xl mx-auto w-full font-sora">
+      {/* Compact Heading */}
+      <div className="text-center space-y-3">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl text-[var(--notebook-text-primary)] font-serif tracking-tight leading-tight max-w-2xl mx-auto">
           Learn{" "}
           <span className="font-serif italic underline decoration-wavy decoration-indigo-400 decoration-1 underline-offset-4">
             anything
           </span>{" "}
           without the noise.
         </h1>
-        <div className="text-[var(--notebook-text-secondary)] text-xs font-light tracking-wide flex justify-center items-center gap-1.5">
-          <span className="font-medium text-[var(--notebook-text-primary)]">
+        <div className="text-[var(--notebook-text-secondary)] text-sm font-medium tracking-wide flex justify-center items-center gap-2">
+          <span className="font-semibold text-[var(--notebook-text-primary)]">
             AI that won't make you stupid.
           </span>
           <span className="text-[var(--notebook-text-muted)]">•</span>
-          <span>Get started for free.</span>
+          <span className="text-[var(--notebook-text-secondary)]">
+            Get started for free.
+          </span>
         </div>
       </div>
 
       {/* Input Form & Droptdown Toolbar */}
       <form onSubmit={onSubmit} className="relative w-full">
-        <div className="w-full bg-white border border-[var(--notebook-border)] rounded-[var(--radius-badge)] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:border-slate-300 transition-all flex flex-col gap-3 relative">
+        <div className="w-full bg-white border border-[var(--notebook-border)] rounded-[var(--radius-badge)] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:border-slate-300 transition-all flex flex-col gap-3 relative">
           <textarea
             id="topic"
             placeholder="I want to learn..."
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full bg-transparent text-base text-[var(--notebook-text-primary)] placeholder-[var(--notebook-text-muted)] focus:outline-none resize-none font-serif italic h-14 px-0.5 py-0.5"
+            className="w-full bg-transparent text-lg md:text-xl text-[var(--notebook-text-primary)] placeholder-[var(--notebook-text-muted)] focus:outline-none resize-none font-serif italic h-20 px-1 py-1"
             disabled={isSubmitting}
             required
           />
@@ -78,7 +80,7 @@ export default function SearchSection({
                     setIsLevelDropdownOpen(!isLevelDropdownOpen);
                     setIsLengthDropdownOpen(false);
                   }}
-                  className="px-2.5 py-1.5 text-[11px] font-semibold rounded-[var(--radius-button)] border border-[var(--notebook-border)] bg-[#FAF9F6]/40 hover:bg-[#FAF9F6] text-[var(--notebook-text-secondary)] transition-all flex items-center gap-1 shadow-sm active:scale-95 font-neoris"
+                  className="px-2.5 py-1.5 text-[11px] font-semibold rounded-[var(--radius-button)] border border-[var(--notebook-border)] bg-[#FAF9F6]/40 hover:bg-[#FAF9F6] text-[var(--notebook-text-secondary)] transition-all flex items-center gap-1 shadow-sm active:scale-95 font-sora"
                 >
                   <Layers className="w-3.5 h-3.5 text-[var(--notebook-text-muted)]" />
                   <span>
@@ -107,7 +109,7 @@ export default function SearchSection({
                               setLevel(lvl);
                               setIsLevelDropdownOpen(false);
                             }}
-                            className={`w-full text-left px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-slate-50 font-neoris ${level === lvl ? "text-[var(--notebook-text-primary)] bg-[#FAF9F6] font-bold" : "text-[var(--notebook-text-secondary)]"}`}
+                            className={`w-full text-left px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-slate-50 font-sora ${level === lvl ? "text-[var(--notebook-text-primary)] bg-[#FAF9F6] font-bold" : "text-[var(--notebook-text-secondary)]"}`}
                           >
                             {lvl === "hard"
                               ? "Advanced"
@@ -128,7 +130,7 @@ export default function SearchSection({
                     setIsLengthDropdownOpen(!isLengthDropdownOpen);
                     setIsLevelDropdownOpen(false);
                   }}
-                  className="px-2.5 py-1.5 text-[11px] font-semibold rounded-[var(--radius-button)] border border-[var(--notebook-border)] bg-[#FAF9F6]/40 hover:bg-[#FAF9F6] text-[var(--notebook-text-secondary)] transition-all flex items-center gap-1 shadow-sm active:scale-95 font-neoris"
+                  className="px-2.5 py-1.5 text-[11px] font-semibold rounded-[var(--radius-button)] border border-[var(--notebook-border)] bg-[#FAF9F6]/40 hover:bg-[#FAF9F6] text-[var(--notebook-text-secondary)] transition-all flex items-center gap-1 shadow-sm active:scale-95 font-sora"
                 >
                   <Hourglass className="w-3.5 h-3.5 text-[var(--notebook-text-muted)]" />
                   <span>
@@ -156,7 +158,7 @@ export default function SearchSection({
                             setLength(len);
                             setIsLengthDropdownOpen(false);
                           }}
-                          className={`w-full text-left px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-slate-50 font-neoris ${length === len ? "text-[var(--notebook-text-primary)] bg-[#FAF9F6] font-bold" : "text-[var(--notebook-text-secondary)]"}`}
+                          className={`w-full text-left px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-slate-50 font-sora ${length === len ? "text-[var(--notebook-text-primary)] bg-[#FAF9F6] font-bold" : "text-[var(--notebook-text-secondary)]"}`}
                         >
                           {len.charAt(0).toUpperCase() + len.slice(1)}
                         </button>

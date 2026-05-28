@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useKanbanStore } from "../stores/kanbanStore";
 import KanbanBoard from "../components/KanbanBoard";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   BookOpen,
@@ -75,13 +76,13 @@ export default function NotebookPage() {
         <h2 className="text-3xl font-bold tracking-tight font-serif text-slate-900">
           Notebook Not Found
         </h2>
-        <p className="text-slate-500 text-xs mt-2 max-w-sm font-light font-neoris">
+        <p className="text-slate-500 text-xs mt-2 max-w-sm font-light font-sora">
           The learning plan you are looking for does not exist or has been
           deleted.
         </p>
         <Link
           to="/"
-          className="mt-6 flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-5 py-2.5 text-xs font-bold transition-all shadow-sm font-neoris"
+          className="mt-6 flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl px-5 py-2.5 text-xs font-bold transition-all shadow-sm font-sora"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Return Home</span>
@@ -146,13 +147,23 @@ export default function NotebookPage() {
   };
 
   return (
-    <div className="min-h-screen editorial-grid text-[var(--notebook-text-primary)] selection:bg-indigo-100 selection:text-indigo-900">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen editorial-grid text-[var(--notebook-text-primary)] selection:bg-indigo-100 selection:text-indigo-900 relative"
+    >
       {/* Background glowing gradients (beautifully muted on light background) */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-amber-500/[0.03] rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-indigo-500/[0.03] rounded-full blur-[140px] pointer-events-none" />
 
       {/* Header Bar */}
-      <header className="border-b border-[var(--notebook-border)] bg-[var(--notebook-header-bg)] backdrop-blur-md sticky top-0 z-40">
+      <motion.header
+        initial={{ y: -15, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="border-b border-[var(--notebook-border)] bg-[var(--notebook-header-bg)] backdrop-blur-md sticky top-0 z-40"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link
             to="/app"
@@ -163,11 +174,16 @@ export default function NotebookPage() {
           </Link>
           <div className="flex items-center gap-2"></div>
         </div>
-      </header>
+      </motion.header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 space-y-8">
+      <motion.main
+        initial={{ y: 30, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.6, type: "spring", stiffness: 85, damping: 14 }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 space-y-8"
+      >
         {/* Top Info Section & Progress */}
-        <div className="bg-white/80 backdrop-blur-md border border-[var(--notebook-border)] rounded-[var(--radius-column)] p-[var(--spacing-page-p)] md:p-8 flex flex-col md:flex-row gap-8 justify-between items-start md:items-center shadow-sm">
+        <div className="bg-white/80 backdrop-blur-md border border-[var(--notebook-border)] rounded-[var(--radius-column)] p-[var(--spacing-page-p)] md:p-8 flex flex-col md:flex-row gap-8 justify-between items-start md:items-center shadow-sm animate-drop-in">
           <div className="space-y-4 max-w-2xl">
             <h1 className="text-4xl font-bold tracking-tight text-[var(--notebook-text-primary)] leading-tight font-serif">
               {notebook.topic}
@@ -175,13 +191,13 @@ export default function NotebookPage() {
 
             {/* Badges row */}
             <div className="flex flex-wrap gap-2.5">
-              <span className="flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-[var(--radius-badge)] border border-[var(--notebook-border)] bg-white shadow-sm font-neoris">
+              <span className="flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-[var(--radius-badge)] border border-[var(--notebook-border)] bg-white shadow-sm font-sora">
                 <Layers className="w-4 h-4 text-[var(--notebook-text-primary)]" />
                 <span className="text-[var(--badge-text-secondary)]">
                   {levelLabels[notebook.level]}
                 </span>
               </span>
-              <span className="flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-[var(--radius-badge)] border border-[var(--notebook-border)] bg-white shadow-sm font-neoris">
+              <span className="flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-[var(--radius-badge)] border border-[var(--notebook-border)] bg-white shadow-sm font-sora">
                 <Hourglass className="w-4 h-4 text-[var(--notebook-text-primary)]" />
                 <span className="text-[var(--badge-text-secondary)]">
                   {notebook.length.charAt(0).toUpperCase() +
@@ -189,7 +205,7 @@ export default function NotebookPage() {
                   Size
                 </span>
               </span>
-              <span className="flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-[var(--radius-badge)] border border-[var(--notebook-border)] bg-white shadow-sm font-neoris">
+              <span className="flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-[var(--radius-badge)] border border-[var(--notebook-border)] bg-white shadow-sm font-sora">
                 <BookOpen className="w-4 h-4 text-[var(--notebook-text-primary)]" />
                 <span className="text-[var(--badge-text-secondary)]">
                   {totalCount} total resources
@@ -200,7 +216,7 @@ export default function NotebookPage() {
 
           {/* Dynamic Progress indicator */}
           <div className="w-full md:w-80 space-y-3 bg-white/90 border border-[var(--notebook-border)] p-[var(--spacing-column-p)] rounded-[var(--radius-card)] shadow-sm">
-            <div className="flex justify-between items-center text-xs font-neoris font-semibold text-[var(--notebook-text-secondary)]">
+            <div className="flex justify-between items-center text-xs font-sora font-semibold text-[var(--notebook-text-secondary)]">
               <span>Learning Progress</span>
               <span className="text-[var(--brand-primary)] font-extrabold text-sm">
                 {progressPercent}%
@@ -213,7 +229,7 @@ export default function NotebookPage() {
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
-            <div className="flex justify-between text-[10px] text-[var(--notebook-text-muted)] font-neoris font-medium">
+            <div className="flex justify-between text-[10px] text-[var(--notebook-text-muted)] font-sora font-medium">
               <span>
                 {completedCount} of {validTotal} Completed
               </span>
@@ -228,7 +244,7 @@ export default function NotebookPage() {
 
         {/* The 4-column Drag Kanban Board! */}
         <KanbanBoard notebook={notebook} isLoading={isLoading} />
-      </main>
-    </div>
+      </motion.main>
+    </motion.div>
   );
 }

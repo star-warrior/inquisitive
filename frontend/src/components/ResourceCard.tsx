@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Resource } from "../types";
 import { ExternalLink, Film, FileText, Star, Trash2 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { motion } from "framer-motion";
 
 interface ResourceCardProps {
   resource: Resource;
@@ -22,30 +23,17 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
     isDragging,
   } = useSortable({ id: resource.id });
 
-  const style = transform
+  const style: React.CSSProperties = transform
     ? {
         transform: CSS.Transform.toString(transform),
         transition,
       }
-    : undefined;
+    : {};
 
   const difficultyNum = parseInt(resource.difficulty) || 1;
 
   // Format type label
   const isVideo = resource.sourceType === "video";
-
-  const delays = [
-    "delay-0",
-    "delay-75",
-    "delay-150",
-    "delay-225",
-    "delay-300",
-    "delay-375",
-    "delay-450",
-    "delay-525",
-    "delay-600",
-  ];
-  const delayClass = index !== undefined ? delays[Math.min(index, delays.length - 1)] : "";
 
   // Format creation date beautifully like "June 19, 2025"
   const dateStr = resource.createdAt
@@ -73,7 +61,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
   }
 
   return (
-    <div
+    <motion.div
       ref={setNodeRef}
       style={style}
       className={cn(
@@ -83,9 +71,16 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
           : "border-[var(--notebook-border)]/60 hover:border-[var(--notebook-border)] hover:shadow-md",
         isOverlay
           ? "border-indigo-500 bg-white shadow-lg ring-2 ring-indigo-500/10 cursor-grabbing scale-[1.01]"
-          : "animate-drop-in",
-        delayClass
+          : ""
       )}
+      initial={isOverlay ? false : { opacity: 0, y: -45, rotate: -4, scale: 0.93 }}
+      animate={isOverlay ? {} : { opacity: 1, y: 0, rotate: 0, scale: 1 }}
+      transition={isOverlay ? undefined : {
+        type: "spring",
+        stiffness: 120,
+        damping: 14,
+        delay: index !== undefined ? index * 0.12 : 0,
+      }}
       {...attributes}
       {...listeners}
     >
@@ -119,12 +114,12 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
       <div className="flex-1 flex flex-col justify-between min-w-0">
         <div className="space-y-1">
           {/* Card Title */}
-          <h4 className="font-extrabold text-[13px] text-[var(--notebook-text-primary)] line-clamp-2 leading-snug tracking-tight font-neoris group-hover/card:text-[var(--brand-primary)] transition-colors select-none">
+          <h4 className="font-extrabold text-[13px] text-[var(--notebook-text-primary)] line-clamp-2 leading-snug tracking-tight font-sora group-hover/card:text-[var(--brand-primary)] transition-colors select-none">
             {resource.title}
           </h4>
 
           {/* Formatted Date */}
-          <div className="text-[10px] text-[var(--notebook-text-muted)] font-neoris font-semibold select-none">
+          <div className="text-[10px] text-[var(--notebook-text-muted)] font-sora font-semibold select-none">
             {dateStr}
           </div>
         </div>
@@ -134,7 +129,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
           <div className="flex flex-wrap gap-1">
             <span
               className={cn(
-                "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wide border font-neoris shadow-sm",
+                "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wide border font-sora shadow-sm",
                 sourceTagClass
               )}
             >
@@ -143,7 +138,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
             {difficultyTagText && (
               <span
                 className={cn(
-                  "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wide border font-neoris shadow-sm",
+                  "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wide border font-sora shadow-sm",
                   difficultyTagClass
                 )}
               >
@@ -178,6 +173,6 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

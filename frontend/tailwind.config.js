@@ -9,7 +9,7 @@ export default {
       fontFamily: {
         sans: ['var(--font-sans)', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
-        neoris: ['var(--font-neoris)', 'neoris Fallback', 'sans-serif'],
+        sora: ['var(--font-sora)', 'sora Fallback', 'sans-serif'],
       },
       colors: {
         glass: {

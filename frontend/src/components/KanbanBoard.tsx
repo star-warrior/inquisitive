@@ -4,7 +4,8 @@ import {
   DragOverlay,
   closestCorners,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -47,9 +48,15 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
 
   // Set up DnD sensors
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
         distance: 8, // Crucial: Allows clicks on buttons and links without accidentally triggering a drag event!
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250, // Tap & hold for 250ms triggers drag (allows horizontal swiping without accidental drags!)
+        tolerance: 5, // Hold finger within 5px tolerance during delay
       },
     }),
     useSensor(KeyboardSensor, {
@@ -130,35 +137,43 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 select-none">
-        <KanbanColumn
-          id="todo"
-          title="To Do"
-          resources={todoResources}
-          onDeleteResource={deleteResource}
-          isLoading={isLoading}
-        />
-        <KanbanColumn
-          id="in_progress"
-          title="In Progress"
-          resources={inProgressResources}
-          onDeleteResource={deleteResource}
-          isLoading={isLoading}
-        />
-        <KanbanColumn
-          id="completed"
-          title="Completed"
-          resources={completedResources}
-          onDeleteResource={deleteResource}
-          isLoading={isLoading}
-        />
-        <KanbanColumn
-          id="skipped"
-          title="Skipped"
-          resources={skippedResources}
-          onDeleteResource={deleteResource}
-          isLoading={isLoading}
-        />
+      <div className="flex flex-row md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible pb-6 md:pb-0 select-none w-full scroll-smooth custom-scrollbar">
+        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+          <KanbanColumn
+            id="todo"
+            title="To Do"
+            resources={todoResources}
+            onDeleteResource={deleteResource}
+            isLoading={isLoading}
+          />
+        </div>
+        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+          <KanbanColumn
+            id="in_progress"
+            title="In Progress"
+            resources={inProgressResources}
+            onDeleteResource={deleteResource}
+            isLoading={isLoading}
+          />
+        </div>
+        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+          <KanbanColumn
+            id="completed"
+            title="Completed"
+            resources={completedResources}
+            onDeleteResource={deleteResource}
+            isLoading={isLoading}
+          />
+        </div>
+        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+          <KanbanColumn
+            id="skipped"
+            title="Skipped"
+            resources={skippedResources}
+            onDeleteResource={deleteResource}
+            isLoading={isLoading}
+          />
+        </div>
       </div>
 
       {/* Persistent drag overlay ghost card */}
