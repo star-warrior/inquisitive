@@ -1,90 +1,253 @@
 # 🔮 Inquisitive — AI-Powered Dynamic Knowledge Mapping
 
-Inquisitive is a state-of-the-art greenfield workspace built to structure dynamic, AI-enriched mindmaps and research notebooks. Powered by **Express.js**, **React 18**, **TypeScript**, **Vite**, **Groq (Llama 3.3)**, and **Tavily Search**, it enables recursive branching research logs.
+Inquisitive is a state-of-the-art learning workspace designed to convert user curiosity into comprehensive, structured, and action-oriented learning curriculums. By combining raw search capabilities with advanced generative model pipelines, it transforms open-ended research topics into interactive Kanban learning boards loaded with high-quality articles, tutorial videos, and custom progress tracking.
 
-This repository is architected as a highly modular monorepo using **npm Workspaces**.
+Built as a high-fidelity monorepo using **Express.js**, **React 18 (Vite)**, **TypeScript**, **Drizzle ORM**, **Neon serverless PostgreSQL**, and **Upstash Redis**, Inquisitive is engineered for rapid, structured knowledge mapping with production-grade speed, safety guardrails, and type integrity.
 
 ---
 
-## 🏗️ Monorepo Architecture
+## 🏗️ System & Data Architecture
+
+Inquisitive utilizes a robust, modern dual-database monorepo stack with a modular flow that bridges high-performance client state with AI orchestration.
+
+### 🔄 Request & AI Pipeline Flow
+The following sequence details how a single search query is validated, structured, enriched, persisted, and visualized on the interactive client:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Learner (Client)
+    participant Store as Zustand Store (Client)
+    participant Server as Express Server (API)
+    participant Redis as Upstash Redis (Rate Limiter)
+    participant LLM as OpenRouter LLM (Planner & Enricher)
+    participant Tavily as Tavily Search Engine
+    participant DB as Neon DB (PostgreSQL)
+
+    User->>Store: Submits Topic, Difficulty & Size
+    Store->>Server: POST /api/notebook/create (Payload)
+    Server->>Redis: Check Rate Limits (slidingWindow limit)
+    Redis-->>Server: Limit Approved (Fail-Open Guardrail)
+    
+    rect rgb(245, 240, 230)
+        Note over Server, LLM: Step 1: Input Validation & Curriculum Planning
+        Server->>LLM: Generate Chronological Skill-Based Plan (Llama-3.3-70b / DeepSeek)
+        LLM-->>Server: Validated Structured Zod JSON (topics list with search queries)
+    end
+
+    rect rgb(235, 245, 245)
+        Note over Server, Tavily: Step 2: Targeted Dual-Source Crawling (Parallel)
+        Server->>Tavily: Parallel crawl: (1) YouTube Videos + (2) Article Docs per topic
+        Tavily-->>Server: Multi-source search snippets and URLs
+    end
+
+    rect rgb(240, 235, 245)
+        Note over Server, LLM: Step 3: Curated Resource Enrichment
+        Server->>LLM: Filter and Summarize Best Resources (Llama-3.3-70b / Qwen)
+        LLM-->>Server: Curated resources (max 1 video + 1 article per topic, 2-sentence summaries)
+    end
+
+    Server->>DB: Insert Notebook & Bulk-Insert Resources (Cascading Foreign Keys)
+    DB-->>Server: Persisted Records
+    Server-->>Store: JSON Response (Notebook + Curated Resources)
+    Store->>User: Route to /notebook/:id (Render springy Kanban & reset loader)
+```
+
+---
+
+## 💾 Database Schema (`drizzle-orm`)
+
+The database model is kept extremely clean and light, optimized for relational speed and integrity. It features cascading deletes, foreign keys, and targeted index configurations:
+
+```mermaid
+erDiagram
+    notebook {
+        uuid id PK "defaultRandom()"
+        varchar deviceId "device identification token"
+        timestamp created_at "with timezone, defaultNow()"
+        varchar topic "search title"
+        topic_level level "enum: beginner | intermediate | hard"
+        length length "enum: short | medium | long"
+    }
+
+    resource {
+        uuid id PK "defaultRandom()"
+        uuid notebook_id FK "References notebook.id (cascade delete)"
+        text title "resource title"
+        varchar url "resource web link"
+        text thumbnail "youtube image url or null"
+        source_type source_type "enum: article | video"
+        difficulty difficulty "enum: 1 | 2 | 3 | 4 | 5"
+        status status "enum: todo | in_progress | completed | skipped"
+        text summary "structured two-sentence summary"
+        timestamp created_at "with timezone"
+        timestamp updated_at "with timezone"
+    }
+
+    notebook ||--o{ resource : "has many (1-to-N)"
+```
+
+### Key DB Attributes
+- **Topic Level Badge**: Uses native PostgreSQL enums (`beginner`, `intermediate`, `hard`) for strict type safety.
+- **Cascading Deletions**: Deleting a notebook dynamically purges all its referenced resources at the database level.
+- **Relational Indices**: A custom index on the `notebook_id` field in the `resource` table speeds up relational queries under heavy loads.
+
+---
+
+## 🎨 Warm Editorial Design System
+
+Inquisitive features a high-fidelity **Warm Editorial Aesthetic** designed to mirror the sensory pleasure of high-end print design.
+
+- **Centralized Palette**: Uses soft warm organic background layers (`#fdfbf7`, `bg-bento-warm`), charcoal primary headers (`#111`), and golden sand accent lines (`#D4C4A8`) which contrast with beautiful violet key icons and glowing indicators.
+- **Visual Typography**: Employs elegant **Outfit** for clean, readable layout structures and high-end headings, accompanied by **Plus Jakarta Sans** and **Sora** for UI controls.
+- **Dynamic Physics**: Micro-interactions, spring-based Kanban card drops, and staggered entrance animations are animated with `Framer Motion` and custom layout transitions.
+
+---
+
+## 📸 Application Walkthrough & Visuals
+
+Here is an overview of the core application viewports. Keep these sections updated with screenshots of your current deployment:
+
+### 1. Dashboard & Smart Search Setup
+The clean minimalist landing workspace allows immediate input, structured filters, and error banner notifications if input validation fails.
 
 ```
-inquisitive/
-├── packages/
-│   ├── frontend/             # React.js SPA (Vite)
-│   │   ├── src/              # App.tsx, index.css, main.tsx
-│   │   ├── package.json      # Frontend-specific scripts & assets
-│   │   └── vite.config.ts    # Dev proxy server to port 3001
-│   ├── backend/              # Node.js Express API
-│   │   ├── src/              # index.ts REST router and simulated AI planner
-│   │   ├── package.json      # Express, CORS, and ts-node-dev scripts
-│   │   └── tsconfig.json     # NodeNext TS rules
-│   └── shared/               # Shared TS types, utils, and schemas
-│       ├── src/              # index.ts Zod schemas & inferred types
-│       ├── package.json      # Bundler for shared modules
-│       └── tsconfig.json     # Strict TS modules compiler
-├── package.json              # Monorepo root configuration (npm workspaces)
-├── tsconfig.base.json        # Unified TypeScript base compiler settings
-└── README.md                 # Project handbook & system guides
++----------------------------------------------------------------------------+
+|  🔮 Inquisitive                                                            |
+|                                                                            |
+|   What do you want to learn today?                                         |
+|   [ How to play Badminton                                              ]   |
+|                                                                            |
+|   Level: [ Beginner (x) ] [ Intermediate ] [ Advanced ]                    |
+|   Size:  [ Short (5 nodes) ] [ Medium (6 nodes) (x) ] [ Long (8 nodes) ]   |
+|                                                                            |
+|   ( BUTTON: Map Knowledge Base )                                           |
++----------------------------------------------------------------------------+
 ```
+*(Screenshot Space: Place `dashboard_landing.png` here showing the warm editorial home page)*
 
-### Key Modules
+---
 
-1. **`@inquisitive/shared`**  
-   The single-source-of-truth containing structural Zod schemas and inferred TypeScript types representing `Notebooks`, `ResearchNodes`, and `ResearchResources`. Shared seamlessly between client and server, guaranteeing total type-safety.
+### 2. High-Fidelity Kanban Board
+When the AI orchestrator builds a notebook, resources are organized into an interactive Kanban board. Moving cards immediately recalculates the learning progress bar and syncs back to Neon.
 
-2. **`@inquisitive/backend`**  
-   A lightning-fast REST API server built on Node.js and Express. It parses request bodies using Zod schemas from the shared module and exposes endpoints for workspace notebook curation and recursive AI search simulation.
+```
++----------------------------------------------------------------------------+
+|  Badminton Basics                                    [Progress: 35%] ===-  |
+|                                                                            |
+|  [ TO DO ]        [ IN PROGRESS ]    [ COMPLETED ]      [ SKIPPED ]        |
+|  +--------------+ +---------------+  +---------------+  +---------------+  |
+|  | Grip Technique| | Clear Shot    |  | Footwork      |  | Trivia / Hist |  |
+|  | [Video]      | | [Article]     |  | [Video]       |  | [Article]     |  |
+|  | Summary...   | | Summary...    |  | Summary...    |  | Summary...    |  |
+|  +--------------+ +---------------+  +---------------+  +---------------+  |
++----------------------------------------------------------------------------+
+```
+*(Screenshot Space: Place `kanban_board_view.png` here showing active learning progress and spring-loaded cards)*
 
-3. **`@inquisitive/frontend`**  
-   A beautiful, high-fidelity Single Page Application engineered with React 18, Vite, Lucide React icons, and a custom **Glassmorphic Vanilla CSS** theme with dynamic glowing effects. Integrates directly with the backend with full offline-resilient simulators.
+---
+
+### 3. Mobile-First Bottom Bars & Columns
+For smaller viewports, columns smoothly stack into a responsive layout with touch-friendly dragging handles and a responsive bottom navigation.
+
+*(Screenshot Space: Place `mobile_responsive_view.png` here showing mobile column layouts)*
 
 ---
 
 ## ⚡ Getting Started
 
-### Prerequisites
-- **Node.js** 20.x (LTS) or higher
-- **npm** 10.x or higher
+Follow these steps to run a fully functional development environment locally.
 
-### 1. Installation
-Install all workspaces dependencies concurrently from the root directory:
+### Prerequisites
+- **Node.js** 20.x or higher
+- **npm** 10.x or higher
+- **Docker Desktop** (Required to run local Redis rate limiters and Upstash HTTP emulators)
+
+---
+
+### 1. Environment Configurations
+Create `.env` files in both backend and frontend.
+
+#### 🔸 Backend Config (`/backend/.env`)
+```bash
+PORT=3000
+NODE_ENV=development
+CLIENT_URL="http://localhost:5173"
+
+# database parameters (Neon Serverless PostgreSQL connection string)
+DATABASE_URL="postgres://user:pass@ep-cool-name-1234.us-east-2.aws.neon.tech/neondb?sslmode=require"
+
+# API keys (Required for the generative pipeline)
+OPENROUTER_API="your_openrouter_api_key"
+TAVILY_API="your_tavily_api_key"
+
+# Docker Upstash Redis Local Emulator Configuration
+UPSTASH_REDIS_REST_URL="http://upstash-local:80"
+UPSTASH_REDIS_REST_TOKEN="example_token_not_needed_locally"
+```
+
+#### 🔸 Frontend Config (`/frontend/.env`)
+```bash
+VITE_API_URL="http://localhost:3000/api"
+```
+
+---
+
+### 2. Up & Running (Docker Compose)
+The repository includes a customized Docker environment that runs a local Postgres-compatible Redis Stack (`redis-stack`) along with an Upstash HTTP Translator container (`upstash-local`), allowing `@upstash/ratelimit` to resolve without real Upstash Cloud credentials!
+
+Boot all core database & caching services concurrently:
+```bash
+docker compose -f docker-compose.dev.yaml up --build
+```
+This initializes:
+- **Redis Stack**: Running on standard port `6379`.
+- **RedisInsight GUI**: Available on port `8001` for real-time key inspection.
+- **Serverless Redis HTTP Emulator**: Translation bridge available on port `8079` (maps internal container port `80`).
+
+---
+
+### 3. Running the Code base
+Install dependencies from the root directory:
 ```bash
 npm install
 ```
 
-### 2. Development Mode
-Run the backend Express API and the Vite frontend application simultaneously in hot-reloading development mode:
+Boot the frontend Vite server and backend Express server concurrently:
 ```bash
-npm run dev
-```
-- **Frontend Workspace:** [http://localhost:3000](http://localhost:3000)
-- **Backend API:** [http://localhost:3001](http://localhost:3001)
-
-### 3. Build & Production Pack
-Compile and transpile the entire monorepo stack:
-```bash
-npm run build
+# From the root directory:
+npm run dev:frontend  # Boots React + Vite Client (http://localhost:5173)
+npm run dev:backend   # Boots Express API Server (http://localhost:3000)
 ```
 
 ---
 
 ## 🚀 Unified Scripts Index
 
-These scripts can be executed directly from the monorepo root:
+Execute commands directly from the monorepo root:
 
-| Command | Action | Scope |
+| Command | Action | Workspace / Scope |
 | :--- | :--- | :--- |
-| `npm run dev` | Boots both the API server (3001) and Frontend portal (3000) simultaneously with live reloading. | All Workspaces |
-| `npm run build` | Transpiles TypeScript modules and builds optimized client assets. | All Workspaces |
-| `npm run dev:frontend` | Direct boot of the React + Vite frontend environment. | `@inquisitive/frontend` |
-| `npm run dev:backend` | Direct boot of the Express + ts-node API environment. | `@inquisitive/backend` |
-| `npm run build:shared` | Transpiles shared Zod schemas to clean JS declarations. | `@inquisitive/shared` |
+| `npm run dev:frontend` | Boots the Vite client environment with proxy mappings. | `frontend` |
+| `npm run dev:backend` | Boots Express server with TS-Node-Dev live-reloading. | `backend` |
+| `npm run build` | Builds and transpiles all client and backend production assets. | Monorepo Root |
 
 ---
 
-## 🎨 Premium Visual Specs (Vanilla CSS)
-The frontend utilizes a customized, highly performant **Glassmorphic styling system** using custom-tailored CSS.
-- **Color System:** Elegant space deep-navy bases (`#080b11`), glowing violet key accents (`#7c3aed`), and vibrant teal indicators (`#06b6d4`).
-- **Typography:** Highly readable header elements utilizing **Outfit** and beautiful bodies in **Plus Jakarta Sans**.
-- **Special Effects:** Radial ambient back-glows, custom responsive panels with backing micro-shadows, pulsing status nodes, and dynamic hover animations.
+## 🔌 API Routes Reference
+
+The backend exposes these core routes under `/api`:
+
+### 🔹 Notebooks (`/api/notebook`)
+- **`GET /getAll`**: Retrieves all saved learning notebooks for the active device.
+- **`POST /create`**: Triggers the dual-stage AI orchestrator pipeline to validate the query, plan skills, crawl the web, enrich resources, persist structures, and return the final JSON.
+- **`DELETE /:id`**: Deletes a notebook and cascades deletion to all associated resources.
+
+### 🔹 Resources (`/api/resources`)
+- **`GET /:notebookId`**: Retrieves all learning materials associated with a specific notebook.
+- **`DELETE /:id`**: Deletes a single learning node card.
+- **`PATCH /update/:id`**: Updates the card's column status (e.g. `todo` ➔ `in_progress` ➔ `completed` ➔ `skipped`) in the database.
+
+---
+
+*🔮 Inquisitive — Beautiful, structured, agentic knowledge curation for lifelong learners.*
