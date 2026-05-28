@@ -2,11 +2,7 @@ import { CorsOptions } from "cors";
 import { config } from "dotenv";
 config();
 
-const allowedOrigins = [
-  "https://www.yourdomain.com",
-  "https://yourdomain.com",
-  "https://admin.yourdomain.com",
-];
+const allowedOrigins = ["https://inquisitiveme.vercel.app/"];
 
 if (process.env.CLIENT_URL) {
   allowedOrigins.push(process.env.CLIENT_URL);
