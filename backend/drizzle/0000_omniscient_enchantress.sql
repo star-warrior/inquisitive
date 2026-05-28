@@ -27,4 +27,4 @@ CREATE TABLE "resource" (
 );
 --> statement-breakpoint
 ALTER TABLE "resource" ADD CONSTRAINT "resource_notebook_id_notebook_id_fk" FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-CREATE UNIQUE INDEX "notebook_id_idx" ON "resource" USING btree ("notebook_id");
+CREATE INDEX "notebook_id_idx" ON "resource" USING btree ("notebook_id");

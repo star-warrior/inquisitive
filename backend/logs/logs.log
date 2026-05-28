@@ -247,3 +247,8 @@
 [2026-05-28T12:53:46.549Z] [SUCCESS] Neon Database connected successfully.
 [2026-05-28T13:46:22.251Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
 [2026-05-28T13:46:23.435Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T14:50:46.603Z] [INFO] Dropping unique index notebook_id_idx from 'resource' table...
+[2026-05-28T14:50:47.670Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T14:50:47.687Z] [SUCCESS] Unique index dropped successfully.
+[2026-05-28T14:50:47.688Z] [INFO] Creating non-unique index notebook_id_idx on 'resource' table...
+[2026-05-28T14:50:47.820Z] [SUCCESS] Non-unique index created successfully.

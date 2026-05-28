@@ -5,7 +5,6 @@ import {
   varchar,
   pgEnum,
   text,
-  uniqueIndex, // Fixed: Imported from pg-core
   index, // Fixed: Imported from pg-core
 } from "drizzle-orm/pg-core";
 
