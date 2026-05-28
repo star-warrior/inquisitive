@@ -131,16 +131,19 @@ Follow these steps to run a fully functional development environment locally.
 
 #### Backend Configuration (`/backend/.env`)
 
-| Variable                     | Recommended / Default Value                 | Purpose                                            |
-| :--------------------------- | :------------------------------------------ | :------------------------------------------------- |
-| **PORT**                     | `3000`                                      | Express API port.                                  |
-| **NODE_ENV**                 | `development`                               | Enables debug loggers and verbose schema checking. |
-| **CLIENT_URL**               | `"http://localhost:5173"`                   | Configures CORS allowed origin vectors.            |
-| **DATABASE_URL**             | `postgres://user:pass@ep-host.neon.tech/db` | Neon Serverless PostgreSQL connection string.      |
-| **OPENROUTER_API**           | `your_openrouter_api_key`                   | Authenticates planner and enricher LLM queries.    |
-| **TAVILY_API**               | `your_tavily_api_key`                       | Authenticates dual-source parallel web searches.   |
-| **UPSTASH_REDIS_REST_URL**   | `"http://upstash-local:80"`                 | Points to Upstash emulator Rest URL inside Docker. |
-| **UPSTASH_REDIS_REST_TOKEN** | `"example_token_not_needed_locally"`        | Mock token for local Upstash emulator operations.  |
+| Variable           | Recommended / Default Value                 | Purpose                                                                        |
+| :----------------- | :------------------------------------------ | :----------------------------------------------------------------------------- |
+| **PORT**           | `3000`                                      | Express API port.                                                              |
+| **NODE_ENV**       | `development`                               | Enables debug loggers and verbose schema checking.                             |
+| **CLIENT_URL**     | `"http://localhost:5173"`                   | Configures CORS allowed origin vectors.                                        |
+| **DATABASE_URL**   | `postgres://user:pass@ep-host.neon.tech/db` | Neon Serverless PostgreSQL connection string.                                  |
+| **GEMINI_API_KEY** | `your_gemini_api_key`                       | Authenticates planner and enricher Gemini LLM queries (via the free tier API). |
+
+or
+| **OPENROUTER_API** | `your_openrouter_api_key` | Authenticates planner and enricher LLM queries. |
+| **TAVILY_API** | `your_tavily_api_key` | Authenticates dual-source parallel web searches. |
+| **UPSTASH_REDIS_REST_URL** | `"http://upstash-local:80"` | Points to Upstash emulator Rest URL inside Docker. |
+| **UPSTASH_REDIS_REST_TOKEN** | `"example_token_not_needed_locally"` | Mock token for local Upstash emulator operations. |
 
 #### Frontend Configuration (`/frontend/.env`)
 
@@ -229,9 +232,9 @@ The backend exposes these core routes under `/api`:
 
 - Used for web search.
 
-#### OpenRouter
+#### Gemini API OR OPENROUTER_API
 
-- Used for AI generation.
+- Used for AI generation (using Google's free-tier Gemini or Openrouter models).
 
 #### Claude Web, Perplexity
 

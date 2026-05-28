@@ -10,6 +10,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
       # Points to the upstash HTTP emulator container service on its default port 80
       - UPSTASH_REDIS_REST_URL=http://upstash-local:80
       - UPSTASH_REDIS_REST_TOKEN=example_token_not_needed_locally

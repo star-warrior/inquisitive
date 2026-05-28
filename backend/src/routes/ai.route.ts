@@ -5,7 +5,7 @@ import {
   ModelExhaustedError,
   NoSearchResultsError,
   AIServiceError,
-} from "../services/aiSearch.service.js";
+} from "../services/aiSearchGemini.service.js";
 
 const router = Router();
 
@@ -35,7 +35,8 @@ router.post("/search", async (req: Request, res: Response) => {
       res.status(503).json({
         success: false,
         errorType: "MODEL_EXHAUSTED",
-        message: "Our AI systems are experiencing heavy traffic and models are currently exhausted. Please try again in a few moments.",
+        message:
+          "Our AI systems are experiencing heavy traffic and models are currently exhausted. Please try again in a few moments.",
       });
       return;
     }
@@ -43,7 +44,8 @@ router.post("/search", async (req: Request, res: Response) => {
       res.status(422).json({
         success: false,
         errorType: "NO_SEARCH_RESULTS",
-        message: "No relevant learning materials or tutorials could be found for this topic. Please try a different or more specific topic.",
+        message:
+          "No relevant learning materials or tutorials could be found for this topic. Please try a different or more specific topic.",
       });
       return;
     }
@@ -51,7 +53,8 @@ router.post("/search", async (req: Request, res: Response) => {
       res.status(502).json({
         success: false,
         errorType: "AI_SERVICE_ERROR",
-        message: error.message || "An issue occurred while parsing the AI response.",
+        message:
+          error.message || "An issue occurred while parsing the AI response.",
       });
       return;
     }
@@ -59,11 +62,11 @@ router.post("/search", async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       errorType: "INTERNAL_SERVER_ERROR",
-      message: error?.message || "An internal server error occurred during AI search.",
+      message:
+        error?.message || "An internal server error occurred during AI search.",
     });
     return;
   }
 });
 
 export default router;
-
