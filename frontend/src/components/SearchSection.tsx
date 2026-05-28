@@ -209,17 +209,28 @@ export default function SearchSection({
           </div>
         </div>
 
-        {/* Suggestion Chips positioned at the bottom of the card */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
-          {["Learn guitar", "Python for beginners", "Chess openings", "Basic photography"].map((suggestion) => (
+        {/* Suggestion List positioned at the bottom */}
+        <div className="flex flex-col mt-6 w-full font-sora">
+          {[
+            "What are CRISPR gene edits?",
+            "How do vaccines work?",
+            "The science of volcanoes",
+            "The biology of bees",
+            "How do jet engines work?",
+          ].map((suggestion) => (
             <button
               key={suggestion}
               type="button"
               onClick={() => setTopic(suggestion)}
-              className="px-3.5 py-1.5 text-xs font-semibold rounded-full border border-[var(--color-warm-border)] bg-[var(--color-warm-input)] hover:bg-white text-[var(--bento-text-muted)] hover:text-[var(--bento-text-title)] transition-all font-sora active:scale-95 shadow-xs"
+              className="w-full text-left py-2.5 px-2 flex items-center gap-3.5 text-xs md:text-sm border-b border-[var(--color-warm-border)]/50 hover:bg-[var(--color-warm-input)]/60 transition-all group font-sora"
               disabled={isSubmitting}
             >
-              {suggestion}
+              <span className="text-[var(--color-amber-deep)] font-extrabold transition-transform duration-200 group-hover:translate-x-0.5 font-sora select-none">
+                →
+              </span>
+              <span className="font-semibold text-[var(--bento-text-body)] group-hover:text-[var(--bento-text-title)] font-sora transition-colors duration-200">
+                {suggestion}
+              </span>
             </button>
           ))}
         </div>
