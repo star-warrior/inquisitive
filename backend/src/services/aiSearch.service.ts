@@ -220,7 +220,8 @@ Validate the topic first. If valid, generate the learning plan.`;
 
   if (!result.data.valid) {
     // Bubble up to route → return 400 with user-facing message
-    throw new InvalidTopicError(result.data.reason, result.data.message);
+    const invalidData = result.data as { valid: false; reason: string; message: string };
+    throw new InvalidTopicError(invalidData.reason, invalidData.message);
   }
 
   return result.data.plan;

@@ -17,7 +17,10 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.45.2",
     "express": "^4.19.2",
+    "express-rate-limit": "^8.5.2",
     "morgan": "^1.10.0",
+    "rate-limit-redis": "^5.0.0",
+    "redis": "^5.12.1",
     "vite": "8.0.14"
   },
   "devDependencies": {
