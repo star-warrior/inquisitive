@@ -76,7 +76,7 @@ export default function NotebookCard({
           </h3>
           <button
             onClick={(e) => onDelete(notebook.id, e)}
-            className="text-[var(--bento-text-muted)] hover:text-rose-600 p-1.5 rounded-lg hover:bg-[var(--skipped-bg)] transition-all duration-200 opacity-0 group-hover:opacity-100"
+            className="text-[var(--bento-text-muted)] hover:text-rose-600 p-1.5 rounded-lg hover:bg-[var(--skipped-bg)] transition-all duration-300 invisible group-hover:visible opacity-0 group-hover:opacity-100"
             title="Delete Notebook"
           >
             <svg

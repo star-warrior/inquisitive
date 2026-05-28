@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowUp, ChevronDown, Layers, Hourglass } from "lucide-react";
+import { cn } from "../lib/utils";
 
 interface SearchSectionProps {
   topic: string;
@@ -208,31 +209,39 @@ export default function SearchSection({
               included.
             </p>
           </div>
-        </div>
 
-        {/* Suggestion List positioned at the bottom */}
-        <div className="flex flex-col mt-6 w-full font-sora">
-          {[
-            "Teach Me Guitar",
-            "Editing with daVinci Resolve",
-            "The science of volcanoes",
-            "How do jet engines work?",
-          ].map((suggestion) => (
-            <button
-              key={suggestion}
-              type="button"
-              onClick={() => setTopic(suggestion)}
-              className="w-full text-left py-2.5 px-2 flex items-center gap-3.5 text-xs md:text-sm border-b border-[var(--color-warm-border)]/50 hover:bg-[var(--color-warm-input)]/60 transition-all group font-sora"
-              disabled={isSubmitting}
-            >
-              <span className="text-[var(--color-amber-deep)] font-extrabold transition-transform duration-200 group-hover:translate-x-0.5 font-sora select-none">
-                →
-              </span>
-              <span className="font-semibold text-[var(--bento-text-body)] group-hover:text-[var(--bento-text-title)] font-sora transition-colors duration-200">
-                {suggestion}
-              </span>
-            </button>
-          ))}
+          {/* Suggestion List cleanly integrated inside the input card */}
+          <div className="flex flex-col mt-4 pt-3.5 border-t border-[var(--color-warm-border)]/30 w-full font-sora">
+            <div className="text-[10px] uppercase tracking-wider font-extrabold text-[var(--bento-text-muted)] mb-2 px-2 select-none">
+              Try a Curated Topic Starter
+            </div>
+            <div className="flex flex-col">
+              {[
+                "Teach Me Guitar",
+                "Editing with daVinci Resolve",
+                "The science of volcanoes",
+                "How do jet engines work?",
+              ].map((suggestion, idx, arr) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  onClick={() => setTopic(suggestion)}
+                  className={cn(
+                    "w-full text-left py-2 px-2 flex items-center gap-3 text-xs md:text-sm hover:bg-[var(--color-warm-input)]/70 transition-all group font-sora rounded-lg",
+                    idx !== arr.length - 1 ? "border-b border-[var(--color-warm-border)]/30" : ""
+                  )}
+                  disabled={isSubmitting}
+                >
+                  <span className="text-[var(--color-amber-deep)] font-extrabold transition-transform duration-200 group-hover:translate-x-0.5 font-sora select-none">
+                    →
+                  </span>
+                  <span className="font-semibold text-[var(--bento-text-body)] group-hover:text-[var(--bento-text-title)] font-sora transition-colors duration-200">
+                    {suggestion}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </form>
     </div>

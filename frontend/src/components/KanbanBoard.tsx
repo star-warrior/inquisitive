@@ -143,13 +143,13 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3.5 select-none w-full relative pb-10">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-y-6 md:gap-x-0 select-none w-full relative pb-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.0 }}
-          className="w-full md:border-r border-[var(--color-warm-border)]/70 md:pr-3.5"
+          className="w-full md:px-3.5 md:border-r border-[var(--color-warm-border)]/70 last:border-r-0"
         >
           <KanbanColumn
             id="todo"
@@ -166,7 +166,7 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
-          className="w-full md:border-r border-[var(--color-warm-border)]/70 md:px-1.75"
+          className="w-full md:px-3.5 md:border-r border-[var(--color-warm-border)]/70 last:border-r-0"
         >
           <KanbanColumn
             id="in_progress"
@@ -183,7 +183,7 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.24 }}
-          className="w-full md:border-r border-[var(--color-warm-border)]/70 md:px-1.75"
+          className="w-full md:px-3.5 md:border-r border-[var(--color-warm-border)]/70 last:border-r-0"
         >
           <KanbanColumn
             id="completed"
@@ -200,7 +200,7 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.36 }}
-          className="w-full md:pl-3.5"
+          className="w-full md:px-3.5 md:border-r border-[var(--color-warm-border)]/70 last:border-r-0"
         >
           <KanbanColumn
             id="skipped"

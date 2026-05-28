@@ -191,7 +191,7 @@ export default function ResourceCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()} // Critical: Prevents drag triggering on link click
-                className="text-[var(--notebook-text-muted)] hover:text-[var(--brand-primary)] p-1 rounded-lg hover:bg-[var(--notebook-bg)] transition-colors"
+                className="text-[var(--notebook-text-muted)] hover:text-[var(--brand-primary)] p-1 rounded-lg hover:bg-[var(--notebook-bg)] transition-all duration-300 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100"
                 title="Visit Resource"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -202,7 +202,7 @@ export default function ResourceCard({
                   e.stopPropagation(); // Critical: Prevents drag triggering on delete click
                   onDelete(resource.id);
                 }}
-                className="text-[var(--notebook-text-muted)] hover:text-rose-600 p-1 rounded-lg hover:bg-[var(--skipped-bg)] transition-colors"
+                className="text-[var(--notebook-text-muted)] hover:text-rose-600 p-1 rounded-lg hover:bg-[var(--skipped-bg)] transition-all duration-300 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100"
                 title="Delete Resource"
               >
                 <Trash2 className="w-3.5 h-3.5" />
