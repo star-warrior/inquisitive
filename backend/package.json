@@ -23,7 +23,8 @@
     "morgan": "^1.10.0",
     "rate-limit-redis": "^5.0.0",
     "redis": "^5.12.1",
-    "vite": "8.0.14"
+    "vite": "8.0.14",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
