@@ -51,13 +51,13 @@ export default function LoadingScreen() {
           </div>
           
           {/* Middle Spinning Ring */}
-          <div className="absolute w-20 h-20 rounded-full border border-dashed border-[var(--color-amber-mid)]/40 animate-spin" style={{ animationDuration: '8s' }} />
+          <div className="absolute w-20 h-20 rounded-full border border-dashed border-[var(--color-amber-deep)]/70 animate-spin" style={{ animationDuration: '8s' }} />
 
           {/* Outer Smooth Rotating Double Ring with gradient gradient */}
-          <div className="absolute w-28 h-28 rounded-full border-2 border-transparent border-t-[var(--color-amber-deep)]/40 border-b-[var(--color-amber-mid)]/40 animate-spin" style={{ animationDuration: '2.5s' }} />
+          <div className="absolute w-28 h-28 rounded-full border-2 border-transparent border-t-[var(--color-amber-deep)]/80 border-b-[var(--color-amber-deep)]/60 animate-spin" style={{ animationDuration: '2.5s' }} />
           
           {/* Glowing Aura backplate */}
-          <div className="absolute w-28 h-28 rounded-full bg-amber-500/5 filter blur-xl animate-pulse" />
+          <div className="absolute w-28 h-28 rounded-full bg-[var(--color-amber-deep)]/15 filter blur-xl animate-pulse" />
         </div>
 
         {/* Informative Text Details */}
