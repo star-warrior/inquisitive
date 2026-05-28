@@ -204,7 +204,8 @@ export default function SearchSection({
 
             {/* Dropdown helper explanation text */}
             <p className="text-xs text-[var(--bento-text-muted)] font-sora font-light pl-1 select-none">
-              Difficulty sets the depth of resources. Size controls how many are included.
+              Difficulty sets the depth of resources. Size controls how many are
+              included.
             </p>
           </div>
         </div>
@@ -212,10 +213,9 @@ export default function SearchSection({
         {/* Suggestion List positioned at the bottom */}
         <div className="flex flex-col mt-6 w-full font-sora">
           {[
-            "What are CRISPR gene edits?",
-            "How do vaccines work?",
+            "Teach Me Guitar",
+            "Editing with daVinci Resolve",
             "The science of volcanoes",
-            "The biology of bees",
             "How do jet engines work?",
           ].map((suggestion) => (
             <button
