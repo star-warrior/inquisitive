@@ -31,38 +31,38 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       {/* ========================================================= */}
       <aside
         className={cn(
-          "hidden md:flex h-screen fixed left-0 top-0 border-r border-[var(--notebook-border)] bg-[var(--bento-bg-warm)] flex-col justify-between transition-all duration-300 z-50 shrink-0 select-none shadow-sm",
+          "hidden md:flex h-screen fixed left-0 top-0 border-r border-[var(--color-warm-border)] bg-[var(--color-warm-sidebar)] flex-col justify-between transition-all duration-300 z-50 shrink-0 select-none shadow-sm",
           isSidebarOpen ? "w-64" : "w-20",
         )}
       >
         {/* Sidebar Header */}
         <div>
           {isSidebarOpen ? (
-            <div className="px-5 h-16 flex items-center justify-between border-b border-[var(--notebook-border)]/60">
+            <div className="px-5 h-16 flex items-center justify-between border-b border-[var(--color-warm-border)]/60">
               <div className="flex items-center gap-2.5">
                 <Link
                   to="/"
-                  className="font-extrabold text-xl tracking-tight font-serif text-[var(--notebook-text-primary)]   "
+                  className="font-extrabold text-xl tracking-tight font-serif text-[var(--bento-text-title)]"
                 >
                   Inquisitive
                 </Link>
               </div>
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="p-1.5 rounded-lg hover:bg-slate-100/80 transition-colors border border-transparent hover:border-[var(--notebook-border)]/40 active:scale-95"
+                className="p-1.5 rounded-lg hover:bg-slate-100/80 transition-colors border border-transparent hover:border-[var(--color-warm-border)]/40 active:scale-95"
                 title="Collapse Sidebar"
               >
-                <ChevronLeft className="w-4 h-4 text-[var(--notebook-text-secondary)]" />
+                <ChevronLeft className="w-4 h-4 text-[var(--bento-text-muted)]" />
               </button>
             </div>
           ) : (
-            <div className="h-16 flex flex-col items-center justify-center border-b border-[var(--notebook-border)]/60 relative">
+            <div className="h-16 flex flex-col items-center justify-center border-b border-[var(--color-warm-border)]/60 relative">
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-2 rounded-lg hover:bg-slate-100/80 transition-colors border border-[var(--notebook-border)]/40 active:scale-95 flex items-center justify-center"
+                className="p-2 rounded-lg hover:bg-slate-100/80 transition-colors border border-[var(--color-warm-border)]/40 active:scale-95 flex items-center justify-center"
                 title="Expand Sidebar"
               >
-                <ChevronRight className="w-4 h-4 text-[var(--notebook-text-secondary)]" />
+                <ChevronRight className="w-4 h-4 text-[var(--bento-text-muted)]" />
               </button>
             </div>
           )}
@@ -73,16 +73,16 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             <button
               onClick={() => setActiveTab("search")}
               className={cn(
-                "w-full flex items-center gap-3 px-3.5 py-3 text-xs font-bold transition-all relative rounded-xl group",
+                "w-full flex items-center gap-3 px-3.5 py-3 text-sm font-bold transition-all relative rounded-xl group",
                 activeTab === "search"
-                  ? "text-[var(--notebook-text-primary)]"
-                  : "text-[var(--notebook-text-secondary)] hover:text-[var(--notebook-text-primary)]",
+                  ? "text-[var(--bento-text-title)]"
+                  : "text-[var(--bento-text-muted)] hover:text-[var(--bento-text-title)]",
               )}
             >
               {activeTab === "search" && (
                 <motion.div
                   layoutId="activeTabPill"
-                  className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-xl z-0"
+                  className="absolute inset-0 bg-[var(--color-warm-card)] border border-[var(--color-warm-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-xl z-0"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -91,8 +91,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                   className={cn(
                     "w-4 h-4 transition-colors",
                     activeTab === "search"
-                      ? "text-[var(--notebook-text-primary)]"
-                      : "text-slate-400 group-hover:text-[var(--notebook-text-primary)]",
+                      ? "text-[var(--bento-text-title)]"
+                      : "text-[var(--bento-text-muted)] group-hover:text-[var(--bento-text-title)]",
                   )}
                 />
                 {isSidebarOpen && <span>Create</span>}
@@ -106,16 +106,16 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             <button
               onClick={() => setActiveTab("notebooks")}
               className={cn(
-                "w-full flex items-center gap-3 px-3.5 py-3 text-xs font-bold transition-all relative rounded-xl group",
+                "w-full flex items-center gap-3 px-3.5 py-3 text-sm font-bold transition-all relative rounded-xl group",
                 activeTab === "notebooks"
-                  ? "text-[var(--notebook-text-primary)]"
-                  : "text-[var(--notebook-text-secondary)] hover:text-[var(--notebook-text-primary)]",
+                  ? "text-[var(--bento-text-title)]"
+                  : "text-[var(--bento-text-muted)] hover:text-[var(--bento-text-title)]",
               )}
             >
               {activeTab === "notebooks" && (
                 <motion.div
                   layoutId="activeTabPill"
-                  className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-xl z-0"
+                  className="absolute inset-0 bg-[var(--color-warm-card)] border border-[var(--color-warm-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-xl z-0"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -124,13 +124,13 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                   className={cn(
                     "w-4 h-4 transition-colors",
                     activeTab === "notebooks"
-                      ? "text-[var(--notebook-text-primary)]"
-                      : "text-slate-400 group-hover:text-[var(--notebook-text-primary)]",
+                      ? "text-[var(--bento-text-title)]"
+                      : "text-[var(--bento-text-muted)] group-hover:text-[var(--bento-text-title)]",
                   )}
                 />
                 {isSidebarOpen && <span>My Notebooks</span>}
                 {activeTab === "notebooks" && isSidebarOpen && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[var(--notebook-text-primary)] animate-pulse" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[var(--bento-text-title)] animate-pulse" />
                 )}
               </div>
             </button>
@@ -138,11 +138,11 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         </div>
 
         {/* Sidebar Footer (Streak & Profile) */}
-        <div className="p-4 border-t border-[var(--notebook-border)]/60 space-y-4">
+        <div className="p-4 border-t border-[var(--color-warm-border)]/60 space-y-4">
           {/* Gamified Streak Meter */}
           <div
             className={cn(
-              "bg-white/40 border border-[var(--notebook-border)] rounded-xl transition-all duration-300",
+              "bg-[var(--color-warm-input)]/40 border border-[var(--color-warm-border)] rounded-xl transition-all duration-300",
               isSidebarOpen
                 ? "p-3 flex items-center justify-between"
                 : "p-2.5 flex flex-col gap-3 items-center justify-center",
@@ -151,39 +151,36 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           >
             <div className="flex items-center gap-1.5 cursor-pointer hover:scale-105 transition-transform">
               <Flame
-                className="w-4 h-4 text-[var(--notebook-text-secondary)] fill-none hover:text-[var(--notebook-text-primary)] hover:fill-[var(--notebook-text-primary)] transition-colors animate-bounce"
+                className="w-4 h-4 text-[var(--bento-text-muted)] fill-none hover:text-[var(--bento-text-title)] hover:fill-[var(--bento-text-title)] transition-colors animate-bounce"
                 style={{ animationDuration: "2.5s" }}
               />
-              <span className="text-xs font-extrabold text-[var(--notebook-text-primary)]">
+              <span className="text-sm font-extrabold text-[var(--bento-text-title)]">
                 {streak}
               </span>
               {isSidebarOpen && (
-                <span className="text-[10px] text-[var(--notebook-text-muted)] font-medium ml-0.5">
-                  days
+                <span className="text-sm text-[var(--bento-text-muted)] font-medium ml-0.5">
+                  days Streak
                 </span>
               )}
             </div>
 
             {isSidebarOpen && (
-              <div className="h-4 w-px bg-[var(--notebook-border)]" />
+              <div className="h-4 w-px bg-[var(--color-warm-border)]" />
             )}
           </div>
 
           {/* User Profile Footer */}
           {isSidebarOpen ? (
-            <div className="bg-white/40 border border-[var(--notebook-border)] rounded-xl p-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-100/50 transition-colors">
+            <div className="bg-[var(--color-warm-input)] border border-[var(--color-warm-border)] rounded-xl p-2.5 flex items-center justify-between cursor-pointer hover:bg-white/60 transition-colors">
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-full bg-[var(--notebook-text-primary)] text-[var(--notebook-bg)] font-extrabold flex items-center justify-center text-xs shrink-0 shadow-xs select-none">
+                <div className="w-8 h-8 rounded-full bg-[var(--color-amber-deep)] text-white font-extrabold flex items-center justify-center text-sm shrink-0 shadow-xs select-none">
                   A
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-[11px] font-bold text-[var(--notebook-text-primary)] truncate">
+                  <h4 className="text-sm font-bold text-[var(--bento-text-title)] truncate">
                     Anonymous User
                   </h4>
-                  <p className="text-[9px] text-[var(--notebook-text-muted)] font-semibold mt-0.5">
-                    Id: {getOrCreateUUID()}
-                  </p>
-                  <p className="text-[9px] text-[var(--notebook-text-muted)] font-semibold mt-0.5">
+                  <p className="text-sm text-[var(--bento-text-muted)] font-semibold mt-0.5">
                     Free Plan
                   </p>
                 </div>
@@ -191,7 +188,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             </div>
           ) : (
             <div className="flex justify-center">
-              <div className="w-9 h-9 rounded-full bg-[var(--notebook-text-primary)] text-[var(--notebook-bg)] font-extrabold flex items-center justify-center text-xs shadow-xs cursor-pointer hover:scale-105 transition-transform select-none">
+              <div className="w-9 h-9 rounded-full bg-[var(--color-amber-deep)] text-white font-extrabold flex items-center justify-center text-sm shadow-xs cursor-pointer hover:scale-105 transition-transform select-none">
                 A
               </div>
             </div>
@@ -204,21 +201,21 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       {/* ========================================================= */}
       <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 flex items-center justify-center gap-3 px-4">
         {/* Main Capsule Menu Pill */}
-        <div className="bg-[var(--bento-bg-warm)]/95 backdrop-blur-md border border-[var(--notebook-border)] shadow-xl rounded-full px-5 py-2.5 flex items-center gap-6 select-none">
+        <div className="bg-[var(--color-warm-sidebar)]/95 backdrop-blur-md border border-[var(--color-warm-border)] shadow-xl rounded-full px-5 py-2.5 flex items-center gap-6 select-none">
           {/* Create Tab Button */}
           <button
             onClick={() => setActiveTab("search")}
             className={cn(
               "relative p-2.5 rounded-full transition-all flex items-center justify-center active:scale-95 group",
               activeTab === "search"
-                ? "text-[var(--notebook-text-primary)]"
-                : "text-slate-400",
+                ? "text-[var(--bento-text-title)]"
+                : "text-[var(--bento-text-muted)]",
             )}
           >
             {activeTab === "search" && (
               <motion.div
                 layoutId="activeBottomTabPill"
-                className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-full z-0"
+                className="absolute inset-0 bg-[var(--color-warm-card)] border border-[var(--color-warm-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-full z-0"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}
@@ -231,14 +228,14 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             className={cn(
               "relative p-2.5 rounded-full transition-all flex items-center justify-center active:scale-95 group",
               activeTab === "notebooks"
-                ? "text-[var(--notebook-text-primary)]"
-                : "text-slate-400",
+                ? "text-[var(--bento-text-title)]"
+                : "text-[var(--bento-text-muted)]",
             )}
           >
             {activeTab === "notebooks" && (
               <motion.div
                 layoutId="activeBottomTabPill"
-                className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-full z-0"
+                className="absolute inset-0 bg-[var(--color-warm-card)] border border-[var(--color-warm-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-full z-0"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}
@@ -246,18 +243,18 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           </button>
 
           {/* Separator inside capsule */}
-          <div className="h-4 w-px bg-[var(--notebook-border)]" />
+          <div className="h-4 w-px bg-[var(--color-warm-border)]" />
 
           {/* Interactive Streak Indicator */}
           <div
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white/50 border border-[var(--notebook-border)]/60 rounded-full cursor-pointer active:scale-95 transition-all hover:bg-white/80"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-warm-input)] border border-[var(--color-warm-border)]/60 rounded-full cursor-pointer active:scale-95 transition-all hover:bg-white/80"
             title="Your Daily Streak"
           >
             <Flame
-              className="w-3.5 h-3.5 text-[var(--notebook-text-secondary)] fill-none animate-bounce"
+              className="w-3.5 h-3.5 text-[var(--bento-text-muted)] fill-none animate-bounce"
               style={{ animationDuration: "2.5s" }}
             />
-            <span className="text-xs font-bold text-[var(--notebook-text-primary)]">
+            <span className="text-xs font-bold text-[var(--bento-text-title)]">
               {streak}
             </span>
           </div>
@@ -265,7 +262,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
 
         {/* Floating User Profile Avatar J circle next to it */}
         <div
-          className="w-12 h-12 rounded-full bg-[var(--notebook-text-primary)] text-[var(--notebook-bg)] font-extrabold flex items-center justify-center text-sm shadow-xl border border-[var(--notebook-border)]/50 shrink-0 select-none active:scale-90 transition-transform"
+          className="w-12 h-12 rounded-full bg-[var(--color-amber-deep)] text-white font-extrabold flex items-center justify-center text-sm shadow-xl border border-[var(--color-warm-border)]/50 shrink-0 select-none active:scale-90 transition-transform"
           title="Jay Mehta (Free Plan)"
         >
           A

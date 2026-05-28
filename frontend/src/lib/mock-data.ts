@@ -8,6 +8,7 @@ export const INITIAL_NOTEBOOKS: Notebook[] = [
     topic: "Mastering React 19 & TypeScript 5",
     level: "intermediate",
     length: "medium",
+    completionPercentage: 25,
   },
   {
     id: "72a1b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
@@ -16,6 +17,7 @@ export const INITIAL_NOTEBOOKS: Notebook[] = [
     topic: "Introduction to Quantum Computing",
     level: "hard",
     length: "long",
+    completionPercentage: 33,
   },
   {
     id: "9f8e7d6c-5b4a-3b2a-1b0a-9f8e7d6c5b4a",
@@ -24,6 +26,7 @@ export const INITIAL_NOTEBOOKS: Notebook[] = [
     topic: "Sleek Web Design with Tailwind CSS",
     level: "beginner",
     length: "short",
+    completionPercentage: 100,
   },
 ];
 

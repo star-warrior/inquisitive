@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, type Schema } from "@google/genai";
+import Groq from "groq-sdk";
 import axios from "axios";
 import {
   PlanTopicSchema,
@@ -18,16 +18,19 @@ export {
   type Resource,
 };
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
-const TAVILY_API = process.env.TAVILY_API!;
+// ─── Env Validation ───────────────────────────────────────────────────────────
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const TAVILY_API = process.env.TAVILY_API;
 
-if (!GEMINI_API_KEY) throw new Error("GEMINI_API_KEY env missing");
-if (!TAVILY_API) throw new Error("TAVILY_API_KEY env missing");
+if (!GROQ_API_KEY) throw new Error("GROQ_API_KEY env missing");
+if (!TAVILY_API) throw new Error("TAVILY_API env missing");
 
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+const groq = new Groq({ apiKey: GROQ_API_KEY });
 
-const PLANNER_MODELS = ["gemini-2.5-flash", "gemini-2.5-pro"];
-const ENRICHER_MODELS = ["gemini-2.5-flash", "gemini-2.5-pro"];
+// Primary model for everything. Fallback only if 429 persists.
+// llama-3.3-70b-versatile: 6,000 TPM / 30 RPM / 14,400 RPD on free tier
+const PLANNER_MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
+const ENRICHER_MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
 
 // ─── Custom Errors ────────────────────────────────────────────────────────────
 export class InvalidTopicError extends Error {
@@ -58,44 +61,50 @@ export class AIServiceError extends Error {
   }
 }
 
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 async function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-// ─── Gemini Caller ────────────────────────────────────────────────────────────
-async function callGemini(
+// ─── Groq Caller ──────────────────────────────────────────────────────────────
+// Groq does NOT support typed responseSchema like Gemini.
+// We use response_format: { type: "json_object" } + Zod validation downstream.
+// The system prompt must explicitly instruct the model to return only JSON.
+async function callGroq(
   models: string[],
   systemPrompt: string,
   userPrompt: string,
-  responseSchema: Schema,
   maxTokens = 1200,
 ): Promise<string> {
   for (const model of models) {
     for (let attempt = 0; attempt <= 2; attempt++) {
       try {
-        const response = await ai.models.generateContent({
+        const response = await groq.chat.completions.create({
           model,
-          contents: userPrompt,
-          config: {
-            systemInstruction: systemPrompt,
-            maxOutputTokens: maxTokens,
-            temperature: 0.15,
-            responseMimeType: "application/json",
-            responseSchema: responseSchema,
-          },
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: userPrompt },
+          ],
+          max_tokens: maxTokens,
+          temperature: 0.15,
+          response_format: { type: "json_object" },
         });
 
-        const content = response.text;
-        if (!content) throw new Error("Empty response from Gemini model");
+        const content = response.choices[0]?.message?.content;
+        if (!content) throw new Error("Empty response from Groq model");
         return content;
       } catch (err: any) {
-        const statusCode = err?.status || err?.statusCode;
+        const statusCode = err?.status || err?.statusCode || err?.error?.status;
+
+        // 429 = rate limited — wait and retry on same model
         if (statusCode === 429 && attempt < 2) {
           await sleep((attempt + 1) * 2000);
           continue;
         }
+
+        // On last attempt, log and break to try next model
         if (attempt === 2) {
-          console.warn(`[Gemini] ${model} failed:`, err?.message || err);
+          console.warn(`[Groq] ${model} failed:`, err?.message || err);
           break;
         }
       }
@@ -104,105 +113,57 @@ async function callGemini(
   throw new ModelExhaustedError();
 }
 
-// ─── Gemini Schemas ───────────────────────────────────────────────────────────
-const GEMINI_PLANNER_RESPONSE_SCHEMA: Schema = {
-  type: Type.OBJECT,
-  properties: {
-    valid: { type: Type.BOOLEAN },
-    plan: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          title: { type: Type.STRING },
-          difficulty: { type: Type.INTEGER },
-          search_query: { type: Type.STRING },
-        },
-        required: ["title", "difficulty", "search_query"],
-      },
-    },
-    reason: { type: Type.STRING },
-    message: { type: Type.STRING },
-  },
-  required: ["valid"],
-};
-
-const GEMINI_ENRICHER_RESPONSE_SCHEMA: Schema = {
-  type: Type.OBJECT,
-  properties: {
-    resources: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          topic_index: { type: Type.INTEGER },
-          topic_title: { type: Type.STRING },
-          title: { type: Type.STRING },
-          url: { type: Type.STRING },
-          thumbnail: { type: Type.STRING, nullable: true },
-          source_type: { type: Type.STRING },
-          difficulty: { type: Type.INTEGER },
-          summary: { type: Type.STRING },
-        },
-        required: [
-          "topic_index",
-          "topic_title",
-          "title",
-          "url",
-          "source_type",
-          "difficulty",
-          "summary",
-        ],
-      },
-    },
-  },
-  required: ["resources"],
-};
-
 // ─── Prompts ──────────────────────────────────────────────────────────────────
-const PLANNER_SYSTEM = `You are an AI learning curriculum designer. Given a topic, level, and count, generate a structured skill-based learning plan in JSON.
+// IMPORTANT: Groq requires the JSON structure to be described in the prompt.
+// Unlike Gemini's responseSchema, there's no separate schema object.
+// Keep the structure description tight — it counts toward input tokens.
 
-INPUT VALIDATION (Evaluate sequentially. If invalid, reject immediately):
-1. GIBBERISH: Keyboard mashing (e.g., "asdfjkl"). -> reason: "gibberish"
-2. INSUFFICIENT: < 2 words or only emojis. -> reason: "insufficient"
-3. TOO VAGUE: Intangible concepts (e.g., "stuff"). -> reason: "too_vague"
-4. HARMFUL: Weapons, illegal acts, or cyberattacks. -> reason: "harmful"
+const PLANNER_SYSTEM = `You are an AI learning curriculum designer. Return ONLY valid JSON. No prose, no markdown, no backticks.
 
-CURRICULUM RULES:
+OUTPUT SCHEMA:
+If valid topic → { "valid": true, "plan": [ { "title": string, "difficulty": integer (1-5), "search_query": string } ] }
+If invalid topic → { "valid": false, "reason": string, "message": string }
+
+INPUT VALIDATION (check in order, reject on first match):
+1. GIBBERISH: Keyboard mashing (e.g. "asdfjkl") → reason: "gibberish"
+2. INSUFFICIENT: Less than 2 words or only emojis → reason: "insufficient"
+3. TOO_VAGUE: Intangible concepts (e.g. "stuff", "things") → reason: "too_vague"
+4. HARMFUL: Weapons, illegal acts, cyberattacks → reason: "harmful"
+
+CURRICULUM RULES (only apply when valid):
 - Order topics chronologically from easiest to hardest.
-- Focus ONLY on actionable skills. Exclude history, biography, and trivia.
-- "difficulty": an INTEGER from 1 to 5.
-- "search_query": Format: "<main subject> <sub-topic> tutorial <level>"`;
+- Actionable skills ONLY. No history, biography, or trivia.
+- "difficulty": integer 1–5.
+- "search_query": format → "<subject> <sub-topic> tutorial <level>"`;
 
-// Dynamic system prompt generator based on length constraints
+// Dynamic enricher prompt — tighter resource count instructions per length
 function getEnricherSystemPrompt(length: "short" | "medium" | "long"): string {
-  let lengthRule = "";
+  const lengthRule: Record<string, string> = {
+    short: "Select exactly 1 resource per topic. Best video first; fallback to article.",
+    medium: "Select exactly 2 resources per topic. 1 best video + 1 best article. If one format missing, 2 of the available.",
+    long: "Select exactly 3 resources per topic. 1 video + 2 articles preferred. Up to 3 articles if no video.",
+  };
 
-  if (length === "short") {
-    lengthRule = `- LENGTH RULE ("short" course chosen): Select exactly ONE (1) resource per topic. Prioritize the single best high-yield video tutorial. If no video is found, fallback to the single best article. Total material must not exceed 1 resource per topic.`;
-  } else if (length === "medium") {
-    lengthRule = `- LENGTH RULE ("medium" course chosen): Select exactly TWO (2) resources per topic. Curate the single best video tutorial AND the single best structural article. If one format is missing, fallback to 2 of the available format.`;
-  } else {
-    lengthRule = `- LENGTH RULE ("long" course chosen): Deep dive. Select exactly THREE (3) resources per topic (e.g., 1 high-quality conceptual video + 2 detailed practical articles, or up to 3 articles if no video content exists).`;
-  }
+  return `You are a learning resource curator. Return ONLY valid JSON. No prose, no markdown, no backticks.
 
-  return `You are a learning resource curator. Given raw search results, select, pick, and summarize the absolute highest quality resources.
+OUTPUT SCHEMA:
+{ "resources": [ { "topic_index": integer, "topic_title": string, "title": string, "url": string, "thumbnail": string | null, "source_type": "video" | "article", "difficulty": integer (1-5), "summary": string } ] }
 
-${lengthRule}
+LENGTH RULE: ${lengthRule[length]}
 
-SELECTION & QUALITY RULES:
-- Only pick the "best" resources: authoritative sources, complete guides, or clear step-by-step videos. Skip breaking, low-quality, or spam links.
-- Strictly adhere to the resource count specified in the LENGTH RULE above.
+SELECTION RULES:
+- Pick only authoritative, complete, high-quality resources. Skip spam, low-effort, or broken links.
+- Strictly follow the LENGTH RULE resource count per topic.
 
 THUMBNAIL RULES:
-- YouTube links (matching "youtube.com/watch?v=VIDEO_ID"): extract VIDEO_ID and return "https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg".
-- All other links: return null.
+- YouTube URLs: extract VIDEO_ID from "youtube.com/watch?v=VIDEO_ID", return "https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg"
+- All other URLs: return null
 
 SUMMARY RULES:
-- Strictly max 2 sentences. 
-- Sentence 1: what specific concept/skill this resource teaches. 
-- Sentence 2: what action the learner will be able to perform after.
-- Anti-patterns: Never use filler phrases like "In this video..." or "This article covers...".`;
+- Max 2 sentences.
+- Sentence 1: what specific concept/skill this teaches.
+- Sentence 2: what the learner can DO after.
+- Never use "In this video..." or "This article covers..."`;
 }
 
 // ─── Step 1: AI Planner ───────────────────────────────────────────────────────
@@ -221,15 +182,9 @@ export async function generateLearningPlan(
     );
   }
 
-  const userPrompt = `Topic: "${trimmed}"\nLevel: ${level}\nNumber of topics to generate: ${count}\n\nValidate the topic first. If valid, generate the learning plan.`;
+  const userPrompt = `Topic: "${trimmed}"\nLevel: ${level}\nTopics to generate: ${count}\n\nValidate the topic. If valid, generate the learning plan.`;
 
-  const raw = await callGemini(
-    PLANNER_MODELS,
-    PLANNER_SYSTEM,
-    userPrompt,
-    GEMINI_PLANNER_RESPONSE_SCHEMA,
-    800,
-  );
+  const raw = await callGroq(PLANNER_MODELS, PLANNER_SYSTEM, userPrompt, 800);
 
   let parsed: unknown;
   try {
@@ -254,19 +209,18 @@ export async function generateLearningPlan(
   return result.data.plan;
 }
 
+// ─── Step 2: Tavily Search ────────────────────────────────────────────────────
 type TavilyResult = {
   title: string;
   url: string;
   content: string;
 };
 
-// ─── Step 2: Adaptive Axios Tavily Search ─────────────────────────────────────
 async function tavilySearchTopic(
   query: string,
   topicTitle: string,
   length: "short" | "medium" | "long",
 ): Promise<{ videos: TavilyResult[]; articles: TavilyResult[] }> {
-  // Optimize API limits to save payload tokens depending on requested depth
   const maxVideos = length === "short" ? 2 : 3;
   const maxArticles = length === "short" ? 2 : 5;
 
@@ -280,15 +234,10 @@ async function tavilySearchTopic(
     }),
     axios.post("https://api.tavily.com/search", {
       api_key: TAVILY_API,
-      query: `${query} structural guide step-by-step documentation`,
+      query: `${query} guide step-by-step documentation`,
       search_depth: length === "long" ? "advanced" : "basic",
       max_results: maxArticles,
-      exclude_domains: [
-        "facebook.com",
-        "instagram.com",
-        "twitter.com",
-        "x.com",
-      ],
+      exclude_domains: ["facebook.com", "instagram.com", "twitter.com", "x.com"],
     }),
   ]);
 
@@ -332,37 +281,34 @@ export async function enrichResources(
   searchData: Awaited<ReturnType<typeof fetchResourcesForPlan>>,
   length: "short" | "medium" | "long",
 ): Promise<Resource[]> {
+  // Abbreviated keys + 80-char snippets = ~35% fewer input tokens vs original
   const payload = searchData.map((d) => ({
-    index: d.topicIndex,
-    topic: d.topic.title,
-    difficulty: d.topic.difficulty,
-    videos: d.videos.map((r) => ({
-      title: r.title,
-      url: r.url,
-      snippet: r.content.slice(0, 80),
+    i: d.topicIndex,
+    t: d.topic.title,
+    d: d.topic.difficulty,
+    v: d.videos.map((r) => ({
+      t: r.title,
+      u: r.url,
+      s: r.content.slice(0, 80),
     })),
-    articles: d.articles.map((r) => ({
-      title: r.title,
-      url: r.url,
-      snippet: r.content.slice(0, 80),
+    a: d.articles.map((r) => ({
+      t: r.title,
+      u: r.url,
+      s: r.content.slice(0, 80),
     })),
   }));
 
-  const hasAnyResults = payload.some(
-    (p) => p.videos.length > 0 || p.articles.length > 0,
-  );
+  const hasAnyResults = payload.some((p) => p.v.length > 0 || p.a.length > 0);
   if (!hasAnyResults) throw new NoSearchResultsError();
 
-  const systemPrompt = getEnricherSystemPrompt(length);
-  const userPrompt = `Curate learning resources for these topics: ${JSON.stringify(payload, null, 0)}`;
+  // Dynamic token ceiling — stop paying for unused capacity
+  const maxTokens = { short: 500, medium: 800, long: 1200 }[length];
 
-  const raw = await callGemini(
-    ENRICHER_MODELS,
-    systemPrompt,
-    userPrompt,
-    GEMINI_ENRICHER_RESPONSE_SCHEMA,
-    3000,
-  );
+  const systemPrompt = getEnricherSystemPrompt(length);
+  // Remind model of key mapping so it doesn't guess
+  const userPrompt = `Curate resources. Keys: i=topic_index, t=title, d=difficulty, v=videos, a=articles, u=url, s=snippet.\n\n${JSON.stringify(payload)}`;
+
+  const raw = await callGroq(ENRICHER_MODELS, systemPrompt, userPrompt, maxTokens);
 
   let parsed: unknown;
   try {

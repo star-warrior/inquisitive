@@ -19,7 +19,12 @@ interface ResourceCardProps {
   index?: number;
 }
 
-export default function ResourceCard({ resource, onDelete, isOverlay = false, index }: ResourceCardProps) {
+export default function ResourceCard({
+  resource,
+  onDelete,
+  isOverlay = false,
+  index,
+}: ResourceCardProps) {
   const {
     attributes,
     listeners,
@@ -68,10 +73,10 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
 
   // Use a local ref to capture the animation config on the very first render of this mount!
   const hasAnimatedRef = React.useRef(animatedCardIds.has(resource.id));
-  
+
   // If it hasn't animated yet, we set shouldAnimate to true and record it in the global Set.
   const shouldAnimate = !hasAnimatedRef.current && !isOverlay;
-  
+
   if (shouldAnimate) {
     animatedCardIds.add(resource.id);
   }
@@ -82,7 +87,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
       style={style}
       className={cn(
         "w-full flex items-stretch cursor-grab active:cursor-grabbing select-none",
-        isDragging ? "opacity-30" : ""
+        isDragging ? "opacity-30" : "",
       )}
       {...attributes}
       {...listeners}
@@ -95,17 +100,25 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
             : "border-[var(--notebook-border)]/60 hover:border-[var(--notebook-border)] hover:shadow-md",
           isOverlay
             ? "border-indigo-500 bg-white shadow-lg ring-2 ring-indigo-500/10 cursor-grabbing scale-[1.01]"
-            : ""
+            : "",
         )}
-        initial={shouldAnimate ? { opacity: 0, y: 300, rotate: -12, scale: 0.85 } : false}
+        initial={
+          shouldAnimate
+            ? { opacity: 0, y: 300, rotate: -12, scale: 0.85 }
+            : false
+        }
         animate={shouldAnimate ? { opacity: 1, y: 0, rotate: 0, scale: 1 } : {}}
-        transition={shouldAnimate ? {
-          type: "spring",
-          stiffness: 65,
-          damping: 18,
-          mass: 1.2,
-          delay: index !== undefined ? index * 0.1 : 0,
-        } : undefined}
+        transition={
+          shouldAnimate
+            ? {
+                type: "spring",
+                stiffness: 65,
+                damping: 18,
+                mass: 1.2,
+                delay: index !== undefined ? index * 0.1 : 0,
+              }
+            : undefined
+        }
       >
         {/* Small Left-Side Thumbnail or Icon Placeholder */}
         <div className="w-[76px] h-[76px] shrink-0 rounded-[var(--radius-badge)] overflow-hidden bg-[var(--notebook-bg)] flex items-center justify-center border border-[var(--notebook-border)]/40 shadow-inner relative select-none">
@@ -122,7 +135,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
             <div
               className={cn(
                 "w-full h-full flex items-center justify-center transition-colors",
-                isVideo ? "bg-indigo-50/50" : "bg-amber-50/50"
+                isVideo ? "bg-indigo-50/50" : "bg-amber-50/50",
               )}
             >
               {isVideo ? (
@@ -154,7 +167,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
               <span
                 className={cn(
                   "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wide border font-sora shadow-sm",
-                  sourceTagClass
+                  sourceTagClass,
                 )}
               >
                 {sourceTagText}
@@ -163,7 +176,7 @@ export default function ResourceCard({ resource, onDelete, isOverlay = false, in
                 <span
                   className={cn(
                     "text-[9px] px-2 py-0.5 rounded-md font-bold tracking-wide border font-sora shadow-sm",
-                    difficultyTagClass
+                    difficultyTagClass,
                   )}
                 >
                   {difficultyTagText}

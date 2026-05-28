@@ -116,8 +116,7 @@ export default function NotebookPage() {
 
   // Compute progress: Completed / (Total - Skipped)
   const validTotal = totalCount - skippedCount;
-  const progressPercent =
-    validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+  const progressPercent = notebook.completionPercentage ?? 0;
 
   // Add Resource submit trigger
   const handleAddResource = async (e: React.FormEvent) => {

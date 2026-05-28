@@ -5,7 +5,7 @@ import {
   ModelExhaustedError,
   NoSearchResultsError,
   AIServiceError,
-} from "../services/aiSearchGemini.service.js";
+} from "../services/aiSearchGroq.service.js";
 
 const router = Router();
 

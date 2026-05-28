@@ -240,4 +240,12 @@ The backend exposes these core routes under `/api`:
 
 - Used for brainstorm.
 
+### UI inspiration:
+
+- https://cofounder.co/
+- Dribble: Taqwah
+- Notion for Kanban Dashboard.
+- CTA.gallery for CTA inspiration.
+- Framer Motion Library for animations.
+
 Inquisitive - Made with Love: Jay Mehta

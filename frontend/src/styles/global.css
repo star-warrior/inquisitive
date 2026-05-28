@@ -18,6 +18,7 @@
   --color-warm-card: #ffffff; /* card surfaces */
   --color-warm-input: #f5f2ee; /* input / pill bg */
   --color-warm-border: #e8e4dc; /* borders */
+  --color-warm-sidebar: #e6e2da; /* sidebar base panel bg */
 
   --color-amber-deep: #e07820; /* hex icon fill */
   --color-amber-mid: #f0923a; /* mid hex ring */
@@ -73,11 +74,11 @@
   --todo-badge-text: #a05e2b;
   --todo-accent: #e28a43;
 
-  --progress-bg: #fff5f8;
-  --progress-border: #f7d2db;
-  --progress-badge-bg: #fce7f3;
-  --progress-badge-text: #a21caf;
-  --progress-accent: #d946ef;
+  --progress-bg: #fffbf0;
+  --progress-border: #faebd7;
+  --progress-badge-bg: #fef3c7;
+  --progress-badge-text: #b45309;
+  --progress-accent: #f59e0b;
 
   --completed-bg: #f0fdf4;
   --completed-border: #d1efe0;
@@ -90,10 +91,6 @@
   --skipped-badge-bg: #fee2e2;
   --skipped-badge-text: #c53030;
   --skipped-accent: #ef4444;
-
-  /* ── Brand ── */
-  --brand-primary: #4f46e5;
-  --brand-primary-dark: #4338ca;
 
   /* ── Radii ── */
   --radius-badge: 0.75rem;

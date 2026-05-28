@@ -1,7 +1,7 @@
 import { db } from "../config/db";
 import { noteBook, resource } from "../models/schema";
 import { eq, and } from "drizzle-orm";
-import { buildNotebook } from "../services/aiSearch.service";
+import { buildNotebook } from "../services/aiSearchGroq.service";
 
 export const getAllNoteBooks = async (useruuid: string) => {
   try {
@@ -10,7 +10,38 @@ export const getAllNoteBooks = async (useruuid: string) => {
       .from(noteBook)
       .where(eq(noteBook.deviceId, useruuid));
 
-    return noteBooks;
+    // Self-healing: Audit and sync cached completion percentage with actual resource status
+    const auditedNotebooks = await Promise.all(
+      noteBooks.map(async (nb) => {
+        const resourcesList = await db
+          .select()
+          .from(resource)
+          .where(eq(resource.notebookId, nb.id));
+
+        const totalCount = resourcesList.length;
+        const completedCount = resourcesList.filter((r) => r.status === "completed").length;
+        const skippedCount = resourcesList.filter((r) => r.status === "skipped").length;
+
+        const validTotal = totalCount - skippedCount;
+        const calculatedPercent = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
+        if (nb.completionPercentage !== calculatedPercent) {
+          await db
+            .update(noteBook)
+            .set({ completionPercentage: calculatedPercent })
+            .where(eq(noteBook.id, nb.id));
+
+          return {
+            ...nb,
+            completionPercentage: calculatedPercent,
+          };
+        }
+
+        return nb;
+      })
+    );
+
+    return auditedNotebooks;
   } catch (error) {
     throw error;
   }
@@ -26,6 +57,13 @@ export const createNoteBook = async (data: any, useruuid: string) => {
     data.length,
   );
 
+  // Compute initial completion percentage based on returned resources
+  const totalCount = fetchResource.resources.length;
+  const completedCount = fetchResource.resources.filter((r: any) => r.status === "completed").length;
+  const skippedCount = fetchResource.resources.filter((r: any) => r.status === "skipped").length;
+  const validTotal = totalCount - skippedCount;
+  const initialProgress = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
   try {
     // 2. Perform the database insertions sequentially
     const [insertedNotebook] = await db
@@ -35,6 +73,7 @@ export const createNoteBook = async (data: any, useruuid: string) => {
         deviceId: useruuid,
         level: data.level,
         length: data.length,
+        completionPercentage: initialProgress,
       })
       .returning();
 
@@ -51,10 +90,7 @@ export const createNoteBook = async (data: any, useruuid: string) => {
 
     const insertedResources =
       resourcesToInsert.length > 0
-        ? await db
-            .insert(resource)
-            .values(resourcesToInsert)
-            .returning()
+        ? await db.insert(resource).values(resourcesToInsert).returning()
         : [];
 
     return {
@@ -74,12 +110,7 @@ export const deleteNoteBook = async (notebookId: string, useruuid: string) => {
   try {
     const [deletedNotebook] = await db
       .delete(noteBook)
-      .where(
-        and(
-          eq(noteBook.id, notebookId),
-          eq(noteBook.deviceId, useruuid)
-        )
-      )
+      .where(and(eq(noteBook.id, notebookId), eq(noteBook.deviceId, useruuid)))
       .returning();
 
     return deletedNotebook;
@@ -87,4 +118,3 @@ export const deleteNoteBook = async (notebookId: string, useruuid: string) => {
     throw error;
   }
 };
-

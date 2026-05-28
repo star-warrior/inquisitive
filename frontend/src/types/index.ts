@@ -5,6 +5,7 @@ export interface Notebook {
   topic: string;
   level: "beginner" | "intermediate" | "hard";
   length: "short" | "medium" | "long";
+  completionPercentage: number;
 }
 
 export interface Resource {

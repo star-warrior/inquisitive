@@ -5,7 +5,8 @@ import {
   varchar,
   pgEnum,
   text,
-  index, // Fixed: Imported from pg-core
+  index,
+  integer,
 } from "drizzle-orm/pg-core";
 
 // --- ENUMS ---
@@ -38,6 +39,7 @@ export const noteBook = pgTable("notebook", {
   topic: varchar("topic", { length: 255 }).notNull(),
   level: topicEnum("level").notNull(),
   length: lengthEnum("length").notNull(),
+  completionPercentage: integer("completion_percentage").default(0).notNull(),
 });
 
 export const resource = pgTable(
