@@ -9,15 +9,15 @@ import noteBookRoutes from "./routes/noteBook.route.js";
 import aiRoutes from "./routes/ai.route.js";
 import resourceRoutes from "./routes/resource.routes.js";
 import { generalLimiter } from "./config/rateLimiter.js";
+import { corsOptions } from "./config/cors.js";
 
 // Apply standard Express Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Logger configuration with Morgan
 app.use(morgan("dev"));
 app.use(generalLimiter);
-
 
 // Custom Routes
 

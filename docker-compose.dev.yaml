@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   backend:
@@ -10,7 +10,9 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - REDIS_URL=redis://redis-stack:6379
+      # Points to the upstash HTTP emulator container service on its default port 80
+      - UPSTASH_REDIS_REST_URL=http://upstash-local:80
+      - UPSTASH_REDIS_REST_TOKEN=example_token_not_needed_locally
     env_file:
       - ./backend/.env
     volumes:
@@ -19,6 +21,7 @@ services:
       - ./tsconfig.base.json:/app/tsconfig.base.json
     depends_on:
       - redis-stack
+      - upstash-local
 
   redis-stack:
     image: redis/redis-stack:latest
@@ -28,6 +31,19 @@ services:
       - "8001:8001" # RedisInsight GUI port
     volumes:
       - redis-data:/data
+
+  # FIXED: Swapped to the correct official community HTTP translation image
+  upstash-local:
+    image: hiett/serverless-redis-http:latest
+    container_name: inquisitive-upstash-local
+    ports:
+      - "8079:80" # Maps port 8079 on your machine to port 80 inside the container
+    environment:
+      - SRH_MODE=env
+      - SRH_TOKEN=example_token_not_needed_locally
+      - SRH_CONNECTION_STRING=redis://redis-stack:6379
+    depends_on:
+      - redis-stack
 
 volumes:
   redis-data:
