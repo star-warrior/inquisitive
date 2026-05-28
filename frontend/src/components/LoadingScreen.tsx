@@ -33,7 +33,7 @@ export default function LoadingScreen() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#FAF9F6] text-[var(--notebook-text-primary)] font-sora select-none overflow-hidden">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bento-warm text-[var(--notebook-text-primary)] font-sora select-none overflow-hidden">
       {/* Editorial Grid pattern */}
       <div className="absolute inset-0 editorial-grid opacity-100 pointer-events-none" />
 

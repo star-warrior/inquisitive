@@ -80,7 +80,7 @@ export default function NotebookPage() {
   // If the notebook remains undefined after loading has finished, render the actual "not found" page
   if (!notebook) {
     return (
-      <div className="min-h-screen bg-[#FAF9F6] text-slate-800 flex flex-col items-center justify-center p-6 text-center editorial-grid">
+      <div className="min-h-screen bg-bento-warm text-slate-800 flex flex-col items-center justify-center p-6 text-center editorial-grid">
         <div className="w-16 h-16 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-600 border border-rose-100 mb-6 shadow-sm">
           <AlertCircle className="w-8 h-8" />
         </div>

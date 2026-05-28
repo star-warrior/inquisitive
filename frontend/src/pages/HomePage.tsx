@@ -59,7 +59,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-[var(--notebook-text-primary)] selection:bg-indigo-500/10 font-sora flex relative overflow-hidden">
+    <div className="min-h-screen bg-bento-warm text-[var(--notebook-text-primary)] selection:bg-indigo-500/10 font-sora flex relative overflow-hidden">
       {isSubmitting && <LoadingScreen />}
 
       {/* Background glowing gradients */}

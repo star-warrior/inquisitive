@@ -31,7 +31,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       {/* ========================================================= */}
       <aside
         className={cn(
-          "hidden md:flex h-screen fixed left-0 top-0 border-r border-[var(--notebook-border)] bg-[#FAF9F6] flex-col justify-between transition-all duration-300 z-50 shrink-0 select-none shadow-sm",
+          "hidden md:flex h-screen fixed left-0 top-0 border-r border-[var(--notebook-border)] bg-[var(--bento-bg-warm)] flex-col justify-between transition-all duration-300 z-50 shrink-0 select-none shadow-sm",
           isSidebarOpen ? "w-64" : "w-20",
         )}
       >
@@ -207,7 +207,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       {/* ========================================================= */}
       <div className="md:hidden fixed bottom-6 left-0 right-0 z-50 flex items-center justify-center gap-3 px-4">
         {/* Main Capsule Menu Pill */}
-        <div className="bg-[#FAF9F6]/95 backdrop-blur-md border border-[var(--notebook-border)] shadow-xl rounded-full px-5 py-2.5 flex items-center gap-6 select-none">
+        <div className="bg-[var(--bento-bg-warm)]/95 backdrop-blur-md border border-[var(--notebook-border)] shadow-xl rounded-full px-5 py-2.5 flex items-center gap-6 select-none">
           {/* Create Tab Button */}
           <button
             onClick={() => setActiveTab("search")}
