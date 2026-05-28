@@ -33,10 +33,11 @@ export const corsOptions: CorsOptions = {
     "Authorization",
     "X-Requested-With",
     "Accept",
+    "useruuid",
+    "userUUID",
   ],
   exposedHeaders: ["X-Total-Count", "Content-Range"],
   credentials: true,
   maxAge: 600,
   optionsSuccessStatus: 200,
 };
-
