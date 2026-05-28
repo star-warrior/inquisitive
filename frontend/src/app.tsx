@@ -4,6 +4,7 @@ import { getOrCreateUUID } from "./lib/device";
 import HomePage from "./pages/HomePage";
 import NotebookPage from "./pages/NotebookPage";
 import LandingPage from "./pages/LandingPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   useEffect(() => {
@@ -18,7 +19,7 @@ export default function App() {
         <Route path="/notebook/:notebookId" element={<NotebookPage />} />
         <Route path="/notebooks/:id" element={<NotebookPage />} />
         {/* Fallback wildcard router */}
-        <Route path="*" element={<LandingPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
