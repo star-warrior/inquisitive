@@ -11,7 +11,7 @@ import {
   ChevronRight,
   Compass,
 } from "lucide-react";
-import boostImg from "../assets/images/bento-images/boost.png";
+import boostImg from "../assets/images/bento-images/achieve_goals.png";
 
 export default function HowToPage() {
   const steps = [
@@ -87,7 +87,7 @@ export default function HowToPage() {
           <div className="w-full h-48 bg-[#F4F4F6] border border-[#E6E6EB] rounded-[20px] flex items-center justify-center p-4 relative overflow-hidden">
             {/* Dotted grid effect */}
             <div className="absolute inset-0 bg-[radial-gradient(#C87930_1.5px,transparent_1.5px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
-            
+
             <div className="w-full max-w-[260px] bg-white border border-slate-200/80 rounded-2xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.03)] relative z-10 flex flex-col gap-3">
               {/* Search field */}
               <div className="flex items-center justify-between border border-slate-100 bg-slate-50 rounded-xl px-3 py-2.5 text-[10px] font-sora font-semibold text-slate-800">
@@ -95,7 +95,9 @@ export default function HowToPage() {
                   <Sparkles className="w-3.5 h-3.5 text-[var(--color-amber-deep)] animate-pulse" />
                   <span>Quantum Physics</span>
                 </div>
-                <span className="text-[var(--color-amber-deep)] font-light animate-pulse">|</span>
+                <span className="text-[var(--color-amber-deep)] font-light animate-pulse">
+                  |
+                </span>
               </div>
               {/* Config pills */}
               <div className="flex justify-between items-center text-[9px] font-sora font-bold">
@@ -117,7 +119,7 @@ export default function HowToPage() {
         return (
           <div className="w-full h-48 bg-[#F4F4F6] border border-[#E6E6EB] rounded-[20px] flex items-center justify-center p-3 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(#E8E4DC_1.5px,transparent_1.5px)] [background-size:12px_12px] opacity-25 pointer-events-none" />
-            
+
             <div className="flex gap-2.5 w-full max-w-[320px] relative z-10">
               {/* Column To Do */}
               <div className="flex-1 bg-[#fcf8f5]/80 border border-[#f3e1d3]/80 rounded-xl p-2 flex flex-col gap-2">
@@ -126,10 +128,12 @@ export default function HowToPage() {
                 </span>
                 {/* Ghost Card (Dotted Outline) */}
                 <div className="h-11 border border-dashed border-slate-300 rounded-lg bg-slate-100/40 flex items-center justify-center">
-                  <span className="text-[7px] text-slate-400 italic">Moving...</span>
+                  <span className="text-[7px] text-slate-400 italic">
+                    Moving...
+                  </span>
                 </div>
               </div>
-              
+
               {/* Column In Progress */}
               <div className="flex-1 bg-[#fffbf0]/80 border border-[#faebd7]/80 rounded-xl p-2 flex flex-col gap-2">
                 <span className="text-[8px] font-sora font-extrabold uppercase text-[#b45309] tracking-wider border-b border-black/[0.03] pb-1">
@@ -155,7 +159,9 @@ export default function HowToPage() {
                   <span className="text-[8px] font-sora font-semibold text-slate-500 line-through truncate">
                     Intro Qubits
                   </span>
-                  <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[6px] font-bold shrink-0">✓</span>
+                  <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[6px] font-bold shrink-0">
+                    ✓
+                  </span>
                 </div>
               </div>
             </div>
@@ -165,7 +171,7 @@ export default function HowToPage() {
         return (
           <div className="w-full h-48 bg-[#F4F4F6] border border-[#E6E6EB] rounded-[20px] flex items-center justify-center p-4 relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(#C87930_1.5px,transparent_1.5px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
-            
+
             <div className="w-full max-w-[260px] bg-white border border-slate-200/80 rounded-2xl p-4 shadow-[0_8px_30px_rgba(0,0,0,0.03)] relative z-10 flex flex-col gap-3">
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
@@ -180,12 +186,12 @@ export default function HowToPage() {
                   75%
                 </span>
               </div>
-              
+
               {/* Progress Bar track */}
               <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/40">
                 <div className="h-full bg-gradient-to-r from-indigo-500 via-indigo-600 to-emerald-500 rounded-full w-3/4" />
               </div>
-              
+
               {/* Calibrations status log */}
               <div className="flex justify-between items-center text-[8px] font-sora font-semibold pt-1 border-t border-slate-100">
                 <span className="text-emerald-600">3 Completed</span>
