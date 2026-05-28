@@ -15,6 +15,7 @@ export const generalLimiter = rateLimit({
       }
       return await redisClient.sendCommand(args);
     },
+    prefix: "rl:general:",
   }),
   message: {
     status: 429,
@@ -35,10 +36,10 @@ export const aiLimiter = rateLimit({
       }
       return await redisClient.sendCommand(args);
     },
+    prefix: "rl:ai:",
   }),
   message: {
     status: 429,
     message: "Too many requests from this IP, please try again later.",
   },
 });
-

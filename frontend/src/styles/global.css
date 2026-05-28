@@ -101,6 +101,7 @@
   --radius-column: 1.5rem;
   --radius-progress: 0.5rem;
   --radius-button: 9999px; /* all buttons are pills */
+  --radius-dropdown: 0.75rem;
 
   /* ── Spacing ── */
   --spacing-card-p: 0.75rem;

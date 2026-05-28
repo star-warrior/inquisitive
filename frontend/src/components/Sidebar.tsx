@@ -40,9 +40,6 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           {isSidebarOpen ? (
             <div className="px-5 h-16 flex items-center justify-between border-b border-[var(--notebook-border)]/60">
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-[var(--radius-button)] bg-[var(--notebook-text-primary)] flex items-center justify-center shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-white" />
-                </div>
                 <Link
                   to="/"
                   className="font-extrabold text-xl tracking-tight font-serif text-[var(--notebook-text-primary)]   "

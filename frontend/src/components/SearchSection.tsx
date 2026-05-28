@@ -99,7 +99,7 @@ export default function SearchSection({
                       className="fixed inset-0 z-20"
                       onClick={() => setIsLevelDropdownOpen(false)}
                     />
-                    <div className="absolute left-0 mt-1 w-36 bg-white border border-[var(--notebook-border)] rounded-[var(--radius-button)] shadow-lg py-1 z-30 animate-drop-in origin-top-left">
+                    <div className="absolute left-0 mt-1 w-36 bg-white border border-[var(--notebook-border)] rounded-[var(--radius-dropdown)] overflow-hidden shadow-lg py-1 z-30 animate-drop-in origin-top-left">
                       {(["beginner", "intermediate", "hard"] as const).map(
                         (lvl) => (
                           <button
@@ -149,7 +149,7 @@ export default function SearchSection({
                       className="fixed inset-0 z-20"
                       onClick={() => setIsLengthDropdownOpen(false)}
                     />
-                    <div className="absolute left-0 mt-1 w-36 bg-white border border-[var(--notebook-border)] rounded-[var(--radius-button)] shadow-lg py-1 z-30 animate-drop-in origin-top-left">
+                    <div className="absolute left-0 mt-1 w-36 bg-white border border-[var(--notebook-border)] rounded-[var(--radius-dropdown)] overflow-hidden shadow-lg py-1 z-30 animate-drop-in origin-top-left">
                       {(["short", "medium", "long"] as const).map((len) => (
                         <button
                           key={len}
