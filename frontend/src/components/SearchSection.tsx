@@ -60,16 +60,24 @@ export default function SearchSection({
       {/* Input Form & Droptdown Toolbar */}
       <form onSubmit={onSubmit} className="relative w-full">
         <div className="w-full bg-white border border-[var(--color-warm-border)] rounded-[var(--radius-badge)] p-5 shadow-[0_8px_30px_rgb(0,0,0,0.02)] hover:border-slate-300 transition-all flex flex-col gap-3 relative">
-          <textarea
-            id="topic"
-            placeholder="I want to learn..."
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="w-full bg-transparent text-lg md:text-xl text-[var(--bento-text-title)] placeholder-[var(--bento-text-muted)] focus:outline-none resize-none font-serif italic h-20 px-1 py-1"
-            disabled={isSubmitting}
-            required
-          />
+          <div className="relative w-full">
+            <textarea
+              id="topic"
+              placeholder="I want to learn..."
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              onKeyDown={handleKeyDown}
+              maxLength={255}
+              className="w-full bg-transparent text-lg md:text-xl text-[var(--bento-text-title)] placeholder-[var(--bento-text-muted)] focus:outline-none resize-none font-serif h-20 px-1 py-1 pr-16"
+              disabled={isSubmitting}
+              required
+            />
+            {topic.length > 0 && (
+              <span className="absolute bottom-1 right-2 text-[10px] font-sora font-semibold text-[var(--bento-text-muted)] bg-slate-50 border border-[var(--color-warm-border)]/40 rounded-md px-1.5 py-0.5 pointer-events-none select-none">
+                {topic.length}/255
+              </span>
+            )}
+          </div>
 
           <div className="flex flex-col gap-2 border-t border-[var(--color-warm-border)]/40 pt-2.5">
             <div className="flex items-center justify-between gap-3">
