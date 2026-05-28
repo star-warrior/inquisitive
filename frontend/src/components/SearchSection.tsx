@@ -67,14 +67,14 @@ export default function SearchSection({
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               onKeyDown={handleKeyDown}
-              maxLength={255}
+              maxLength={150}
               className="w-full bg-transparent text-lg md:text-xl text-[var(--bento-text-title)] placeholder-[var(--bento-text-muted)] focus:outline-none resize-none font-serif h-20 px-1 py-1 pr-16"
               disabled={isSubmitting}
               required
             />
             {topic.length > 0 && (
               <span className="absolute bottom-1 right-2 text-[10px] font-sora font-semibold text-[var(--bento-text-muted)] bg-slate-50 border border-[var(--color-warm-border)]/40 rounded-md px-1.5 py-0.5 pointer-events-none select-none">
-                {topic.length}/255
+                {topic.length}/150
               </span>
             )}
           </div>
