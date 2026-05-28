@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import morgan from "morgan";
 
@@ -24,10 +24,10 @@ app.use(generalLimiter);
 app.use("/api/notebook", noteBookRoutes);
 app.use("/api/resources", resourceRoutes);
 app.use("/api/ai", aiRoutes);
-app.use("/api/me", (req, res) => {});
+app.use("/api/me", (req: Request, res: Response) => {});
 
 // Basic health check route
-app.get("/health", (req, res) => {
+app.get("/health", (req: Request, res: Response) => {
   res.json({ status: "OK", message: "Inquisitive API server is online." });
 });
 

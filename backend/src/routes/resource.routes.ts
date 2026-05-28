@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { z } from "zod";
 import {
   getResourcesByNotebookId,
@@ -12,7 +12,7 @@ const uuidSchema = z.string().uuid();
 const statusSchema = z.enum(["todo", "in_progress", "completed", "skipped"]);
 
 // GET route for getting all the resources based on notebookId
-router.get("/:notebookId", async (req, res) => {
+router.get("/:notebookId", async (req: Request, res: Response) => {
   const { notebookId } = req.params;
   const validNotebookId = uuidSchema.safeParse(notebookId);
 
@@ -35,7 +35,7 @@ router.get("/:notebookId", async (req, res) => {
 });
 
 // PATCH route that modifies the status of a resource
-router.patch("/update/:resourceId", async (req, res) => {
+router.patch("/update/:resourceId", async (req: Request, res: Response) => {
   const { resourceId } = req.params;
   const { status } = req.body;
 
@@ -78,7 +78,7 @@ router.patch("/update/:resourceId", async (req, res) => {
 });
 
 // DELETE route that deletes a resource
-router.delete("/:resourceId", async (req, res) => {
+router.delete("/:resourceId", async (req: Request, res: Response) => {
   const { resourceId } = req.params;
   const validResourceId = uuidSchema.safeParse(resourceId);
 

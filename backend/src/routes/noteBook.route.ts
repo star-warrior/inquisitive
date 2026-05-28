@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { z } from "zod";
 import {
   getAllNoteBooks,
@@ -17,7 +17,7 @@ const router = Router();
 
 const useruuidSchema = z.string();
 
-router.get("/getAll", async (req, res) => {
+router.get("/getAll", async (req: Request, res: Response) => {
   const useruuid = req?.header("useruuid");
   if (!useruuid) {
     res.status(500).json("No Id of the user provided");
@@ -40,7 +40,7 @@ router.get("/getAll", async (req, res) => {
   }
 });
 
-router.post("/create", aiLimiter, async (req, res) => {
+router.post("/create", aiLimiter, async (req: Request, res: Response) => {
   const useruuid = req?.header("useruuid");
   if (!useruuid) {
     res
@@ -111,7 +111,7 @@ router.post("/create", aiLimiter, async (req, res) => {
   }
 });
 
-router.delete("/:notebookId", async (req, res) => {
+router.delete("/:notebookId", async (req: Request, res: Response) => {
   const useruuid = req?.header("useruuid");
   if (!useruuid) {
     res

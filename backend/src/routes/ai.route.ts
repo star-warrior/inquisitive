@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import {
   buildNotebook,
   InvalidTopicError,
@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.post("/search", async (req, res) => {
+router.post("/search", async (req: Request, res: Response) => {
   try {
     const result = await buildNotebook(
       req.body.topic,
