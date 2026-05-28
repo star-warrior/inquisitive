@@ -72,27 +72,29 @@ export default function SearchSection({
           />
 
           <div className="flex flex-col gap-2 border-t border-[var(--color-warm-border)]/40 pt-2.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-3">
+              <div className="grid grid-cols-2 gap-2 flex-1 sm:flex sm:flex-initial sm:items-center sm:w-auto">
                 {/* Difficulty Selector */}
-                <div className="relative">
+                <div className="relative w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => {
                       setIsLevelDropdownOpen(!isLevelDropdownOpen);
                       setIsLengthDropdownOpen(false);
                     }}
-                    className="px-3.5 py-2 text-sm font-semibold rounded-[var(--radius-button)] border border-[var(--color-warm-border)] bg-[var(--color-warm-input)] hover:bg-white text-[var(--bento-text-body)] transition-all flex items-center gap-1 shadow-sm active:scale-95 font-sora"
+                    className="px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-[var(--radius-button)] border border-[var(--color-warm-border)] bg-[var(--color-warm-input)] hover:bg-white text-[var(--bento-text-body)] transition-all flex items-center justify-between sm:justify-start gap-1 shadow-sm active:scale-95 font-sora w-full sm:w-auto whitespace-nowrap"
                   >
-                    <Layers className="w-3.5 h-3.5 text-[var(--bento-text-muted)]" />
-                    <span>
-                      Diff:{" "}
-                      <strong className="text-[var(--bento-text-title)] font-bold capitalize">
-                        {level === "hard" ? "Advanced" : level}
-                      </strong>
-                    </span>
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <Layers className="w-3.5 h-3.5 text-[var(--bento-text-muted)] shrink-0" />
+                      <span className="truncate">
+                        Diff:{" "}
+                        <strong className="text-[var(--bento-text-title)] font-bold capitalize">
+                          {level === "hard" ? "Advanced" : level}
+                        </strong>
+                      </span>
+                    </div>
                     <ChevronDown
-                      className={`w-3.5 h-3.5 text-[var(--bento-text-muted)] transition-transform duration-200 ${isLevelDropdownOpen ? "rotate-180" : ""}`}
+                      className={`w-3.5 h-3.5 text-[var(--bento-text-muted)] transition-transform duration-200 shrink-0 ${isLevelDropdownOpen ? "rotate-180" : ""}`}
                     />
                   </button>
                   {isLevelDropdownOpen && (
@@ -101,7 +103,7 @@ export default function SearchSection({
                         className="fixed inset-0 z-20"
                         onClick={() => setIsLevelDropdownOpen(false)}
                       />
-                      <div className="absolute left-0 mt-1 w-36 bg-white border border-[var(--color-warm-border)] rounded-[var(--radius-dropdown)] overflow-hidden shadow-lg py-1 z-30 animate-drop-in origin-top-left">
+                      <div className="absolute left-0 mt-1 w-full sm:w-36 bg-white border border-[var(--color-warm-border)] rounded-[var(--radius-dropdown)] overflow-hidden shadow-lg py-1 z-30 animate-drop-in origin-top-left">
                         {(["beginner", "intermediate", "hard"] as const).map(
                           (lvl) => (
                             <button
@@ -111,7 +113,7 @@ export default function SearchSection({
                                 setLevel(lvl);
                                 setIsLevelDropdownOpen(false);
                               }}
-                              className={`w-full text-left px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-slate-50 font-sora ${level === lvl ? "text-[var(--color-amber-deep)] bg-[var(--color-warm-input)] font-bold" : "text-[var(--bento-text-body)]"}`}
+                              className={`w-full text-left px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors hover:bg-slate-50 font-sora ${level === lvl ? "text-[var(--color-amber-deep)] bg-[var(--color-warm-input)] font-bold" : "text-[var(--bento-text-body)]"}`}
                             >
                               {lvl === "hard"
                                 ? "Advanced"
@@ -125,24 +127,26 @@ export default function SearchSection({
                 </div>
 
                 {/* Length Selector */}
-                <div className="relative">
+                <div className="relative w-full sm:w-auto">
                   <button
                     type="button"
                     onClick={() => {
                       setIsLengthDropdownOpen(!isLengthDropdownOpen);
                       setIsLevelDropdownOpen(false);
                     }}
-                    className="px-3.5 py-2 text-sm font-semibold rounded-[var(--radius-button)] border border-[var(--color-warm-border)] bg-[var(--color-warm-input)] hover:bg-white text-[var(--bento-text-body)] transition-all flex items-center gap-1 shadow-sm active:scale-95 font-sora"
+                    className="px-2.5 sm:px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-[var(--radius-button)] border border-[var(--color-warm-border)] bg-[var(--color-warm-input)] hover:bg-white text-[var(--bento-text-body)] transition-all flex items-center justify-between sm:justify-start gap-1 shadow-sm active:scale-95 font-sora w-full sm:w-auto whitespace-nowrap"
                   >
-                    <Hourglass className="w-3.5 h-3.5 text-[var(--bento-text-muted)]" />
-                    <span>
-                      Size:{" "}
-                      <strong className="text-[var(--bento-text-title)] font-bold capitalize">
-                        {length}
-                      </strong>
-                    </span>
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <Hourglass className="w-3.5 h-3.5 text-[var(--bento-text-muted)] shrink-0" />
+                      <span className="truncate">
+                        Size:{" "}
+                        <strong className="text-[var(--bento-text-title)] font-bold capitalize">
+                          {length}
+                        </strong>
+                      </span>
+                    </div>
                     <ChevronDown
-                      className={`w-3.5 h-3.5 text-[var(--bento-text-muted)] transition-transform duration-200 ${isLengthDropdownOpen ? "rotate-180" : ""}`}
+                      className={`w-3.5 h-3.5 text-[var(--bento-text-muted)] transition-transform duration-200 shrink-0 ${isLengthDropdownOpen ? "rotate-180" : ""}`}
                     />
                   </button>
                   {isLengthDropdownOpen && (
@@ -151,7 +155,7 @@ export default function SearchSection({
                         className="fixed inset-0 z-20"
                         onClick={() => setIsLengthDropdownOpen(false)}
                       />
-                      <div className="absolute left-0 mt-1 w-36 bg-white border border-[var(--color-warm-border)] rounded-[var(--radius-dropdown)] overflow-hidden shadow-lg py-1 z-30 animate-drop-in origin-top-left">
+                      <div className="absolute left-0 mt-1 w-full sm:w-36 bg-white border border-[var(--color-warm-border)] rounded-[var(--radius-dropdown)] overflow-hidden shadow-lg py-1 z-30 animate-drop-in origin-top-left">
                         {(["short", "medium", "long"] as const).map((len) => (
                           <button
                             key={len}
@@ -160,7 +164,7 @@ export default function SearchSection({
                               setLength(len);
                               setIsLengthDropdownOpen(false);
                             }}
-                            className={`w-full text-left px-3 py-1.5 text-sm font-semibold transition-colors hover:bg-slate-50 font-sora ${length === len ? "text-[var(--color-amber-deep)] bg-[var(--color-warm-input)] font-bold" : "text-[var(--bento-text-body)]"}`}
+                            className={`w-full text-left px-3 py-1.5 text-xs sm:text-sm font-semibold transition-colors hover:bg-slate-50 font-sora ${length === len ? "text-[var(--color-amber-deep)] bg-[var(--color-warm-input)] font-bold" : "text-[var(--bento-text-body)]"}`}
                           >
                             {len.charAt(0).toUpperCase() + len.slice(1)}
                           </button>
