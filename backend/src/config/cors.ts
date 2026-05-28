@@ -8,6 +8,10 @@ const allowedOrigins = [
   "https://admin.yourdomain.com",
 ];
 
+if (process.env.CLIENT_URL) {
+  allowedOrigins.push(process.env.CLIENT_URL);
+}
+
 // Allow local development origins only if not in production
 if (process.env.NODE_ENV !== "production") {
   allowedOrigins.push(
