@@ -11,6 +11,7 @@ import {
   NoSearchResultsError,
   AIServiceError,
 } from "../services/aiSearch.service.js";
+import { aiLimiter } from "../config/rateLimiter.js";
 
 const router = Router();
 
@@ -39,17 +40,21 @@ router.get("/getAll", async (req, res) => {
   }
 });
 
-router.post("/create", async (req, res) => {
+router.post("/create", aiLimiter, async (req, res) => {
   const useruuid = req?.header("useruuid");
   if (!useruuid) {
-    res.status(400).json({ success: false, message: "No Id of the user provided" });
+    res
+      .status(400)
+      .json({ success: false, message: "No Id of the user provided" });
     return;
   }
 
   const validUseruuid = useruuidSchema.safeParse(useruuid);
 
   if (!validUseruuid.success) {
-    res.status(400).json({ success: false, message: "Invalid useruuid provided" });
+    res
+      .status(400)
+      .json({ success: false, message: "Invalid useruuid provided" });
     return;
   }
 
@@ -71,7 +76,8 @@ router.post("/create", async (req, res) => {
       res.status(503).json({
         success: false,
         errorType: "MODEL_EXHAUSTED",
-        message: "Our AI systems are experiencing heavy traffic and models are currently exhausted. Please try again in a few moments.",
+        message:
+          "Our AI systems are experiencing heavy traffic and models are currently exhausted. Please try again in a few moments.",
       });
       return;
     }
@@ -79,7 +85,8 @@ router.post("/create", async (req, res) => {
       res.status(422).json({
         success: false,
         errorType: "NO_SEARCH_RESULTS",
-        message: "No relevant learning materials or tutorials could be found for this topic. Please try a different or more specific topic.",
+        message:
+          "No relevant learning materials or tutorials could be found for this topic. Please try a different or more specific topic.",
       });
       return;
     }
@@ -87,7 +94,8 @@ router.post("/create", async (req, res) => {
       res.status(502).json({
         success: false,
         errorType: "AI_SERVICE_ERROR",
-        message: error.message || "An issue occurred while parsing the AI response.",
+        message:
+          error.message || "An issue occurred while parsing the AI response.",
       });
       return;
     }
@@ -95,7 +103,9 @@ router.post("/create", async (req, res) => {
     res.status(500).json({
       success: false,
       errorType: "INTERNAL_SERVER_ERROR",
-      message: error?.message || "An internal server error occurred while creating the notebook.",
+      message:
+        error?.message ||
+        "An internal server error occurred while creating the notebook.",
     });
     return;
   }
@@ -104,31 +114,42 @@ router.post("/create", async (req, res) => {
 router.delete("/:notebookId", async (req, res) => {
   const useruuid = req?.header("useruuid");
   if (!useruuid) {
-    res.status(400).json({ success: false, message: "No Id of the user provided" });
+    res
+      .status(400)
+      .json({ success: false, message: "No Id of the user provided" });
     return;
   }
 
   const validUseruuid = useruuidSchema.safeParse(useruuid);
   if (!validUseruuid.success) {
-    res.status(400).json({ success: false, message: "Invalid useruuid provided" });
+    res
+      .status(400)
+      .json({ success: false, message: "Invalid useruuid provided" });
     return;
   }
 
   const { notebookId } = req.params;
   const validNotebookId = z.string().uuid().safeParse(notebookId);
   if (!validNotebookId.success) {
-    res.status(400).json({ success: false, message: "Invalid notebookId provided" });
+    res
+      .status(400)
+      .json({ success: false, message: "Invalid notebookId provided" });
     return;
   }
 
   try {
     const deletedNotebook = await deleteNoteBook(
       validNotebookId.data,
-      validUseruuid.data
+      validUseruuid.data,
     );
 
     if (!deletedNotebook) {
-      res.status(404).json({ success: false, message: "Notebook not found or unauthorized to delete" });
+      res
+        .status(404)
+        .json({
+          success: false,
+          message: "Notebook not found or unauthorized to delete",
+        });
       return;
     }
 
@@ -142,7 +163,9 @@ router.delete("/:notebookId", async (req, res) => {
     res.status(500).json({
       success: false,
       errorType: "INTERNAL_SERVER_ERROR",
-      message: error?.message || "An internal server error occurred while deleting the notebook.",
+      message:
+        error?.message ||
+        "An internal server error occurred while deleting the notebook.",
     });
     return;
   }

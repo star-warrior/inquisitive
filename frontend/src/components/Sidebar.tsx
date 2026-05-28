@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { motion } from "framer-motion";
+import { getOrCreateUUID } from "../lib/device";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   activeTab: "search" | "notebooks";
@@ -41,9 +43,12 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                 <div className="w-7 h-7 rounded-[var(--radius-button)] bg-[var(--notebook-text-primary)] flex items-center justify-center shadow-xs">
                   <Sparkles className="w-3.5 h-3.5 text-white" />
                 </div>
-                <span className="font-extrabold text-base tracking-tight font-serif italic text-[var(--notebook-text-primary)]">
+                <Link
+                  to="/"
+                  className="font-extrabold text-xl tracking-tight font-serif text-[var(--notebook-text-primary)]   "
+                >
                   Inquisitive
-                </span>
+                </Link>
               </div>
               <button
                 onClick={() => setIsSidebarOpen(false)}
@@ -172,12 +177,15 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             <div className="bg-white/40 border border-[var(--notebook-border)] rounded-xl p-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-100/50 transition-colors">
               <div className="flex items-center gap-2.5 min-w-0">
                 <div className="w-8 h-8 rounded-full bg-[var(--notebook-text-primary)] text-[var(--notebook-bg)] font-extrabold flex items-center justify-center text-xs shrink-0 shadow-xs select-none">
-                  J
+                  A
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-[11px] font-bold text-[var(--notebook-text-primary)] truncate">
-                    Jay Mehta
+                    Anonymous User
                   </h4>
+                  <p className="text-[9px] text-[var(--notebook-text-muted)] font-semibold mt-0.5">
+                    Id: {getOrCreateUUID()}
+                  </p>
                   <p className="text-[9px] text-[var(--notebook-text-muted)] font-semibold mt-0.5">
                     Free Plan
                   </p>
@@ -187,7 +195,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           ) : (
             <div className="flex justify-center">
               <div className="w-9 h-9 rounded-full bg-[var(--notebook-text-primary)] text-[var(--notebook-bg)] font-extrabold flex items-center justify-center text-xs shadow-xs cursor-pointer hover:scale-105 transition-transform select-none">
-                J
+                A
               </div>
             </div>
           )}
@@ -263,7 +271,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           className="w-12 h-12 rounded-full bg-[var(--notebook-text-primary)] text-[var(--notebook-bg)] font-extrabold flex items-center justify-center text-sm shadow-xl border border-[var(--notebook-border)]/50 shrink-0 select-none active:scale-90 transition-transform"
           title="Jay Mehta (Free Plan)"
         >
-          J
+          A
         </div>
       </div>
     </>

@@ -16,6 +16,7 @@ import {
   Star,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function NotebookPage() {
   // Extract notebook ID from route params (handles both /notebook/:notebookId and /notebooks/:id)
@@ -44,8 +45,9 @@ export default function NotebookPage() {
     "1" | "2" | "3" | "4" | "5"
   >("3");
 
-  // Show skeletons for exactly 1.5s on NotebookPage mount to simulate async loading
+  // Show skeletons or loading screen until the data is fully fetched from the API
   useEffect(() => {
+    let isMounted = true;
     const initPage = async () => {
       setIsLoading(true);
       try {
@@ -58,15 +60,24 @@ export default function NotebookPage() {
       } catch (err) {
         console.error("Failed to load notebook page:", err);
       } finally {
-        setTimeout(() => {
+        if (isMounted) {
           setIsLoading(false);
-        }, 1500);
+        }
       }
     };
 
     initPage();
-  }, [activeNotebookId, fetchNotebooks, fetchResources, notebooks.length]);
+    return () => {
+      isMounted = false;
+    };
+  }, [activeNotebookId, fetchNotebooks, fetchResources]);
 
+  // If we are currently loading notebooks/resources and the active notebook is not yet resolved, show a clean loading screen
+  if (isLoading && !notebook) {
+    return <LoadingScreen />;
+  }
+
+  // If the notebook remains undefined after loading has finished, render the actual "not found" page
   if (!notebook) {
     return (
       <div className="min-h-screen bg-[#FAF9F6] text-slate-800 flex flex-col items-center justify-center p-6 text-center editorial-grid">

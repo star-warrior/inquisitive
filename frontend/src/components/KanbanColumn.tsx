@@ -16,6 +16,7 @@ interface KanbanColumnProps {
   resources: Resource[];
   onDeleteResource: (id: string) => void;
   isLoading: boolean;
+  startIndex: number;
 }
 
 export default function KanbanColumn({
@@ -24,6 +25,7 @@ export default function KanbanColumn({
   resources,
   onDeleteResource,
   isLoading,
+  startIndex,
 }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({
     id,
@@ -83,11 +85,11 @@ export default function KanbanColumn({
     <div
       ref={setNodeRef}
       className={cn(
-        "flex flex-col w-full h-fit rounded-[var(--radius-column)] border transition-all duration-300 overflow-hidden shadow-sm",
+        "flex flex-col w-full h-fit rounded-[var(--radius-column)] border transition-colors transition-shadow duration-300 overflow-hidden shadow-sm",
         config.containerBg,
         config.borderColor,
         isOver
-          ? "scale-[1.01] shadow-md ring-2 ring-indigo-500/10 border-indigo-500/30"
+          ? "shadow-md ring-2 ring-indigo-500/10 border-indigo-500/30"
           : "",
       )}
     >
@@ -133,7 +135,7 @@ export default function KanbanColumn({
                   key={resource.id}
                   resource={resource}
                   onDelete={onDeleteResource}
-                  index={index}
+                  index={startIndex + index}
                 />
               ))
             ) : (

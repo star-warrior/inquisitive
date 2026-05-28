@@ -129,3 +129,111 @@
 [2026-05-28T06:21:15.246Z] [SUCCESS] Neon Database connected successfully.
 [2026-05-28T06:44:47.211Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
 [2026-05-28T06:44:47.543Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T07:59:08.808Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T07:59:10.207Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T07:59:10.520Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T07:59:27.108Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T07:59:27.411Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:34:14.400Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:34:15.293Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:34:26.425Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:34:26.780Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:35:19.996Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:35:20.338Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:35:45.438Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:35:45.777Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:41:28.844Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:41:28.855Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:28.927Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:29.210Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:29.507Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:30.086Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:31.004Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:31.025Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:41:32.640Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:34.773Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:36.594Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:41:36.605Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:36.675Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:36.925Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:41:36.972Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:37.234Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:37.814Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:38.739Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:40.557Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:42.684Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:44.789Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:46.957Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:49.076Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:51.175Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:53.245Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:55.442Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:57.500Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:41:59.604Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:01.695Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:03.769Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:05.842Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:07.916Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:10.023Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:12.071Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:14.157Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:16.201Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:18.401Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:20.603Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:22.705Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:24.900Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:26.935Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:29.087Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:31.188Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:33.312Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:35.457Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:38.057Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:42:38.064Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:38.135Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:38.361Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:42:38.426Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:38.675Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:39.126Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:40.005Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:41.778Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:43.828Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:45.967Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:47.359Z] [WARN] DATABASE_URL is missing in environment configuration.
+[2026-05-28T08:42:48.068Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:50.174Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:52.370Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:54.454Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:42:56.590Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:01.717Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:43:01.759Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:02.016Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:02.071Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:43:02.142Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:02.440Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:02.999Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:03.838Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:05.493Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:07.520Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:09.551Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:11.735Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:13.890Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:16.031Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:18.169Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:20.368Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:22.491Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:24.684Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:26.704Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:28.762Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:30.970Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:33.177Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:35.327Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:40.130Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:43:40.174Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:40.289Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:40.412Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:40.496Z] [SUCCESS] Neon Database connected successfully.
+[2026-05-28T08:43:40.723Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:41.242Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:42.189Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:43:43.957Z] [ERROR] Redis client error: AggregateError
+[2026-05-28T08:51:33.167Z] [WARN] DATABASE_URL is missing in environment configuration.

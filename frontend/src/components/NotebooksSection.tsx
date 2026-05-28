@@ -53,12 +53,13 @@ export default function NotebooksSection({
       {/* Notebook Grid */}
       {filteredNotebooks.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredNotebooks.map((notebook) => (
+          {filteredNotebooks.map((notebook, index) => (
             <NotebookCard
               key={notebook.id}
               notebook={notebook}
               resources={resources}
               onDelete={onDelete}
+              index={index}
             />
           ))}
         </div>

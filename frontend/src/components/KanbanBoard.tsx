@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -18,7 +18,8 @@ import {
 import { Notebook, Resource } from "../types";
 import { useKanbanStore } from "../stores/kanbanStore";
 import KanbanColumn from "./KanbanColumn";
-import ResourceCard from "./ResourceCard";
+import ResourceCard, { clearAnimatedCards } from "./ResourceCard";
+import { motion } from "framer-motion";
 
 interface KanbanBoardProps {
   notebook: Notebook;
@@ -30,6 +31,11 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
     useKanbanStore();
 
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  // Clear entry animation state when switching notebooks
+  useEffect(() => {
+    clearAnimatedCards();
+  }, [notebook.id]);
 
   // Filter resources that belong to this active notebook
   const notebookResources = resources.filter((r) => r.notebookId === notebook.id);
@@ -138,42 +144,93 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
       onDragEnd={handleDragEnd}
     >
       <div className="flex flex-row md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible pb-6 md:pb-0 select-none w-full scroll-smooth custom-scrollbar">
-        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 90,
+            damping: 16,
+            mass: 1.1,
+            delay: 0.05,
+          }}
+          className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
+        >
           <KanbanColumn
             id="todo"
             title="To Do"
             resources={todoResources}
             onDeleteResource={deleteResource}
             isLoading={isLoading}
+            startIndex={0}
           />
-        </div>
-        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 90,
+            damping: 16,
+            mass: 1.1,
+            delay: 0.15,
+          }}
+          className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
+        >
           <KanbanColumn
             id="in_progress"
             title="In Progress"
             resources={inProgressResources}
             onDeleteResource={deleteResource}
             isLoading={isLoading}
+            startIndex={todoResources.length}
           />
-        </div>
-        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 90,
+            damping: 16,
+            mass: 1.1,
+            delay: 0.25,
+          }}
+          className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
+        >
           <KanbanColumn
             id="completed"
             title="Completed"
             resources={completedResources}
             onDeleteResource={deleteResource}
             isLoading={isLoading}
+            startIndex={todoResources.length + inProgressResources.length}
           />
-        </div>
-        <div className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 90,
+            damping: 16,
+            mass: 1.1,
+            delay: 0.35,
+          }}
+          className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
+        >
           <KanbanColumn
             id="skipped"
             title="Skipped"
             resources={skippedResources}
             onDeleteResource={deleteResource}
             isLoading={isLoading}
+            startIndex={todoResources.length + inProgressResources.length + completedResources.length}
           />
-        </div>
+        </motion.div>
       </div>
 
       {/* Persistent drag overlay ghost card */}

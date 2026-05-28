@@ -11,9 +11,8 @@ services:
     environment:
       - NODE_ENV=development
       - REDIS_URL=redis://redis-stack:6379
-      - DATABASE_URL=${DATABASE_URL}
-      - OPENROUTER_API=${OPENROUTER_API}
-      - TAVILY_API=${TAVILY_API}
+    env_file:
+      - ./backend/.env
     volumes:
       - ./backend:/app/backend
       - /app/backend/node_modules
