@@ -7,7 +7,7 @@ COPY package.json tsconfig.base.json ./
 COPY backend/package.json ./backend/
 
 # Install backend dependencies
-RUN npm install --workspace=backend
+RUN npm install --workspace=backend --legacy-peer-deps
 
 # Copy source code and config
 COPY tsconfig.base.json ./
