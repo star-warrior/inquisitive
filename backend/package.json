@@ -12,11 +12,10 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.9.5",
+    "@neondatabase/serverless": "^1.1.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^20.12.12",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "cors": "^2.8.5",
@@ -31,9 +30,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.18.1",
-    "ts-node-dev": "^2.0.0",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.19.41",
     "drizzle-kit": "^0.18.1",
     "ts-node-dev": "^2.0.0"
   }

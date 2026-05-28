@@ -22,10 +22,9 @@ export const db = drizzle(sql as any);
 (async () => {
   if (!databaseUrl) return;
   try {
-    await sql("SELECT 1");
+    await sql`SELECT 1`;
     logger.success("Neon Database connected successfully.");
   } catch (error: any) {
     logger.error(`Neon Database connection failed: ${error.message || error}`);
   }
 })();
-
