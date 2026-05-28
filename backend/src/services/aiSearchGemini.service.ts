@@ -254,6 +254,12 @@ export async function generateLearningPlan(
   return result.data.plan;
 }
 
+type TavilyResult = {
+  title: string;
+  url: string;
+  content: string;
+};
+
 // ─── Step 2: Adaptive Axios Tavily Search ─────────────────────────────────────
 async function tavilySearchTopic(
   query: string,
