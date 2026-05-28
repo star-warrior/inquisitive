@@ -102,16 +102,16 @@ export default function HomePage() {
                       <AlertCircle className="w-5 h-5" />
                     </div>
                     <div className="flex-1 space-y-1 flex flex-col justify-center">
-                      <h4 className="font-sora font-semibold uppercase tracking-widest text-[11px] text-[#A0622A] leading-tight">
+                      <h4 className="font-sora font-extrabold uppercase tracking-[0.06em] text-[10px] text-[#A0622A] leading-tight select-none">
                         Roadmap Creation Failed
                       </h4>
-                      <p className="text-[11px] font-normal leading-relaxed font-sans text-bento-body">
+                      <p className="text-xs font-semibold leading-relaxed font-sora text-[var(--bento-text-body)]">
                         {error}
                       </p>
                     </div>
                     <button
                       onClick={() => setError(null)}
-                      className="rounded-full border border-[#D4C4A8] bg-white/60 text-[#2A2520] px-4 py-1.5 font-sora font-semibold text-[12px] hover:bg-white hover:border-[#C4A87A] transition-all shrink-0 align-self-start"
+                      className="rounded-full border border-[var(--color-warm-border)] bg-white/60 text-[var(--bento-text-title)] px-4 py-1.5 font-sora font-bold text-[12px] hover:bg-white hover:border-slate-400 transition-all shrink-0 align-self-start active:scale-95 shadow-xs"
                     >
                       Dismiss
                     </button>
