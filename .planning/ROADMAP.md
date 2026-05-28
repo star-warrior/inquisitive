@@ -6,6 +6,16 @@
 |-------|-------------|--------|--------------|
 | 1 | Redis and IP-based Rate Limiting Refactor | Complete    | 2026-05-28 |
 
+### Phase 2: UI Theme Audit and Fix
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 1
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 2 to break down)
+
 ---
 
 ### Phase 1: Redis and IP-based Rate Limiting Refactor
