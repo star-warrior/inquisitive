@@ -19,6 +19,32 @@ The project is structured as a monorepo containing distinct, specialized package
 
 ---
 
+## Production Cloud Architecture
+
+Inquisitive is engineered as a serverless, decoupled monorepo designed for rapid, distributed cloud delivery. The live production environment is orchestrated across specialized high-performance platforms:
+
+```mermaid
+graph TD
+    Client(["Client Web Browser"]) -->|SPA View Delivery| Vercel[["Frontend: Vercel (Edge CDN)"]]
+    Client -->|REST API Calls & Custom Headers| Render[["Backend: Render PaaS"]]
+    Render -->|Drizzle ORM typed queries| Neon[("Database: Neon (Serverless PostgreSQL)")]
+    Render -->|Fail-Open Rate Limiting & Cache| Upstash[("Caching: Upstash (Serverless Redis)")]
+
+    style Vercel fill:#000,stroke:#333,stroke-width:2px,color:#fff
+    style Render fill:#46a394,stroke:#2b695f,stroke-width:2px,color:#fff
+    style Neon fill:#00e599,stroke:#00a36c,stroke-width:2px,color:#000
+    style Upstash fill:#ff3e3e,stroke:#b31c1c,stroke-width:2px,color:#fff
+```
+
+### Component Stack Details
+
+* **Frontend Hosting (Vercel)**: Serves the highly optimized Vite single-page application React assets from Vercel's global edge network. Fully maps client-side browser routing rewrites through `vercel.json`.
+* **Backend Runtime (Render)**: Hosts the Express API server with automatic Git-triggered deployments, managing high-throughput traffic and parallel web-crawling/parsing operations.
+* **Serverless SQL (Neon Postgres)**: Powers the robust relational storage using Neon's serverless PostgreSQL engine, integrated with Drizzle ORM for automatic schema generation, migration mapping, and hot query execution.
+* **Serverless Cache (Upstash Redis)**: Provides low-latency key-value storing for IP-based rate limiting via the `@upstash/ratelimit` or `rate-limit-redis` layers with elegant fail-open resiliency.
+
+---
+
 ## Database Schema (Drizzle ORM)
 
 The relational database is structured around two core tables: `notebook` and `resource`.
