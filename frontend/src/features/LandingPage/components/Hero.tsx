@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import heroBg from "../../../assets/images/hero-page.png";
 
 export default function Hero() {
-  const navLinks = [{ label: "How to use", active: true }];
+  const navLinks = [{ label: "How to", active: false, href: "/how-to" }];
 
   return (
     <div
@@ -11,7 +11,7 @@ export default function Hero() {
       style={{ backgroundImage: `url(${heroBg})` }}
     >
       {/* Navbar */}
-      <nav className="relative z-50 flex items-center justify-start gap-16 px-8 py-6 md:px-16 bg-transparent">
+      <nav className="relative z-50 flex items-center justify-between md:justify-start gap-4 md:gap-16 px-6 py-6 md:px-16 bg-transparent">
         {/* Logo */}
         <Link
           to="/"
@@ -21,14 +21,14 @@ export default function Hero() {
         </Link>
 
         {/* Center Navigation Glass Pill + Outer Links + CTA */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
           {/* Glass Pill Container */}
-          <div className="hidden lg:flex items-center bg-white/10 backdrop-blur-md border border-white/25 rounded-xl p-1">
+          <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/25 rounded-xl p-1">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
-                to="/how-to"
-                className={`text-white hover:bg-white/10 text-[13.5px] font-medium px-4 py-1.5 rounded-lg transition-colors cursor-pointer border-r border-white/5 last:border-r-0 ${
+                to={link.href}
+                className={`text-white hover:bg-white/10 text-[13.5px] font-medium px-3 py-1.5 rounded-lg transition-colors cursor-pointer border-r border-white/5 last:border-r-0 whitespace-nowrap ${
                   link.active ? "bg-white/15 text-white" : ""
                 }`}
               >
@@ -39,10 +39,10 @@ export default function Hero() {
 
           {/* CTA Button */}
           <a
-            className="bg-white hover:bg-white/90 text-slate-900 font-semibold text-sm px-5 py-2.5 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 tracking-tight cursor-pointer"
+            className="bg-white hover:bg-white/90 text-slate-900 font-semibold text-sm px-5 py-2.5 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 tracking-tight cursor-pointer whitespace-nowrap"
             href="/app"
           >
-            Start learning
+            Go to app
           </a>
         </div>
       </nav>
