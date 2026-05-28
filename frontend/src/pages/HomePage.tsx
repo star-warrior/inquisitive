@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 
 export default function HomePage() {
-  const { notebooks, resources, addNotebook, deleteNotebook, fetchNotebooks } = useKanbanStore();
+  const { notebooks, resources, addNotebook, deleteNotebook, fetchNotebooks } =
+    useKanbanStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +22,9 @@ export default function HomePage() {
 
   // Form State
   const [topic, setTopic] = useState("");
-  const [level, setLevel] = useState<"beginner" | "intermediate" | "hard">("beginner");
+  const [level, setLevel] = useState<"beginner" | "intermediate" | "hard">(
+    "beginner",
+  );
   const [length, setLength] = useState<"short" | "medium" | "long">("medium");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,7 +41,7 @@ export default function HomePage() {
       setTopic("");
       setLevel("beginner");
       setLength("medium");
-      
+
       // Directly navigate to the newly created Notebook page!
       if (newNotebook && newNotebook.id) {
         navigate(`/notebook/${newNotebook.id}`);
@@ -53,19 +56,23 @@ export default function HomePage() {
 
   const handleDeleteNotebook = (id: string, e: React.MouseEvent) => {
     e.preventDefault(); // Prevents navigation through the Link wrapper
-    if (confirm("Are you sure you want to delete this notebook and all its resources?")) {
+    if (
+      confirm(
+        "Are you sure you want to delete this notebook and all its resources?",
+      )
+    ) {
       deleteNotebook(id);
     }
   };
 
   return (
-    <div className="min-h-screen bg-bento-warm text-[var(--notebook-text-primary)] selection:bg-indigo-500/10 font-sora flex relative overflow-hidden">
+    <div className="min-h-screen bg-bento-warm text-bento-title selection:bg-[#C87930]/10 selection:text-[#C87930] font-sans flex relative overflow-hidden">
       {isSubmitting && <LoadingScreen />}
 
       {/* Background glowing gradients */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-amber-500/[0.02] rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-indigo-500/[0.02] rounded-full blur-[140px] pointer-events-none" />
-      
+      <div className="absolute top-1/3 left-1/3 w-[600px] h-[600px] bg-amber-500/[0.02] rounded-full blur-[140px] pointer-events-none" />
+
       {/* Editorial Grid pattern */}
       <div className="absolute inset-0 editorial-grid opacity-100 pointer-events-none" />
 
@@ -89,18 +96,22 @@ export default function HomePage() {
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="max-w-3xl mx-auto w-full mb-6 p-4 rounded-2xl bg-rose-50/80 backdrop-blur-md border border-rose-100/80 flex items-start gap-3 shadow-xs text-rose-800 relative animate-drop-in"
+                    className="max-w-3xl mx-auto w-full mb-6 p-4 rounded-[22px] bg-white border border-[var(--notebook-border)] flex items-start gap-3 shadow-[0_4px_20px_rgba(0,0,0,0.01)] text-bento-title relative animate-drop-in hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.04)] transition-all duration-300 ease-out"
                   >
-                    <div className="p-1.5 rounded-xl bg-rose-100 text-rose-600 shrink-0">
+                    <div className="p-1.5 rounded-full bg-[var(--bento-input-bg)] text-[#A0622A] shrink-0">
                       <AlertCircle className="w-5 h-5" />
                     </div>
                     <div className="flex-1 space-y-1 flex flex-col justify-center">
-                      <h4 className="font-extrabold text-[12px] font-sora leading-tight">Roadmap Creation Failed</h4>
-                      <p className="text-[11px] font-medium leading-relaxed font-sora text-rose-700/90">{error}</p>
+                      <h4 className="font-sora font-semibold uppercase tracking-widest text-[11px] text-[#A0622A] leading-tight">
+                        Roadmap Creation Failed
+                      </h4>
+                      <p className="text-[11px] font-normal leading-relaxed font-sans text-bento-body">
+                        {error}
+                      </p>
                     </div>
                     <button
                       onClick={() => setError(null)}
-                      className="text-rose-400 hover:text-rose-600 text-xs font-bold px-2 py-1 rounded-md transition-colors font-sora shrink-0 align-self-start"
+                      className="rounded-full border border-[#D4C4A8] bg-white/60 text-[#2A2520] px-4 py-1.5 font-sora font-semibold text-[12px] hover:bg-white hover:border-[#C4A87A] transition-all shrink-0 align-self-start"
                     >
                       Dismiss
                     </button>

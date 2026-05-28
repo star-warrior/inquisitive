@@ -5,46 +5,29 @@
 @tailwind utilities;
 
 :root {
-  /* Fonts */
+  /* ── Fonts ── */
   --font-sans:
     "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     sans-serif;
   --font-serif: "Instrument Serif", Georgia, serif;
   --font-sora:
-    "Sora", "sora Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
+    "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Theme & Glassmorphism Colors */
-  --glass-bg: rgba(255, 255, 255, 0.08);
-  --glass-border: rgba(255, 255, 255, 0.15);
-  --glass-hover: rgba(255, 255, 255, 0.12);
+  /* ── Core Palette ── */
+  --color-warm-base: #f0ede8; /* page bg — warm linen */
+  --color-warm-card: #ffffff; /* card surfaces */
+  --color-warm-input: #f5f2ee; /* input / pill bg */
+  --color-warm-border: #e8e4dc; /* borders */
 
-  /* Primary Button Colors */
-  --btn-primary-bg: #f5f5f2;
-  --btn-primary-text: #0f172a;
-  --btn-primary-hover: #e6e6e2;
+  --color-amber-deep: #e07820; /* hex icon fill */
+  --color-amber-mid: #f0923a; /* mid hex ring */
+  --color-amber-light: #f5a84a; /* outer hex glow */
+  --color-amber-accent: #c87930; /* italic accent text */
+  --color-amber-label: #a0622a; /* uppercase eyebrow labels */
+  --color-orange-cta: #e8893a; /* send button, CTA accents */
+  --color-orange-hover: #d4722c; /* hover state for orange */
 
-  /* Secondary Button Colors */
-  --btn-secondary-bg: rgba(255, 255, 255, 0.15);
-  --btn-secondary-border: rgba(255, 255, 255, 0.25);
-  --btn-secondary-hover: rgba(255, 255, 255, 0.25);
-
-  /* Editorial Grid Theme (Light paper aesthetic) */
-  --bento-bg-warm: #faf9f6;
-  --notebook-bg: var(--bento-bg-warm);
-  --notebook-grid: rgba(0, 0, 0, 0.035);
-  --notebook-text-primary: #121314;
-  --notebook-text-secondary: #4a4d50;
-  --notebook-text-muted: #7e848c;
-  --notebook-border: #e8e7e3;
-  --notebook-glow-orange: rgba(246, 173, 85, 0.06);
-  --notebook-glow-indigo: rgba(102, 126, 234, 0.06);
-  --bento-card-bg: #ffffff;
-  --bento-text-title: #2a2520;
-  --bento-text-body: #5a5048;
-  --bento-text-muted: #8a8078;
-  --bento-input-bg: #f5f2ee;
-
+  /* ── Gradient Surfaces ── */
   --gradient-amber: linear-gradient(145deg, #fef3e8 0%, #fad9b0 100%);
   --gradient-peach: linear-gradient(145deg, #fef0e4 0%, #f5c98a 100%);
   --gradient-orange: linear-gradient(
@@ -54,51 +37,75 @@
     #d4722c 100%
   );
 
-  /* Todo Column Styling (Cream / Peach theme) */
+  /* ── Bento Text ── */
+  --bento-text-title: #2a2520; /* headings */
+  --bento-text-body: #5a5048; /* body copy */
+  --bento-text-muted: #8a8078; /* labels, meta */
+
+  /* ── Aliases (keep old names pointing to new values) ── */
+  --bento-bg-warm: var(--color-warm-base);
+  --bento-card-bg: var(--color-warm-card);
+  --bento-input-bg: var(--color-warm-input);
+  --notebook-bg: var(--color-warm-base);
+  --notebook-border: var(--color-warm-border);
+  --notebook-text-primary: var(--bento-text-title);
+  --notebook-text-secondary: var(--bento-text-body);
+  --notebook-text-muted: var(--bento-text-muted);
+  --notebook-grid: rgba(0, 0, 0, 0.032);
+
+  /* ── Glassmorphism (hero/dark sections) ── */
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-hover: rgba(255, 255, 255, 0.12);
+
+  /* ── Button Tokens ── */
+  --btn-primary-bg: #2a2520; /* dark pill — primary CTA */
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #1a1510;
+  --btn-secondary-bg: rgba(255, 255, 255, 0.6);
+  --btn-secondary-border: #d4c4a8;
+  --btn-secondary-hover: #ffffff;
+
+  /* ── Kanban Column Tokens ── */
   --todo-bg: #fcf8f5;
   --todo-border: #f3e1d3;
   --todo-badge-bg: #fff1e6;
   --todo-badge-text: #a05e2b;
   --todo-accent: #e28a43;
 
-  /* In Progress Column Styling (Lavender / Pink theme) */
   --progress-bg: #fff5f8;
   --progress-border: #f7d2db;
   --progress-badge-bg: #fce7f3;
   --progress-badge-text: #a21caf;
   --progress-accent: #d946ef;
 
-  /* Completed Column Styling (Mint Green theme) */
   --completed-bg: #f0fdf4;
   --completed-border: #d1efe0;
   --completed-badge-bg: #d1fae5;
   --completed-badge-text: #065f46;
   --completed-accent: #10b981;
 
-  /* Skipped Column Styling (Rose Red theme) */
   --skipped-bg: #fff5f5;
   --skipped-border: #fee2e2;
   --skipped-badge-bg: #fee2e2;
   --skipped-badge-text: #c53030;
   --skipped-accent: #ef4444;
 
-  /* Premium Brand & Layout Tokens */
+  /* ── Brand ── */
   --brand-primary: #4f46e5;
   --brand-primary-dark: #4338ca;
-  --badge-text-cyan: #0284c7;
 
-  --radius-badge: 0.75rem; /* 12px - rounded-xl */
-  --radius-card: 1rem; /* 16px - rounded-2xl */
-  --radius-column: 1.5rem; /* 24px - rounded-3xl */
-  --radius-progress: 0.5rem; /* 8px - rounded-lg */
+  /* ── Radii ── */
+  --radius-badge: 0.75rem;
+  --radius-card: 1rem;
+  --radius-column: 1.5rem;
+  --radius-progress: 0.5rem;
+  --radius-button: 9999px; /* all buttons are pills */
 
-  --spacing-card-p: 0.75rem; /* 12px - p-3 */
-  --spacing-column-p: 1.25rem; /* 20px - p-5 */
-  --spacing-page-p: 1.5rem; /* 24px - p-6 */
-
-  --radius-button: 0.375rem; /* 6px */
-  --radius-button-inner: 0.25rem; /* 4px */
-  --spacing-inner: 0.25rem; /* 4px - p-1 */
+  /* ── Spacing ── */
+  --spacing-card-p: 0.75rem;
+  --spacing-column-p: 1.25rem;
+  --spacing-page-p: 1.5rem;
 }
 
 @keyframes dropIn {

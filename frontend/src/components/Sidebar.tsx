@@ -85,7 +85,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
               {activeTab === "search" && (
                 <motion.div
                   layoutId="activeTabPill"
-                  className="absolute inset-0 bg-slate-200/40 rounded-xl z-0"
+                  className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-xl z-0"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -100,7 +100,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                 />
                 {isSidebarOpen && <span>Create</span>}
                 {activeTab === "search" && isSidebarOpen && (
-                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[var(--notebook-text-primary)] animate-pulse" />
+                  <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 )}
               </div>
             </button>
@@ -118,7 +118,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
               {activeTab === "notebooks" && (
                 <motion.div
                   layoutId="activeTabPill"
-                  className="absolute inset-0 bg-slate-200/40 rounded-xl z-0"
+                  className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-xl z-0"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -221,7 +221,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             {activeTab === "search" && (
               <motion.div
                 layoutId="activeBottomTabPill"
-                className="absolute inset-0 bg-slate-200/50 rounded-full z-0"
+                className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-full z-0"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}
@@ -241,7 +241,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             {activeTab === "notebooks" && (
               <motion.div
                 layoutId="activeBottomTabPill"
-                className="absolute inset-0 bg-slate-200/50 rounded-full z-0"
+                className="absolute inset-0 bg-white border border-[var(--notebook-border)] shadow-[0_4px_12px_rgba(0,0,0,0.02)] rounded-full z-0"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
               />
             )}

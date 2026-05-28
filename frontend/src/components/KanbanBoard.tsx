@@ -145,15 +145,10 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
     >
       <div className="flex flex-row md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible pb-6 md:pb-0 select-none w-full scroll-smooth custom-scrollbar">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 90,
-            damping: 16,
-            mass: 1.1,
-            delay: 0.05,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.0 }}
           className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
         >
           <KanbanColumn
@@ -167,15 +162,10 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 90,
-            damping: 16,
-            mass: 1.1,
-            delay: 0.15,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
           className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
         >
           <KanbanColumn
@@ -189,15 +179,10 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 90,
-            damping: 16,
-            mass: 1.1,
-            delay: 0.25,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.24 }}
           className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
         >
           <KanbanColumn
@@ -211,15 +196,10 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 90,
-            damping: 16,
-            mass: 1.1,
-            delay: 0.35,
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1], delay: 0.36 }}
           className="w-[285px] sm:w-[320px] md:w-auto shrink-0 flex-1"
         >
           <KanbanColumn

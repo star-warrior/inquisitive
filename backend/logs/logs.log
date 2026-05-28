@@ -237,3 +237,7 @@
 [2026-05-28T08:43:42.189Z] [ERROR] Redis client error: AggregateError
 [2026-05-28T08:43:43.957Z] [ERROR] Redis client error: AggregateError
 [2026-05-28T08:51:33.167Z] [WARN] DATABASE_URL is missing in environment configuration.
+[2026-05-28T08:52:40.519Z] [SUCCESS] Inquisitive API Server successfully booted on http://localhost:3000
+[2026-05-28T08:52:40.543Z] [INFO] Redis client connecting...
+[2026-05-28T08:52:40.548Z] [SUCCESS] Redis Database connected successfully.
+[2026-05-28T08:52:41.441Z] [SUCCESS] Neon Database connected successfully.

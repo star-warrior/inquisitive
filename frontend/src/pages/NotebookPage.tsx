@@ -190,7 +190,13 @@ export default function NotebookPage() {
       <motion.main
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.6, type: "spring", stiffness: 85, damping: 14 }}
+        transition={{
+          delay: 0.1,
+          duration: 0.6,
+          type: "spring",
+          stiffness: 85,
+          damping: 14,
+        }}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 space-y-8"
       >
         {/* Top Info Section & Progress */}
