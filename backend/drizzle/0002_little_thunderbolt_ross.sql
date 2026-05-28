@@ -1,0 +1,1 @@
+ALTER TABLE "notebook" ADD COLUMN "completion_percentage" integer DEFAULT 0 NOT NULL;

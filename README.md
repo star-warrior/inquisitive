@@ -131,13 +131,13 @@ Follow these steps to run a fully functional development environment locally.
 
 #### Backend Configuration (`/backend/.env`)
 
-| Variable           | Recommended / Default Value                 | Purpose                                                                        |
-| :----------------- | :------------------------------------------ | :----------------------------------------------------------------------------- |
-| **PORT**           | `3000`                                      | Express API port.                                                              |
-| **NODE_ENV**       | `development`                               | Enables debug loggers and verbose schema checking.                             |
-| **CLIENT_URL**     | `"http://localhost:5173"`                   | Configures CORS allowed origin vectors.                                        |
-| **DATABASE_URL**   | `postgres://user:pass@ep-host.neon.tech/db` | Neon Serverless PostgreSQL connection string.                                  |
-| **GEMINI_API_KEY** | `your_gemini_api_key`                       | Authenticates planner and enricher Gemini LLM queries (via the free tier API). |
+| Variable         | Recommended / Default Value                 | Purpose                                                                      |
+| :--------------- | :------------------------------------------ | :--------------------------------------------------------------------------- |
+| **PORT**         | `3000`                                      | Express API port.                                                            |
+| **NODE_ENV**     | `development`                               | Enables debug loggers and verbose schema checking.                           |
+| **CLIENT_URL**   | `"http://localhost:5173"`                   | Configures CORS allowed origin vectors.                                      |
+| **DATABASE_URL** | `postgres://user:pass@ep-host.neon.tech/db` | Neon Serverless PostgreSQL connection string.                                |
+| **GROQ_API_KEY** | `your_GROQ_api_key`                         | Authenticates planner and enricher GROQ LLM queries (via the free tier API). |
 
 or
 | **OPENROUTER_API** | `your_openrouter_api_key` | Authenticates planner and enricher LLM queries. |
@@ -232,9 +232,9 @@ The backend exposes these core routes under `/api`:
 
 - Used for web search.
 
-#### Gemini API OR OPENROUTER_API
+#### GROQ API OR OPENROUTER_API
 
-- Used for AI generation (using Google's free-tier Gemini or Openrouter models).
+- Used for AI generation (using Google's free-tier GROQ or Openrouter models).
 
 #### Claude Web, Perplexity
 

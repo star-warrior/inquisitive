@@ -5,9 +5,9 @@ import { cn } from "../lib/utils";
 interface SearchSectionProps {
   topic: string;
   setTopic: (val: string) => void;
-  level: "beginner" | "intermediate" | "hard";
+  level?: "beginner" | "intermediate" | "hard";
   setLevel: (val: "beginner" | "intermediate" | "hard") => void;
-  length: "short" | "medium" | "long";
+  length?: "short" | "medium" | "long";
   setLength: (val: "short" | "medium" | "long") => void;
   isSubmitting: boolean;
   onSubmit: (e: React.FormEvent) => void;
@@ -16,9 +16,9 @@ interface SearchSectionProps {
 export default function SearchSection({
   topic,
   setTopic,
-  level,
+  level = "beginner",
   setLevel,
-  length,
+  length = "medium",
   setLength,
   isSubmitting,
   onSubmit,

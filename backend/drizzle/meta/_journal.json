@@ -15,6 +15,13 @@
       "when": 1779980021216,
       "tag": "0001_mixed_slipstream",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779993070341,
+      "tag": "0002_little_thunderbolt_ross",
+      "breakpoints": true
     }
   ]
 }
