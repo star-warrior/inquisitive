@@ -161,7 +161,7 @@ export default function NotebookPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen editorial-grid text-[var(--notebook-text-primary)] selection:bg-indigo-100 selection:text-indigo-900 relative"
+      className="min-h-screen editorial-grid text-[var(--notebook-text-primary)] selection:bg-indigo-100 selection:text-indigo-900 relative overflow-x-hidden"
     >
       {/* Background glowing gradients (beautifully muted on light background) */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-amber-500/[0.03] rounded-full blur-[120px] pointer-events-none" />

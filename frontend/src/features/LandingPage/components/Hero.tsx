@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import heroBg from "../../../assets/images/hero-page.png";
 
 export default function Hero() {
@@ -12,30 +13,29 @@ export default function Hero() {
       {/* Navbar */}
       <nav className="relative z-50 flex items-center justify-start gap-16 px-8 py-6 md:px-16 bg-transparent">
         {/* Logo */}
-        <div className="font-serif text-3xl text-white cursor-pointer tracking-tight select-none">
+        <Link
+          to="/"
+          className="font-serif text-3xl text-white cursor-pointer tracking-tight select-none hover:opacity-90 transition-opacity"
+        >
           Inquisitive
-        </div>
+        </Link>
 
         {/* Center Navigation Glass Pill + Outer Links + CTA */}
         <div className="flex items-center gap-6">
           {/* Glass Pill Container */}
           <div className="hidden lg:flex items-center bg-white/10 backdrop-blur-md border border-white/25 rounded-xl p-1">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
+                to="/how-to"
                 className={`text-white hover:bg-white/10 text-[13.5px] font-medium px-4 py-1.5 rounded-lg transition-colors cursor-pointer border-r border-white/5 last:border-r-0 ${
                   link.active ? "bg-white/15 text-white" : ""
                 }`}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </div>
-
-          {/* Outer Links */}
-          <a className="bg-white/10 border border-white/25 text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-white/20 transition-all cursor-pointer">
-            Pricing
-          </a>
 
           {/* CTA Button */}
           <a
@@ -92,9 +92,6 @@ export default function Hero() {
               href="/app"
             >
               Start learning
-            </a>
-            <a className="bg-white/15 hover:bg-white/25 border border-white/20 text-white font-semibold text-sm px-6 py-3 rounded-xl backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-              Check out the launch
             </a>
           </motion.div>
         </div>

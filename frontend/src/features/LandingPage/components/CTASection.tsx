@@ -101,15 +101,6 @@ export default function CTASection() {
               Start for free
               <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
-
-            {/* Secondary CTA */}
-            <Link
-              to="/app"
-              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-full border border-[#D4C4A8] bg-white/60 text-[#2A2520] text-[14px] font-sora font-semibold hover:bg-white hover:border-[#C4A87A] transition-all duration-200"
-            >
-              <BookOpen className="w-4 h-4 text-[#A0622A]" />
-              See how it works
-            </Link>
           </motion.div>
 
           {/* Trust nudge */}

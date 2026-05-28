@@ -41,7 +41,7 @@ export default function SearchSection({
       <div className="text-center space-y-3">
         <h1 className="text-4xl md:text-5xl lg:text-6xl text-[var(--bento-text-title)] font-serif tracking-tight leading-tight max-w-2xl mx-auto">
           You{" "}
-          <span className="font-serif italic underline decoration-wavy decoration-[var(--color-amber-mid)] decoration-1 underline-offset-4">
+          <span className="font-serif italic  text-[var(--color-amber-deep)] ">
             Can
           </span>{" "}
           Learn Anything.
@@ -232,7 +232,9 @@ export default function SearchSection({
                   onClick={() => setTopic(suggestion)}
                   className={cn(
                     "w-full text-left py-2 px-2 flex items-center gap-3 text-xs md:text-sm hover:bg-[var(--color-warm-input)]/70 transition-all group font-sora rounded-lg",
-                    idx !== arr.length - 1 ? "border-b border-[var(--color-warm-border)]/30" : ""
+                    idx !== arr.length - 1
+                      ? "border-b border-[var(--color-warm-border)]/30"
+                      : "",
                   )}
                   disabled={isSubmitting}
                 >

@@ -4,6 +4,7 @@ import { getOrCreateUUID } from "./lib/device";
 import HomePage from "./pages/HomePage";
 import NotebookPage from "./pages/NotebookPage";
 import LandingPage from "./pages/LandingPage";
+import HowToPage from "./pages/HowToPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/how-to" element={<HowToPage />} />
         <Route path="/app" element={<HomePage />} />
         <Route path="/notebook/:notebookId" element={<NotebookPage />} />
         <Route path="/notebooks/:id" element={<NotebookPage />} />
