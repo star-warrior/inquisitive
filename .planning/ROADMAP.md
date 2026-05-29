@@ -5,6 +5,8 @@
 | Phase | Description | Status | Requirements |
 |-------|-------------|--------|--------------|
 | 1 | Redis and IP-based Rate Limiting Refactor | Complete    | 2026-05-28 |
+| 2 | UI Theme Audit and Fix | Unstarted    | 2026-05-28 |
+| 3 | Daily Learning Streak Mechanism | Complete    | 2026-05-29 |
 
 ### Phase 2: UI Theme Audit and Fix
 
@@ -15,6 +17,16 @@
 
 Plans:
 - [ ] TBD (run /gsd-plan-phase 2 to break down)
+
+### Phase 3: Daily Learning Streak Mechanism
+
+**Goal:** Implement client-side daily learning streak calculations in localStorage with smooth React hooks and visual flame badge displays in the Notebook header.
+**Requirements**: REQ-STRK-01, REQ-STRK-02, REQ-STRK-03, REQ-STRK-04, REQ-STRK-05, REQ-STRK-06
+**Depends on:** Phase 1
+**Plans:** 1 plan
+
+Plans:
+- [x] 03-01: Implement streak utility, useStreak custom hook, and StreakBadge UI component
 
 ---
 

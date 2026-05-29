@@ -15,11 +15,12 @@ import {
   arrayMove,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import { Notebook, Resource } from "../types";
-import { useKanbanStore } from "../stores/kanbanStore";
+import { Notebook, Resource } from "../../../types";
+import { useKanbanStore } from "../../../stores/kanbanStore";
 import KanbanColumn from "./KanbanColumn";
 import ResourceCard, { clearAnimatedCards } from "./ResourceCard";
 import { motion } from "framer-motion";
+import { useStreak } from "../../../hooks/useStreak";
 
 interface KanbanBoardProps {
   notebook: Notebook;
@@ -29,6 +30,7 @@ interface KanbanBoardProps {
 export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
   const { resources, updateResourceStatus, reorderResources, deleteResource } =
     useKanbanStore();
+  const { markActivity } = useStreak();
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -96,6 +98,9 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
     if (isDroppedOverColumn) {
       const targetStatus = overIdStr as Resource["status"];
       if (draggedResource.status !== targetStatus) {
+        if (targetStatus === "completed") {
+          markActivity();
+        }
         updateResourceStatus(activeIdStr, targetStatus);
       }
     } else {
@@ -107,6 +112,9 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
 
       // Update status if it changed
       if (draggedResource.status !== targetStatus) {
+        if (targetStatus === "completed") {
+          markActivity();
+        }
         updateResourceStatus(activeIdStr, targetStatus);
       }
 

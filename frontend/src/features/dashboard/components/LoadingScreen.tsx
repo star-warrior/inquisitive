@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sparkles, Compass } from "lucide-react";
+import loaderGif from "../../../assets/gif/loader_gif.gif";
 
 const LOADING_STATUSES = [
   "Analyzing your query and mapping learning objectives...",
@@ -9,7 +9,7 @@ const LOADING_STATUSES = [
   "Grading resource difficulty levels and material length...",
   "Crating foundation and enrichment cards...",
   "Arranging your Kanban learning lane boards...",
-  "Finalizing your interactive Inquisitive Notebook..."
+  "Finalizing your interactive Inquisitive Notebook...",
 ];
 
 export default function LoadingScreen() {
@@ -42,22 +42,13 @@ export default function LoadingScreen() {
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-amber-500/[0.03] rounded-full blur-[100px] pointer-events-none animate-pulse duration-[8000ms]" />
 
       <div className="max-w-md w-full px-6 flex flex-col items-center text-center space-y-12 relative z-10">
-        
-        {/* Animated Concentric Pulsing Ring Loader */}
+        {/* GIF Loader */}
         <div className="relative w-32 h-32 flex items-center justify-center">
-          {/* Inner Pulsing Core */}
-          <div className="absolute w-12 h-12 rounded-full bg-[var(--color-warm-input)] flex items-center justify-center border border-[var(--color-warm-border)] shadow-md">
-            <Sparkles className="w-5 h-5 text-[var(--color-amber-deep)] animate-pulse" />
-          </div>
-          
-          {/* Middle Spinning Ring */}
-          <div className="absolute w-20 h-20 rounded-full border border-dashed border-[var(--color-amber-deep)]/70 animate-spin" style={{ animationDuration: '8s' }} />
-
-          {/* Outer Smooth Rotating Double Ring with gradient gradient */}
-          <div className="absolute w-28 h-28 rounded-full border-2 border-transparent border-t-[var(--color-amber-deep)]/80 border-b-[var(--color-amber-deep)]/60 animate-spin" style={{ animationDuration: '2.5s' }} />
-          
-          {/* Glowing Aura backplate */}
-          <div className="absolute w-28 h-28 rounded-full bg-[var(--color-amber-deep)]/15 filter blur-xl animate-pulse" />
+          <img
+            src={loaderGif}
+            alt="Loading..."
+            className="w-28 h-28 object-contain"
+          />
         </div>
 
         {/* Informative Text Details */}
@@ -65,19 +56,14 @@ export default function LoadingScreen() {
           <h2 className="text-2xl font-bold font-serif text-[var(--bento-text-title)] tracking-tight">
             Curating Learning Roadmap
           </h2>
-          
+
           {/* Carousel Status Update Banner */}
           <div className="h-16 flex items-center justify-center px-4">
             <p className="text-sm font-medium text-[var(--bento-text-body)] italic leading-relaxed transition-all duration-500 animate-drop-in">
-              {LOADING_STATUSES[statusIndex]}{dots}
+              {LOADING_STATUSES[statusIndex]}
+              {dots}
             </p>
           </div>
-        </div>
-
-        {/* Small aesthetic indicator */}
-        <div className="flex items-center gap-2 text-sm tracking-widest text-[var(--bento-text-muted)] font-extrabold uppercase bg-white border border-[var(--color-warm-border)]/50 rounded-full px-3 py-1.5 shadow-xs">
-          <Compass className="w-3.5 h-3.5 text-slate-400 animate-spin" style={{ animationDuration: '6s' }} />
-          <span>Inquisitive AI Planner v1.0</span>
         </div>
       </div>
     </div>

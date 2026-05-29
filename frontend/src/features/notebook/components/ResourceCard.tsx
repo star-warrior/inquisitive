@@ -1,9 +1,9 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Resource } from "../types";
+import { Resource } from "../../../types";
 import { ExternalLink, Film, FileText, Star, Trash2 } from "lucide-react";
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
 import { motion } from "framer-motion";
 
 const animatedCardIds = new Set<string>();

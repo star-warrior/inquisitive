@@ -7,10 +7,11 @@ import {
   Flame,
   ChevronDown,
 } from "lucide-react";
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
 import { motion } from "framer-motion";
-import { getOrCreateUUID } from "../lib/device";
+import { getOrCreateUUID } from "../../../lib/device";
 import { Link } from "react-router-dom";
+import { useStreak } from "../../../hooks/useStreak";
 
 interface SidebarProps {
   activeTab: "search" | "notebooks";
@@ -21,8 +22,9 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   // Sidebar collapsible state (Desktop only)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // Streak & gamification state
-  const [streak, setStreak] = useState(3);
+  // Streak & gamification state from our custom hook
+  const { streak } = useStreak();
+  const streakCount = streak.currentStreak;
 
   return (
     <>
@@ -151,11 +153,16 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           >
             <div className="flex items-center gap-1.5 cursor-pointer hover:scale-105 transition-transform">
               <Flame
-                className="w-4 h-4 text-[var(--bento-text-muted)] fill-none hover:text-[var(--bento-text-title)] hover:fill-[var(--bento-text-title)] transition-colors animate-bounce"
-                style={{ animationDuration: "2.5s" }}
+                className={cn(
+                  "w-4 h-4 transition-all duration-300",
+                  streakCount > 0
+                    ? "text-[var(--color-amber-deep)] fill-[var(--color-amber-deep)] animate-bounce"
+                    : "text-[var(--bento-text-muted)] fill-none"
+                )}
+                style={streakCount > 0 ? { animationDuration: "2.5s" } : undefined}
               />
               <span className="text-sm font-extrabold text-[var(--bento-text-title)]">
-                {streak}
+                {streakCount}
               </span>
               {isSidebarOpen && (
                 <span className="text-sm text-[var(--bento-text-muted)] font-medium ml-0.5">
@@ -251,11 +258,16 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             title="Your Daily Streak"
           >
             <Flame
-              className="w-3.5 h-3.5 text-[var(--bento-text-muted)] fill-none animate-bounce"
-              style={{ animationDuration: "2.5s" }}
+              className={cn(
+                "w-3.5 h-3.5 transition-all duration-300",
+                streakCount > 0
+                  ? "text-[var(--color-amber-deep)] fill-[var(--color-amber-deep)] animate-bounce"
+                  : "text-[var(--bento-text-muted)] fill-none"
+              )}
+              style={streakCount > 0 ? { animationDuration: "2.5s" } : undefined}
             />
             <span className="text-xs font-bold text-[var(--bento-text-title)]">
-              {streak}
+              {streakCount}
             </span>
           </div>
         </div>

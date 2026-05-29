@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useKanbanStore } from "../stores/kanbanStore";
-import KanbanBoard from "../components/KanbanBoard";
+import KanbanBoard from "../features/notebook/components/KanbanBoard";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -16,7 +16,8 @@ import {
   Star,
 } from "lucide-react";
 import { cn } from "../lib/utils";
-import LoadingScreen from "../components/LoadingScreen";
+import LoadingScreen from "../features/dashboard/components/LoadingScreen";
+import StreakBadge from "../features/notebook/components/StreakBadge";
 
 export default function NotebookPage() {
   // Extract notebook ID from route params (handles both /notebook/:notebookId and /notebooks/:id)
@@ -227,6 +228,7 @@ export default function NotebookPage() {
                   {totalCount} total resources
                 </span>
               </span>
+              <StreakBadge />
             </div>
           </div>
 

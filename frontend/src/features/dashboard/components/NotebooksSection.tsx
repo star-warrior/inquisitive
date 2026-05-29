@@ -1,7 +1,7 @@
 import React from "react";
 import NotebookCard from "./NotebookCard";
 import { BookOpen, Search } from "lucide-react";
-import { Notebook, Resource } from "../types";
+import { Notebook, Resource } from "../../../types";
 
 interface NotebooksSectionProps {
   notebooks: Notebook[];

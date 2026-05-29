@@ -4,10 +4,10 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Resource } from "../types";
+import { Resource } from "../../../types";
 import ResourceCard from "./ResourceCard";
 import SkeletonCard from "./SkeletonCard";
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
 import { MoreHorizontal, Plus } from "lucide-react";
 
 interface KanbanColumnProps {
@@ -32,7 +32,7 @@ export default function KanbanColumn({
   });
 
   // Unique styling per column using our centralized css variables
-  const statusConfig = {
+  const statusConfig: Record<Resource["status"], any> = {
     todo: {
       containerBg: "bg-[var(--todo-bg)]",
       borderColor: "border-[var(--todo-border)]",

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowUp, ChevronDown, Layers, Hourglass } from "lucide-react";
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
 
 interface SearchSectionProps {
   topic: string;

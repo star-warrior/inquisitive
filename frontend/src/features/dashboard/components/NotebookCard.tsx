@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Notebook, Resource } from "../types";
+import { Notebook, Resource } from "../../../types";
 import { BookOpen, Calendar, Hourglass, Layers } from "lucide-react";
-import { cn } from "../lib/utils";
+import { cn } from "../../../lib/utils";
 import { motion } from "framer-motion";
 
 interface NotebookCardProps {
@@ -44,7 +44,7 @@ export default function NotebookCard({
     },
   );
 
-  const levelLabels = {
+  const levelLabels: Record<string, string> = {
     beginner: "Beginner",
     intermediate: "Intermediate",
     hard: "Advanced",

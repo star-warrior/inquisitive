@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useKanbanStore } from "../stores/kanbanStore";
-import SearchSection from "../components/SearchSection";
-import NotebooksSection from "../components/NotebooksSection";
-import Sidebar from "../components/Sidebar";
-import LoadingScreen from "../components/LoadingScreen";
+import SearchSection from "../features/dashboard/components/SearchSection";
+import NotebooksSection from "../features/dashboard/components/NotebooksSection";
+import Sidebar from "../features/dashboard/components/Sidebar";
+import LoadingScreen from "../features/dashboard/components/LoadingScreen";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
