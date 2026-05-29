@@ -19,6 +19,75 @@ The project is structured as a monorepo containing distinct, specialized package
 
 ---
 
+## Directory File Structures
+
+Inquisitive is split into structured directories designed for clean decoupling, modular scaling, and type safety.
+
+### 🧩 Frontend Project Structure (`/frontend`)
+
+The client application utilizes a modern **Feature-Based Architecture** where components, views, and core assets are logically categorized by their functional domain:
+
+```text
+frontend/
+├── src/
+│   ├── assets/              # Brand visual assets (logos, loading animations, gifs)
+│   ├── config/              # App constants, REST base endpoints, and environment variables
+│   ├── context/             # Global React Context providers
+│   ├── features/            # Feature-Based Modules (Highly Modular & Decoupled)
+│   │   ├── auth/            # Authentication & anonymous profiling flow
+│   │   ├── LandingPage/     # Brand presentation components
+│   │   ├── dashboard/       # Core Hub Workspace
+│   │   │   └── components/  # Sidebar, SearchSection, NotebooksSection, LoadingScreen
+│   │   └── notebook/        # Interactive curriculum workspace
+│   │       └── components/  # KanbanBoard, KanbanColumn, ResourceCard, StreakBadge, SkeletonCard
+│   ├── hooks/               # Shared global React hooks (e.g., useStreak)
+│   ├── layouts/             # App page structural wrappers
+│   ├── lib/                 # Timezone-safe streak utility engines & helpers
+│   ├── pages/               # Top-level view router pages
+│   │   ├── HomePage.tsx     # Generative prompt deck and path index overview
+│   │   ├── NotebookPage.tsx # Curated Kanban workspace page
+│   │   ├── LandingPage.tsx  # Product showcase landing page
+│   │   └── NotFoundPage.tsx # Custom 404 error handler
+│   ├── routes/              # Client-side router configuration
+│   ├── services/            # Axios API transaction wrappers
+│   ├── stores/              # Zustand global client-side state engines (e.g., kanbanStore)
+│   ├── styles/              # Global Vanilla CSS tokens, HSL typography & visual themes
+│   └── types/               # Shared client TypeScript compiler interface definitions
+├── index.html               # Main single-page application entrypoint (contains SEO & Favicon)
+└── package.json             # Client packages, scripts index, and workspace bindings
+```
+
+### ⚡ Backend Project Structure (`/backend`)
+
+The server-side application is built using a robust controller-service abstraction that isolates endpoints, data models, web crawlers, and AI orchestrators:
+
+```text
+backend/
+├── src/
+│   ├── config/              # Server setups (caching, CORS security profile, Redis rate-limiters)
+│   ├── controllers/         # HTTP request handlers & parser controllers
+│   │   ├── notebook.controller.ts
+│   │   └── resource.controller.ts
+│   ├── db/                  # Drizzle ORM database engine
+│   │   ├── index.ts         # Neon Serverless postgres client connector
+│   │   └── schema.ts        # Strictly typed SQL table definitions (notebooks & resources)
+│   ├── middleware/          # CORS interceptors, IP rate-limiting guards, and logging gates
+│   ├── routes/              # Express router endpoints
+│   │   ├── index.ts         # Parent route consolidator
+│   │   ├── notebook.route.ts
+│   │   └── resource.route.ts
+│   ├── services/            # Business & orchestration workflows
+│   │   ├── ai.service.ts    # Dual-stage curriculum generator prompt planner (Gemini/GROQ/OpenRouter)
+│   │   └── search.service.ts # Parallel web search crawler & YouTube scraper API matches
+│   ├── types/               # Server-side TypeScript interface declarations
+│   └── index.ts             # Express application main runner and listener
+├── drizzle/                 # SQL schemas compiled into migration scripts
+├── package.json             # Server packaging, environment commands, and db syncs
+└── tsconfig.json            # Server TypeScript compilation parameters
+```
+
+---
+
 ## Production Cloud Architecture
 
 Inquisitive is engineered as a serverless, decoupled monorepo designed for rapid, distributed cloud delivery. The live production environment is orchestrated across specialized high-performance platforms:
