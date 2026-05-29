@@ -216,9 +216,11 @@ or
 
 #### Frontend Configuration (`/frontend/.env`)
 
-| Variable         | Default Value                 | Purpose                                       |
-| :--------------- | :---------------------------- | :-------------------------------------------- |
+| Variable | Default Value | Purpose |
+| :--- | :--- | :--- |
 | **VITE_API_URL** | `"http://localhost:3000/api"` | Base client entrypoint for REST interactions. |
+| **VITE_PUBLIC_POSTHOG_KEY** | `"your_posthog_project_api_key"` | Ingestion key for PostHog client analytics. |
+| **VITE_PUBLIC_POSTHOG_HOST** | `"https://us.i.posthog.com"` | Ingestion host endpoint URL. |
 
 ---
 
@@ -288,6 +290,19 @@ The backend exposes these core routes under `/api`:
 | **GET**    | `/:notebookId` | None                 | Retrieves all learning materials associated with a specific notebook.                                       |
 | **DELETE** | `/:id`         | None                 | Deletes a single learning node card.                                                                        |
 | **PATCH**  | `/update/:id`  | `{ status: string }` | Updates the card's column status (e.g. `todo` to `in_progress`, `completed`, or `skipped`) in the database. |
+---
+
+## 📈 Telemetry & Analytics (PostHog)
+
+Inquisitive includes client-side session recording and event logging powered by **PostHog** to track learning behaviors and engagement milestones:
+
+### Tracked Events & Lifecycle
+1. **Device Session Binding**: Maps client actions to a persistent browser UUID (`posthog.identify(deviceId)`) to group anonymous activities into single, continuous profiles.
+2. **Notebook Generation**:
+   - `notebook_created`: Logs topic name, difficulty level, and size size when a dynamic curriculum resolves.
+   - `notebook_creation_failed`: Logs error messages and target topic to catch generative failures.
+3. **Engagement Signals (`card_status_changed`)**: Logs card moves between Kanban states (e.g. `todo`, `in_progress`, `completed`, `skipped`) alongside resource media type (`article` vs `video`).
+4. **Retention Signals (`notebook_completed`)**: Fires once a learning progress meter reaches `100%` (i.e. all valid cards completed) with topic and card count metadata.
 
 ---
 

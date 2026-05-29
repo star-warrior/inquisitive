@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { Notebook, Resource } from "../types";
 import { api } from "../lib/api";
 import { v4 as uuidv4 } from "uuid";
+import posthog from "posthog-js";
 
 interface KanbanState {
   notebooks: Notebook[];
@@ -134,9 +135,24 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
       updatedAt: new Date().toISOString(),
     };
 
-    set((state) => ({
-      resources: [...state.resources, newRes],
-    }));
+    set((state) => {
+      const updatedResources = [...state.resources, newRes];
+      const nbResources = updatedResources.filter((r) => r.notebookId === notebookId);
+      const totalCount = nbResources.length;
+      const completedCount = nbResources.filter((r) => r.status === "completed").length;
+      const skippedCount = nbResources.filter((r) => r.status === "skipped").length;
+      const validTotal = totalCount - skippedCount;
+      const progressPercent = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
+      const updatedNotebooks = state.notebooks.map((n) =>
+        n.id === notebookId ? { ...n, completionPercentage: progressPercent } : n
+      );
+
+      return {
+        resources: updatedResources,
+        notebooks: updatedNotebooks,
+      };
+    });
 
     console.log("[Zustand Store] Added local manual resource:", newRes);
   },
@@ -147,9 +163,25 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
     if (!deletedResource) return;
 
     // 1. Optimistic delete
-    set((state) => ({
-      resources: state.resources.filter((r) => r.id !== id),
-    }));
+    set((state) => {
+      const updatedResources = state.resources.filter((r) => r.id !== id);
+      const nId = deletedResource.notebookId;
+      const nbResources = updatedResources.filter((r) => r.notebookId === nId);
+      const totalCount = nbResources.length;
+      const completedCount = nbResources.filter((r) => r.status === "completed").length;
+      const skippedCount = nbResources.filter((r) => r.status === "skipped").length;
+      const validTotal = totalCount - skippedCount;
+      const progressPercent = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
+      const updatedNotebooks = state.notebooks.map((n) =>
+        n.id === nId ? { ...n, completionPercentage: progressPercent } : n
+      );
+
+      return {
+        resources: updatedResources,
+        notebooks: updatedNotebooks,
+      };
+    });
 
     try {
       await api.delete(`/resources/${id}`);
@@ -158,9 +190,25 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
       const errMsg = err.response?.data?.message || err.message || "Failed to delete resource.";
       console.error("[Zustand Store] Error deleting resource on server, rolling back:", errMsg);
       // 2. Rollback
-      set((state) => ({
-        resources: [...state.resources, deletedResource],
-      }));
+      set((state) => {
+        const updatedResources = [...state.resources, deletedResource];
+        const nId = deletedResource.notebookId;
+        const nbResources = updatedResources.filter((r) => r.notebookId === nId);
+        const totalCount = nbResources.length;
+        const completedCount = nbResources.filter((r) => r.status === "completed").length;
+        const skippedCount = nbResources.filter((r) => r.status === "skipped").length;
+        const validTotal = totalCount - skippedCount;
+        const progressPercent = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
+        const updatedNotebooks = state.notebooks.map((n) =>
+          n.id === nId ? { ...n, completionPercentage: progressPercent } : n
+        );
+
+        return {
+          resources: updatedResources,
+          notebooks: updatedNotebooks,
+        };
+      });
     }
   },
 
@@ -170,15 +218,40 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
     if (!targetResource) return;
 
     const originalStatus = targetResource.status;
+    const prevStatus = targetResource.status;
+    const newStatus = status;
+    const sourceType = targetResource.sourceType;
 
     // 1. Optimistic Update (instant UI move + instant progress bar recalculation!)
-    set((state) => ({
-      resources: state.resources.map((r) =>
+    set((state) => {
+      const updatedResources = state.resources.map((r) =>
         r.id === resourceId ? { ...r, status, updatedAt: new Date().toISOString() } : r
-      ),
-    }));
+      );
+      const nId = targetResource.notebookId;
+      const nbResources = updatedResources.filter((r) => r.notebookId === nId);
+      const totalCount = nbResources.length;
+      const completedCount = nbResources.filter((r) => r.status === "completed").length;
+      const skippedCount = nbResources.filter((r) => r.status === "skipped").length;
+      const validTotal = totalCount - skippedCount;
+      const progressPercent = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
+      const updatedNotebooks = state.notebooks.map((n) =>
+        n.id === nId ? { ...n, completionPercentage: progressPercent } : n
+      );
+
+      return {
+        resources: updatedResources,
+        notebooks: updatedNotebooks,
+      };
+    });
 
     console.log(`[Optimistic Update] Moving "${targetResource.title}" to status "${status}"`);
+
+    posthog.capture("card_status_changed", {
+      from: prevStatus,
+      to: newStatus,
+      sourceType,
+    });
 
     // 2. Background sync to PATCH endpoint
     try {
@@ -188,11 +261,27 @@ export const useKanbanStore = create<KanbanState>((set, get) => ({
       const errMsg = err.response?.data?.message || err.message || "Failed to update resource status.";
       console.error(`[Server Sync Failed] Reverting "${targetResource.title}" status back to "${originalStatus}". Error:`, errMsg);
       // 3. Rollback on failure
-      set((state) => ({
-        resources: state.resources.map((r) =>
+      set((state) => {
+        const updatedResources = state.resources.map((r) =>
           r.id === resourceId ? { ...r, status: originalStatus } : r
-        ),
-      }));
+        );
+        const nId = targetResource.notebookId;
+        const nbResources = updatedResources.filter((r) => r.notebookId === nId);
+        const totalCount = nbResources.length;
+        const completedCount = nbResources.filter((r) => r.status === "completed").length;
+        const skippedCount = nbResources.filter((r) => r.status === "skipped").length;
+        const validTotal = totalCount - skippedCount;
+        const progressPercent = validTotal > 0 ? Math.round((completedCount / validTotal) * 100) : 0;
+
+        const updatedNotebooks = state.notebooks.map((n) =>
+          n.id === nId ? { ...n, completionPercentage: progressPercent } : n
+        );
+
+        return {
+          resources: updatedResources,
+          notebooks: updatedNotebooks,
+        };
+      });
     }
   },
 

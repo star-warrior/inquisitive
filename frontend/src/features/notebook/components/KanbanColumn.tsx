@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -30,6 +30,9 @@ export default function KanbanColumn({
   const { setNodeRef, isOver } = useDroppable({
     id,
   });
+
+  // Memoize the array of resource IDs passed to SortableContext
+  const resourceIds = useMemo(() => resources.map((r) => r.id), [resources]);
 
   // Unique styling per column using our centralized css variables
   const statusConfig: Record<Resource["status"], any> = {
@@ -126,7 +129,7 @@ export default function KanbanColumn({
           </>
         ) : (
           <SortableContext
-            items={resources.map((r) => r.id)}
+            items={resourceIds}
             strategy={verticalListSortingStrategy}
           >
             {resources.length > 0 ? (

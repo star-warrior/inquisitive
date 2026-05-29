@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import NotebookCard from "./NotebookCard";
 import { BookOpen, Search } from "lucide-react";
 import { Notebook, Resource } from "../../../types";
@@ -18,10 +18,12 @@ export default function NotebooksSection({
   searchQuery,
   setSearchQuery,
 }: NotebooksSectionProps) {
-  // Filter notebooks based on search
-  const filteredNotebooks = notebooks.filter((n) =>
-    n.topic.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
+  // Filter notebooks based on search using useMemo
+  const filteredNotebooks = useMemo(() => {
+    return notebooks.filter((n) =>
+      n.topic.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [notebooks, searchQuery]);
 
   return (
     <div className="max-w-5xl mx-auto w-full pt-4 pb-12 space-y-6 flex-1 font-sora">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -39,20 +39,21 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
     clearAnimatedCards();
   }, [notebook.id]);
 
-  // Filter resources that belong to this active notebook
-  const notebookResources = resources.filter((r) => r.notebookId === notebook.id);
-
-  // Split resources into their respective status columns
-  const todoResources = notebookResources.filter((r) => r.status === "todo");
-  const inProgressResources = notebookResources.filter(
-    (r) => r.status === "in_progress"
-  );
-  const completedResources = notebookResources.filter(
-    (r) => r.status === "completed"
-  );
-  const skippedResources = notebookResources.filter(
-    (r) => r.status === "skipped"
-  );
+  // Filter and split resources into their respective status columns using useMemo
+  const {
+    todoResources,
+    inProgressResources,
+    completedResources,
+    skippedResources,
+  } = useMemo(() => {
+    const notebookResources = resources.filter((r) => r.notebookId === notebook.id);
+    return {
+      todoResources: notebookResources.filter((r) => r.status === "todo"),
+      inProgressResources: notebookResources.filter((r) => r.status === "in_progress"),
+      completedResources: notebookResources.filter((r) => r.status === "completed"),
+      skippedResources: notebookResources.filter((r) => r.status === "skipped"),
+    };
+  }, [resources, notebook.id]);
 
   // Set up DnD sensors
   const sensors = useSensors(
@@ -78,7 +79,7 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
   };
 
   // Handle drag end
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
     setActiveId(null);
 
@@ -139,7 +140,7 @@ export default function KanbanBoard({ notebook, isLoading }: KanbanBoardProps) {
         reorderResources(notebook.id, reordered);
       }
     }
-  };
+  }, [resources, updateResourceStatus, reorderResources, markActivity, notebook.id]);
 
   // Find active resource for the DragOverlay card
   const activeResource = resources.find((r) => r.id === activeId);
