@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useKanbanStore } from "../stores/kanbanStore";
+import posthog from "posthog-js";
 import SearchSection from "../features/dashboard/components/SearchSection";
 import NotebooksSection from "../features/dashboard/components/NotebooksSection";
 import Sidebar from "../features/dashboard/components/Sidebar";
@@ -30,7 +31,7 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const handleCreateNotebook = async (e: React.FormEvent) => {
+  const handleCreateNotebook = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim()) return;
 
@@ -38,6 +39,11 @@ export default function HomePage() {
     setError(null);
     try {
       const newNotebook = await addNotebook(topic.trim(), level, length);
+      posthog.capture("notebook_created", {
+        topic: topic.trim(),
+        level,
+        length,
+      });
       setTopic("");
       setLevel("beginner");
       setLength("medium");
@@ -49,12 +55,16 @@ export default function HomePage() {
     } catch (err: any) {
       console.error("Error creating notebook:", err);
       setError(err.message || "Failed to create notebook via AI orchestrator.");
+      posthog.capture("notebook_creation_failed", {
+        topic: topic.trim(),
+        error: err.message || "Failed to create notebook via AI orchestrator.",
+      });
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [topic, level, length, addNotebook, navigate]);
 
-  const handleDeleteNotebook = (id: string, e: React.MouseEvent) => {
+  const handleDeleteNotebook = useCallback((id: string, e: React.MouseEvent) => {
     e.preventDefault(); // Prevents navigation through the Link wrapper
     if (
       confirm(
@@ -63,7 +73,7 @@ export default function HomePage() {
     ) {
       deleteNotebook(id);
     }
-  };
+  }, [deleteNotebook]);
 
   return (
     <div className="min-h-screen bg-bento-warm text-bento-title selection:bg-[#C87930]/10 selection:text-[#C87930] font-sans flex relative overflow-hidden">

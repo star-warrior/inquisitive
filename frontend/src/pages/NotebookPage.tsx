@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useKanbanStore } from "../stores/kanbanStore";
+import posthog from "posthog-js";
 import KanbanBoard from "../features/notebook/components/KanbanBoard";
 import { motion } from "framer-motion";
 import {
@@ -35,6 +36,15 @@ export default function NotebookPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAddingResource, setIsAddingResource] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [hasCapturedCompletion, setHasCapturedCompletion] = useState(false);
+
+  useEffect(() => {
+    if (notebook) {
+      // pre-mark as already captured if notebook is already complete
+      // so we don't re-fire for pre-existing completions
+      setHasCapturedCompletion(notebook.completionPercentage === 100);
+    }
+  }, [activeNotebookId]); // only on notebook switch, not on every notebook update
 
   // Form states for manual resource addition
   const [resTitle, setResTitle] = useState("");
@@ -103,21 +113,34 @@ export default function NotebookPage() {
     );
   }
 
-  // Filter resources belonging to this notebook
-  const notebookResources = resources.filter(
-    (r) => r.notebookId === notebook.id,
-  );
-  const totalCount = notebookResources.length;
-  const completedCount = notebookResources.filter(
-    (r) => r.status === "completed",
-  ).length;
-  const skippedCount = notebookResources.filter(
-    (r) => r.status === "skipped",
-  ).length;
+  // Memoize counts and progress percentage to prevent re-calculations on unrelated state changes
+  const { totalCount, completedCount, skippedCount, validTotal, progressPercent } = useMemo(() => {
+    const nbResources = resources.filter((r) => r.notebookId === notebook.id);
+    const totCount = nbResources.length;
+    const compCount = nbResources.filter((r) => r.status === "completed").length;
+    const skipCount = nbResources.filter((r) => r.status === "skipped").length;
+    const valTotal = totCount - skipCount;
+    const progPercent = notebook.completionPercentage ?? 0;
+    return {
+      totalCount: totCount,
+      completedCount: compCount,
+      skippedCount: skipCount,
+      validTotal: valTotal,
+      progressPercent: progPercent,
+    };
+  }, [resources, notebook.id, notebook.completionPercentage]);
 
-  // Compute progress: Completed / (Total - Skipped)
-  const validTotal = totalCount - skippedCount;
-  const progressPercent = notebook.completionPercentage ?? 0;
+  useEffect(() => {
+    if (progressPercent === 100 && totalCount > 0 && !hasCapturedCompletion) {
+      posthog.capture("notebook_completed", {
+        topic: notebook.topic,
+        totalCards: totalCount,
+      });
+      setHasCapturedCompletion(true);
+    } else if (progressPercent < 100 && hasCapturedCompletion) {
+      setHasCapturedCompletion(false);
+    }
+  }, [progressPercent, totalCount, notebook.topic, hasCapturedCompletion]);
 
   // Add Resource submit trigger
   const handleAddResource = async (e: React.FormEvent) => {

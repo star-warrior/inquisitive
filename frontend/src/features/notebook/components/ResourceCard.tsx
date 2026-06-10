@@ -25,6 +25,14 @@ export default function ResourceCard({
   isOverlay = false,
   index,
 }: ResourceCardProps) {
+  // Memoize delete click handler
+  const handleDelete = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation(); // Critical: Prevents drag triggering on delete click
+      onDelete(resource.id);
+    },
+    [onDelete, resource.id]
+  );
   const {
     attributes,
     listeners,
@@ -198,10 +206,7 @@ export default function ResourceCard({
               </a>
 
               <button
-                onClick={(e) => {
-                  e.stopPropagation(); // Critical: Prevents drag triggering on delete click
-                  onDelete(resource.id);
-                }}
+                onClick={handleDelete}
                 className="text-[var(--notebook-text-muted)] hover:text-rose-600 p-1 rounded-lg hover:bg-[var(--skipped-bg)] transition-all duration-300 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100"
                 title="Delete Resource"
               >

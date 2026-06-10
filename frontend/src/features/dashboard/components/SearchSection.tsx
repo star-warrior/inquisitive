@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { ArrowUp, ChevronDown, Layers, Hourglass } from "lucide-react";
 import { cn } from "../../../lib/utils";
 
@@ -26,14 +26,14 @@ export default function SearchSection({
   const [isLevelDropdownOpen, setIsLevelDropdownOpen] = useState(false);
   const [isLengthDropdownOpen, setIsLengthDropdownOpen] = useState(false);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       if (topic.trim() && !isSubmitting) {
         onSubmit(e);
       }
     }
-  };
+  }, [topic, isSubmitting, onSubmit]);
 
   return (
     <div className="space-y-6 pt-1 max-w-3xl mx-auto w-full font-sora">
