@@ -17,3 +17,10 @@
 - **REQ-STRK-04**: Maintain streak data (current streak, longest streak, and last active date YYYY-MM-DD) fully in browser `localStorage` under a single key, handling corrupted/empty data gracefully.
 - **REQ-STRK-05**: Render a compact visual flame badge in the notebook detail page header showing the current streak count, displaying the longest streak as subtitle/tooltip, and hiding completely if the current streak is 0.
 - **REQ-STRK-06**: Integrate the dynamic streak hook with the desktop/mobile sidebar to render live streak progress, using an active orange filled bounce animation when the streak is > 0 and a muted inactive state at 0.
+
+### Loader and Notebook Limits (LNL)
+
+- **REQ-LNL-01**: Implement a frontend landing page loader that polls the backend `/health` route until it returns a 200 OK "ready" response.
+- **REQ-LNL-02**: Preload/load out the main hero image on the landing page while waiting for the health check.
+- **REQ-LNL-03**: Create a backend service function `countUserNotebooks` to count the notebooks created by a user.
+- **REQ-LNL-04**: In the backend notebook `/create` route, check if the notebook count is 5 or more. If so, return a notification/error indicating that the free tier only allows 5 notebooks.

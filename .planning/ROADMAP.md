@@ -7,6 +7,7 @@
 | 1 | Redis and IP-based Rate Limiting Refactor | Complete    | 2026-05-28 |
 | 2 | UI Theme Audit and Fix | Unstarted    | 2026-05-28 |
 | 3 | Daily Learning Streak Mechanism | Complete    | 2026-05-29 |
+| 4 | Loader and Notebook Limits | Complete    | 2026-06-10 |
 
 ### Phase 2: UI Theme Audit and Fix
 
@@ -27,6 +28,16 @@ Plans:
 
 Plans:
 - [x] 03-01: Implement streak utility, useStreak custom hook, and StreakBadge UI component
+
+### Phase 4: Loader and Notebook Limits
+
+**Goal:** Implement a healthcheck-based loader on the landing page that preloads the hero image, and restrict notebook creation to a maximum of 5 on the backend free tier.
+**Requirements**: REQ-LNL-01, REQ-LNL-02, REQ-LNL-03, REQ-LNL-04
+**Depends on:** Phase 3
+**Plans:** 1 plan
+
+Plans:
+- [x] 04-01: Healthcheck-based loader on landing page and backend notebook limit.
 
 ---
 

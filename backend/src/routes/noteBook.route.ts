@@ -5,6 +5,7 @@ import {
   createNoteBook,
   deleteNoteBook,
 } from "../controllers/noteBook.controller.js";
+import { countUserNotebooks } from "../services/notebook.service.js";
 import {
   InvalidTopicError,
   ModelExhaustedError,
@@ -59,6 +60,16 @@ router.post("/create", aiLimiter, async (req: Request, res: Response) => {
   }
 
   try {
+    const notebookCount = await countUserNotebooks(validUseruuid.data);
+    if (notebookCount >= 5) {
+      res.status(403).json({
+        success: false,
+        errorType: "FREE_TIER_LIMIT",
+        message: "Free tier only allows a maximum of 5 notebooks. Upgrade to create more.",
+      });
+      return;
+    }
+
     const response = await createNoteBook(req.body, validUseruuid.data);
     res.status(200).json({ success: true, data: response });
     return;
